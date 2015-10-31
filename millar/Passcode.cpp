@@ -17,7 +17,7 @@ Passcode::Passcode()
 */
 void Passcode::generate()
 {
-	random(0, 10000);
+	_passcode = random(0, 10000);
 }
 
 

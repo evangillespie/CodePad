@@ -8,17 +8,20 @@
 //	global variables	//
 //////////////////////////
 
-Passcode Passcode();
+Passcode passcode;
+
 
 //////////////////////
 //	intialization	//
 //////////////////////
 
 void setup() {
+	Serial.begin(9600);
+
 
 }
 
 void loop() {
 
-	delay(50);
+	delay(5000);
 }
