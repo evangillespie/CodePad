@@ -11,6 +11,7 @@
 //	global variables	//
 //////////////////////////
 
+StateMachine state_machine;
 Passcode passcode;
 
 
@@ -21,10 +22,10 @@ Passcode passcode;
 void setup() {
 	Serial.begin(9600);
 
-	// @TODO: dispatcher class to control the state machine
+	state_machine.begin(0);
 }
 
 void loop() {
-
+	state_machine.update();
 	delay(50);
 }
