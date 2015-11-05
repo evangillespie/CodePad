@@ -32,13 +32,22 @@ void StateMachine::begin(int init_state) {
 	increment the state by 1
 */
 void StateMachine::increment_state() {
-	int max_state = 1;
+	int max_state = 3;
 
 	if (_state == max_state){
 		_state = 0;
 	} else{
 		_state++;	
 	}
+}
+
+/*
+	Set the intenal state to a particular state
+
+	:param new_state: the state after this is complete
+*/
+void StateMachine::set_state(int new_state) {
+	_state = new_state;
 }
 
 
@@ -53,6 +62,9 @@ void StateMachine::update() {
 			break;
 		case 1:
 			_update_display_and_advance();
+			break;
+		case 2:
+			_update_keypad_and_advance();
 			break;
 		default:
 			break;
@@ -74,4 +86,13 @@ void StateMachine::_update_display_and_advance() {
 		if(_display.is_complete() == true){
 			increment_state();
 		}
+}
+
+void StateMachine::_update_keypad_and_advance(){
+	_keypad.update();
+
+	// @TODO: advance to the next state properly
+	if (random(1, 101) >= 90){
+		set_state(0);
+	}
 }
