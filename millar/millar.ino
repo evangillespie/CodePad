@@ -21,6 +21,8 @@ Passcode passcode;
 
 void setup() {
 	Serial.begin(9600);
+	
+	randomSeed(analogRead(1));	// make sure this is always reading an unconnected pin
 
 	state_machine.begin(0);
 }

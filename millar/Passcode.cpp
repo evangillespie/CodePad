@@ -6,7 +6,6 @@
 */
 Passcode::Passcode()
 {
-	randomSeed(analogRead(1));	// make sure this is always reading an unconnected pin
 	_passcode = 0;
 	generate();
 }
