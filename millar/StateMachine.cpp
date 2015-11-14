@@ -91,8 +91,12 @@ void StateMachine::_update_display_and_advance() {
 void StateMachine::_update_keypad_and_advance(){
 	_keypad.update();
 
-	// @TODO: advance to the next state properly
-	if (random(1, 101) >= 90){
+	if (_keypad.is_complete() == true){
+		Serial.println("Keypad complete:");
+		Serial.println(_keypad.get_entered_code());
+
+		Serial.println("Resetting State...");
 		set_state(0);
+		_keypad.reset();
 	}
 }
