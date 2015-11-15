@@ -5,6 +5,7 @@ int incoming_byte;
 int incoming_int;
 
 int code_length = 4;
+unsigned long keypad_timeout = 10 * 1000;
 
 /*
 	Constructor. Generic. Boring
@@ -19,7 +20,10 @@ Keypad::Keypad() {
 	called every main loop
 */
 void Keypad::update() {
+	
+	_update_status();
 
+	//check for incoming digits
 	if (Serial.available() > 0) {
         incoming_byte = Serial.read();
         incoming_int = _convert_byte_to_int(incoming_byte);
@@ -31,15 +35,34 @@ void Keypad::update() {
 
 
 /*
-	return true if the keypad state is complete
+	check conditions and update the status
 */
-bool Keypad::is_complete() {
+void Keypad::_update_status() {
+
+	//check for completeness
+	_status = 1;
 	for (int i = 0; i < code_length; i++) {
 		if (_entered_values[i] == -1){
-			return false;
+			_status = 0;
 		}
 	}
-	return true;
+
+	//check for timeout
+	if (millis() >= _init_time + keypad_timeout){
+		_status = 2;
+	}
+}
+
+
+/*
+	return true if the keypad state is complete
+	possible statuses are:
+	0 - waiting for data
+	1 - code entered and complete
+	2 - timeout
+*/
+int Keypad::get_status() {
+	return _status; 
 }
 
 
@@ -69,6 +92,9 @@ void Keypad::reset() {
 	for (int i = 0; i < code_length; i++){
 		_entered_values[i] = -1;
 	}
+
+	_init_time = millis();
+	_status = 0;
 }
 
 

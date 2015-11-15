@@ -85,18 +85,25 @@ void StateMachine::_update_display_and_advance() {
 	_display.update(_passcode);
 		if(_display.is_complete() == true){
 			increment_state();
+			_keypad.reset();
 		}
 }
 
 void StateMachine::_update_keypad_and_advance(){
 	_keypad.update();
 
-	if (_keypad.is_complete() == true){
-		Serial.println("Keypad complete:");
-		Serial.println(_keypad.get_entered_code());
+	switch(_keypad.get_status()){
+		case 0:
+			break;
+		case 1:
+			Serial.println("Keypad complete:");
+			Serial.println(_keypad.get_entered_code());
 
-		Serial.println("Resetting State...");
-		set_state(0);
-		_keypad.reset();
+			set_state(0);
+			break;
+		case 2:
+			Serial.println("TIMEOUT");
+			set_state(0);
+			break;
 	}
 }
