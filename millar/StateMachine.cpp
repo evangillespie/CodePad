@@ -6,8 +6,8 @@
 	0 - Generate code
 	1 - Display code on displays
 	2 - Wait for keypad
-	3 - wrong code sequence
-	4 - correct code sequence
+	3 - correct code sequence
+	4 - wrong code sequence
 */
 
 
@@ -32,7 +32,7 @@ void StateMachine::begin(int init_state) {
 	increment the state by 1
 */
 void StateMachine::increment_state() {
-	int max_state = 3;
+	int max_state = 4;
 
 	if (_state == max_state){
 		_state = 0;
@@ -66,6 +66,12 @@ void StateMachine::update() {
 		case 2:
 			_update_keypad_and_advance();
 			break;
+		case 3:
+			_update_success_state_and_advance();
+			break;
+		case 4:
+			_update_fail_state_and_advance();
+			break;
 		default:
 			break;
 	}
@@ -77,8 +83,6 @@ void StateMachine::update() {
 void StateMachine::_generate_passcode_and_advance() {
 	_passcode.generate();
 	increment_state();
-
-	Serial.println(_passcode.get_passcode());
 }
 
 void StateMachine::_update_display_and_advance() {
@@ -97,13 +101,34 @@ void StateMachine::_update_keypad_and_advance(){
 			break;
 		case 1:
 			Serial.println("Keypad complete:");
-			Serial.println(_keypad.get_entered_code());
+			if (_keypad.get_entered_code() == _passcode.get_passcode()){
+				set_state(3);
+			} else {
+				set_state(4);
+			}
 
-			set_state(0);
 			break;
 		case 2:
 			Serial.println("TIMEOUT");
 			set_state(0);
 			break;
+	}
+}
+
+
+void StateMachine::_update_success_state_and_advance(){
+	_success_state.update();
+
+	if (_success_state.is_complete() == true){
+		set_state(0);
+	}
+}
+
+
+void StateMachine::_update_fail_state_and_advance(){
+	_fail_state.update();
+
+	if (_fail_state.is_complete() == true){
+		set_state(0);
 	}
 }

@@ -36,6 +36,11 @@ void Keypad::update() {
 
 /*
 	check conditions and update the status
+
+	possible statuses are:
+	0 - waiting for data
+	1 - code entered and complete
+	2 - timeout
 */
 void Keypad::_update_status() {
 
@@ -56,10 +61,6 @@ void Keypad::_update_status() {
 
 /*
 	return true if the keypad state is complete
-	possible statuses are:
-	0 - waiting for data
-	1 - code entered and complete
-	2 - timeout
 */
 int Keypad::get_status() {
 	return _status; 
