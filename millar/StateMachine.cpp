@@ -14,8 +14,7 @@
 /*
 	boring empty constructor
 */
-StateMachine::StateMachine(){
-}
+StateMachine::StateMachine(){}
 
 
 /*

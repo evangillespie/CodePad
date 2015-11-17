@@ -1,11 +1,11 @@
 #include "Arduino.h"
 #include "Keypad.h"
+#include "Config.h"
 
 int incoming_byte;
 int incoming_int;
 
-int code_length = 4;
-unsigned long keypad_timeout = 10 * 1000;
+unsigned long keypad_timeout = KEYPAD_TIMEOUT_SECS * 1000;
 
 /*
 	Constructor. Generic. Boring
@@ -46,7 +46,7 @@ void Keypad::_update_status() {
 
 	//check for completeness
 	_status = 1;
-	for (int i = 0; i < code_length; i++) {
+	for (int i = 0; i < CODE_LENGTH; i++) {
 		if (_entered_values[i] == -1){
 			_status = 0;
 		}
@@ -73,7 +73,7 @@ int Keypad::get_status() {
 int Keypad::get_entered_code(){
 	int val;
 	float ret = 0.0;
-	for (int i = 0; i < code_length; i++){
+	for (int i = 0; i < CODE_LENGTH; i++){
 		if (_entered_values[i] >= 0){
 			val = _entered_values[i];
 		} else {
@@ -90,7 +90,7 @@ int Keypad::get_entered_code(){
 	reset all internal variables
 */
 void Keypad::reset() {
-	for (int i = 0; i < code_length; i++){
+	for (int i = 0; i < CODE_LENGTH; i++){
 		_entered_values[i] = -1;
 	}
 
@@ -123,8 +123,8 @@ int Keypad::_convert_byte_to_int(int encoded_int) {
 	:param inc_digit: the incoming digit
 */
 void Keypad::_add_digit_to_received(int inc_digit) {
-	for (int i = 0; i < code_length-1; i++){
+	for (int i = 0; i < CODE_LENGTH-1; i++){
 		_entered_values[i] = _entered_values[i+1];
 	}
-	_entered_values[code_length-1] = inc_digit;
+	_entered_values[CODE_LENGTH-1] = inc_digit;
 }

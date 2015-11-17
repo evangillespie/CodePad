@@ -1,11 +1,6 @@
 #include "Arduino.h"
 #include "Display.h"
-
-
-// int min_display_lag_time = 1000;
-// int max_display_lag_time = 5000;
-int min_display_lag_time = 100;
-int max_display_lag_time = 500;
+#include "Config.h"
 
 /*
 	Constructor. Generic. Boring
@@ -57,6 +52,6 @@ void Display::_display_next_digit(Passcode passcode) {
 	Serial.print(passcode.get_digit(_next_action));
 	Serial.print(" ");
 
-	_reset_next_action_time(random(min_display_lag_time, max_display_lag_time+1));
+	_reset_next_action_time(random(MIN_DISPLAY_LAG_TIME, MAX_DISPLAY_LAG_TIME+1));
 	_next_action++;
 }
