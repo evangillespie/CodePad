@@ -99,10 +99,12 @@ void StateMachine::_update_keypad_and_advance(){
 		case 0:
 			break;
 		case 1:
-			Serial.println("Keypad complete:");
+			Serial.println("Code entered.");
 			if (_keypad.get_entered_code() == _passcode.get_passcode()){
+				_success_state.reset();
 				set_state(3);
 			} else {
+				_fail_state.reset();
 				set_state(4);
 			}
 

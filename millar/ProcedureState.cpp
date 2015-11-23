@@ -6,13 +6,7 @@
 	Constructor. Generic. Boring
 */
 ProcedureState::ProcedureState() {
-
-	_is_procedure_complete = false;
-
-	_state_num = 0;
-
-	_is_currently_in_pause = true;
-	_next_update_time = -1;
+	reset();
 }
 
 
@@ -35,6 +29,24 @@ void ProcedureState::update() {
 	}
 }
 
+
+/*
+	reset all the internal variables
+*/
+void ProcedureState::reset() {
+	_is_procedure_complete = false;
+
+	_state_num = 0;
+
+	_is_currently_in_pause = true;
+	_next_update_time = -1;
+}
+
+
+/*
+	OVERRIDE IN SUBCLASS
+	Dispatch to another function based on the current state
+*/
 void ProcedureState::_dispatcher() {
 	Serial.println("Why are you calling the dispatcher from the procedure class?");
 }

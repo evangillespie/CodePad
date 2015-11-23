@@ -14,6 +14,7 @@ public:
 	ProcedureState();
 	void update();
 	bool is_complete();
+	void reset();
 
 protected:
 	int _state_num;
