@@ -8,15 +8,16 @@
 #define Fail_State_h
 
 #include "Arduino.h"
+#include "ProcedureState.h"
 
-class FailState {
+class FailState: public ProcedureState {
 public:
 	FailState();
-	void update();
-	bool is_complete();
 
 private:
-
+	void _dispatcher();
+	long _get_pause_length(int);
+	int _get_max_state();
 };
 
 #endif
