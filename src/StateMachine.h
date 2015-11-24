@@ -21,7 +21,6 @@ class StateMachine
 	public:
 		StateMachine();
 		void begin(int init_state);
-		void increment_state();
 		void set_state(int);
 		void update();
 

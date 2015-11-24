@@ -29,30 +29,24 @@ void StateMachine::begin(int init_state) {
 
 
 /*
-	increment the state by 1
-*/
-void StateMachine::increment_state() {
-	int max_state = 5;
-
-	if (_state == max_state){
-		_state = 0;
-	} else{
-		_state++;	
-	}
-}
-
-
-/*
 	Set the intenal state to a particular state
 
 	:param new_state: the state after this is complete
 */
 void StateMachine::set_state(int new_state) {
-	if (new_state == 3){
-		_success_state.reset();
-	} 
-	if (new_state == 4){
-		_fail_state.reset();
+	switch(new_state) {
+		case 2:
+			_keypad.reset();
+			break;
+		case 3:
+			_success_state.reset();
+			break;
+		case 4:
+			_fail_state.reset();
+			break;
+		case 5:
+			_pause_state.begin();
+			break;
 	}
 
 	_state = new_state;
@@ -96,14 +90,13 @@ void StateMachine::update() {
 */
 void StateMachine::_generate_passcode_and_advance() {
 	_passcode.generate();
-	increment_state();
+	set_state(1);
 }
 
 void StateMachine::_update_display_and_advance() {
 	_display.update(_passcode);
 		if(_display.is_complete() == true){
-			increment_state();
-			_keypad.reset();
+			set_state(2);
 		}
 }
 
