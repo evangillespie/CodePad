@@ -14,6 +14,7 @@
 #include "Keypad.h"
 #include "SuccessState.h"
 #include "FailState.h"
+#include "PauseState.h"
 
 class StateMachine
 {
@@ -31,12 +32,14 @@ class StateMachine
 		Keypad _keypad;
 		SuccessState _success_state;
 		FailState _fail_state;
+		PauseState _pause_state;
 
 		void _generate_passcode_and_advance();
 		void _update_display_and_advance();
 		void _update_keypad_and_advance();
 		void _update_success_state_and_advance();
 		void _update_fail_state_and_advance();
+		void _update_pause_state_and_advance();
 };
 
 #endif

@@ -8,6 +8,7 @@
 	2 - Wait for keypad
 	3 - correct code sequence
 	4 - wrong code sequence
+	5 - waiting to generate code again
 */
 
 
@@ -31,7 +32,7 @@ void StateMachine::begin(int init_state) {
 	increment the state by 1
 */
 void StateMachine::increment_state() {
-	int max_state = 4;
+	int max_state = 5;
 
 	if (_state == max_state){
 		_state = 0;
@@ -39,6 +40,7 @@ void StateMachine::increment_state() {
 		_state++;	
 	}
 }
+
 
 /*
 	Set the intenal state to a particular state
@@ -48,8 +50,7 @@ void StateMachine::increment_state() {
 void StateMachine::set_state(int new_state) {
 	if (new_state == 3){
 		_success_state.reset();
-	}
-
+	} 
 	if (new_state == 4){
 		_fail_state.reset();
 	}
@@ -79,6 +80,9 @@ void StateMachine::update() {
 		case 4:
 			_update_fail_state_and_advance();
 			break;
+		case 5:
+			_update_pause_state_and_advance();
+			break;
 		default:
 			break;
 	}
@@ -87,6 +91,9 @@ void StateMachine::update() {
 
 ///////////////////////////////////////
 
+/*
+
+*/
 void StateMachine::_generate_passcode_and_advance() {
 	_passcode.generate();
 	increment_state();
@@ -100,6 +107,10 @@ void StateMachine::_update_display_and_advance() {
 		}
 }
 
+
+/*
+
+*/
 void StateMachine::_update_keypad_and_advance(){
 	_keypad.update();
 
@@ -124,19 +135,37 @@ void StateMachine::_update_keypad_and_advance(){
 }
 
 
+/*
+
+*/
 void StateMachine::_update_success_state_and_advance(){
 	_success_state.update();
 
 	if (_success_state.is_complete() == true){
-		set_state(0);
+		set_state(5);
 	}
 }
 
 
+/*
+
+*/
 void StateMachine::_update_fail_state_and_advance(){
 	_fail_state.update();
 
 	if (_fail_state.is_complete() == true){
+		set_state(5);
+	}
+}
+
+
+/*
+
+*/
+void StateMachine::_update_pause_state_and_advance(){
+	_pause_state.update();
+
+	if (_pause_state.is_complete() == true){
 		set_state(0);
 	}
 }
