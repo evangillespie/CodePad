@@ -46,6 +46,14 @@ void StateMachine::increment_state() {
 	:param new_state: the state after this is complete
 */
 void StateMachine::set_state(int new_state) {
+	if (new_state == 3){
+		_success_state.reset();
+	}
+
+	if (new_state == 4){
+		_fail_state.reset();
+	}
+
 	_state = new_state;
 }
 
@@ -99,19 +107,18 @@ void StateMachine::_update_keypad_and_advance(){
 		case 0:
 			break;
 		case 1:
-			Serial.println("Code entered.");
 			if (_keypad.get_entered_code() == _passcode.get_passcode()){
-				_success_state.reset();
+				Serial.println("Code correct.");
 				set_state(3);
 			} else {
-				_fail_state.reset();
+				Serial.println("Code incorrect.");
 				set_state(4);
 			}
 
 			break;
 		case 2:
-			Serial.println("TIMEOUT");
-			set_state(0);
+			Serial.println("Timeout.");
+			set_state(4);
 			break;
 	}
 }
