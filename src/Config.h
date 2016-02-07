@@ -18,6 +18,7 @@
 
 //Time in seconds before the keypad times out
 #define KEYPAD_TIMEOUT_SECS 10
+#define KEYPAD_CLR_FLASH_PERIOD 250
 
 
 // THE TIME BETWEEN ITERATIONS OF THE WHOLE FLOW CHART

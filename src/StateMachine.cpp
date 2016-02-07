@@ -105,7 +105,7 @@ void StateMachine::_update_display_and_advance() {
 
 */
 void StateMachine::_update_keypad_and_advance(){
-	_keypad.update();
+	_keypad.update(_passcode);
 
 	switch(_keypad.get_status()){
 		case 0:

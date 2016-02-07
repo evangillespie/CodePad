@@ -8,11 +8,12 @@
 #define Keypad_h
 
 #include "Arduino.h"
+#include "Passcode.h"
 
 class Keypad {
 public:
 	Keypad();
-	void update();
+	void update(Passcode);
 	int get_status();
 	int get_entered_code();
 	void reset();
@@ -22,7 +23,10 @@ private:
 	unsigned long _init_time;
 	int _status;
 
-	void _update_status();
+	void _is_key_pressed();
+	void _register_queued_key();
+	void _update_status(Passcode);
+	void _update_clr_flashing();
 	int _convert_byte_to_int(int);
 	void _add_digit_to_received(int);
 };
