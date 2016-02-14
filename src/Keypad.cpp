@@ -8,6 +8,8 @@ int incoming_int;
 int _queued_num;
 bool _is_clr_flashing;
 unsigned long _last_clr_change;
+bool _is_ok_flashing;
+unsigned long _last_ok_change;
 
 unsigned long keypad_timeout = KEYPAD_TIMEOUT_SECS * 1000;
 
@@ -43,7 +45,7 @@ Keypad::Keypad() {
 void Keypad::update(Passcode passcode) {
 	_update_status(passcode);
 	_is_key_pressed();
-	_update_clr_flashing();
+	_update_btns_flashing();
 }
 
 
@@ -100,7 +102,8 @@ void Keypad::_register_queued_key(){
 			}
 			// ok button
 			if (_queued_num == 12){
-				//do this
+				// once the okay button is pressed, code is locked in.
+				_status = 1;
 			}
 		}
 		_queued_num = -1;
@@ -120,7 +123,7 @@ void Keypad::_register_queued_key(){
 */
 void Keypad::_update_status(Passcode passcode) {
 
-	//check if clr shoudl flash
+	//check if clr should flash
 	_is_clr_flashing = false;
 	for (int i=0; i<CODE_LENGTH; i++){
 		if (_entered_values[i] >= 0){
@@ -130,13 +133,15 @@ void Keypad::_update_status(Passcode passcode) {
 		}
 	}
 
-	//check for completeness
-	_status = 1;
-	for (int i = 0; i < CODE_LENGTH; i++) {
+	// check if ok should flash
+	_is_ok_flashing = true;
+	for (int i=0; i<CODE_LENGTH; i++){
 		if (_entered_values[i] == -1){
-			_status = 0;
+			_is_ok_flashing = false;
 		}
 	}
+
+	_update_right_wrong_leds(passcode);
 
 	//check for timeout
 	if (millis() >= _init_time + keypad_timeout){
@@ -148,7 +153,7 @@ void Keypad::_update_status(Passcode passcode) {
 /*
 	flash the clr button if applicable
 */
-void Keypad::_update_clr_flashing(){
+void Keypad::_update_btns_flashing(){
 	if (_is_clr_flashing){
 		if (int(millis() - _last_clr_change) > KEYPAD_CLR_FLASH_PERIOD / 2){
 			//togle led status
@@ -157,6 +162,16 @@ void Keypad::_update_clr_flashing(){
 		}
 	} else{
 		digitalWrite(keypad_number_clr_led, LOW);
+	}
+
+	if (_is_ok_flashing){
+		if (int(millis() - _last_ok_change) > KEYPAD_OK_FLASH_PERIOD / 2){
+			//togle led status
+			digitalWrite(keypad_number_ok_led, !digitalRead(keypad_number_ok_led));
+			_last_ok_change = millis();
+		}
+	} else{
+		digitalWrite(keypad_number_ok_led, LOW);
 	}
 }
 
@@ -189,6 +204,14 @@ int Keypad::get_entered_code(){
 
 
 /*
+	turn leds on or off if the user has entered correct or incorrect values
+*/
+void Keypad::_update_right_wrong_leds(Passcode passcode){
+	// @TODO: make this work
+}
+
+
+/*
 	reset all internal variables
 */
 void Keypad::reset() {
@@ -201,6 +224,8 @@ void Keypad::reset() {
 	_queued_num = -1;
 	_is_clr_flashing = false;
 	_last_clr_change = millis();
+	_is_ok_flashing = false;
+	_last_ok_change = millis();
 }
 
 
@@ -211,11 +236,10 @@ void Keypad::reset() {
 	:param inc_digit: the incoming digit
 */
 void Keypad::_add_digit_to_received(int inc_digit) {
-	for (int i = 0; i < CODE_LENGTH-1; i++){
+	for (int i = 0; i < CODE_LENGTH; i++){
 		if (_entered_values[i] == -1){
 			_entered_values[i] = inc_digit;
 			break;
 		}
 	}
-	Serial.println(inc_digit);
 }

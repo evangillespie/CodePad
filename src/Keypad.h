@@ -26,9 +26,10 @@ private:
 	void _is_key_pressed();
 	void _register_queued_key();
 	void _update_status(Passcode);
-	void _update_clr_flashing();
+	void _update_btns_flashing();
 	int _convert_byte_to_int(int);
 	void _add_digit_to_received(int);
+	void _update_right_wrong_leds(Passcode);
 };
 
 #endif
