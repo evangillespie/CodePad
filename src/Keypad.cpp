@@ -3,6 +3,7 @@
 #include "Config.h"
 #include "Pins.h"
 
+
 int incoming_byte;
 int incoming_int;
 int _queued_num;
@@ -10,8 +11,12 @@ bool _is_clr_flashing;
 unsigned long _last_clr_change;
 bool _is_ok_flashing;
 unsigned long _last_ok_change;
+unsigned long _bargraph_time_step;
+int _bargraph_num_lights;	//number of bargraph elements that are currently lit up
 
 unsigned long keypad_timeout = KEYPAD_TIMEOUT_SECS * 1000;
+
+Adafruit_24bargraph bar = Adafruit_24bargraph();
 
 /*
 	Constructor. Generic. Boring
@@ -34,9 +39,17 @@ Keypad::Keypad() {
 	digitalWrite(keypad_number_clr_led, LOW);
 	digitalWrite(keypad_number_clr_led, LOW);
 
+	_bargraph_time_step = keypad_timeout / 24;
+	_bargraph_num_lights = 0;
+
 	reset();
 }
 
+
+void Keypad::init() {
+	bar.begin(0x70);
+	clear_bargraph();
+}
 
 /*
 	check the keypad status
@@ -143,6 +156,21 @@ void Keypad::_update_status(Passcode passcode) {
 
 	_update_right_wrong_leds(passcode);
 
+	
+	//update bar graph
+	_bargraph_num_lights = (millis() - _init_time) / _bargraph_time_step;
+	for(int b = 0; b < _bargraph_num_lights; b++){
+		if (b < 8){
+			bar.setBar(b, LED_GREEN);
+		} else if (b < 16) {
+			bar.setBar(b, LED_YELLOW);
+		} else {
+			bar.setBar(b, LED_RED);
+		}
+	}
+	bar.writeDisplay();
+
+
 	//check for timeout
 	if (millis() >= _init_time + keypad_timeout){
 		_status = 2;
@@ -190,16 +218,20 @@ int Keypad::get_status() {
 int Keypad::get_entered_code(){
 	int val;
 	float ret = 0.0;
-	for (int i = 0; i < CODE_LENGTH; i++){
-		if (_entered_values[i] >= 0){
-			val = _entered_values[i];
-		} else {
-			val = 0;
-		}
+	if (_status == 1){
+		for (int i = 0; i < CODE_LENGTH; i++){
+			if (_entered_values[i] >= 0){
+				val = _entered_values[i];
+			} else {
+				val = 0;
+			}
 
-		ret = ret + (val * pow(10, 3-i));
+			ret = ret + (val * pow(10, 3-i));
+		}
+		return (int)lround(ret);
+	} else {
+		return -1;
 	}
-	return (int)lround(ret);
 }
 
 
@@ -207,7 +239,7 @@ int Keypad::get_entered_code(){
 	turn leds on or off if the user has entered correct or incorrect values
 */
 void Keypad::_update_right_wrong_leds(Passcode passcode){
-	// @TODO: make this work
+	// @TODO: make this work once hardware is ready
 }
 
 
@@ -226,6 +258,8 @@ void Keypad::reset() {
 	_last_clr_change = millis();
 	_is_ok_flashing = false;
 	_last_ok_change = millis();
+
+	_bargraph_num_lights = 0;
 }
 
 
@@ -242,4 +276,15 @@ void Keypad::_add_digit_to_received(int inc_digit) {
 			break;
 		}
 	}
+}
+
+
+/*
+	turn off all leds in the bargraph
+*/
+void Keypad::clear_bargraph(){
+	for(int b = 0; b < 24; b++){
+		bar.setBar(b, LED_OFF);
+	}
+	bar.writeDisplay();
 }

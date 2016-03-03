@@ -12,6 +12,7 @@
 */
 
 
+
 /*
 	boring empty constructor
 */
@@ -25,6 +26,9 @@ StateMachine::StateMachine(){}
 */
 void StateMachine::begin(int init_state) {
 	_state = init_state;
+
+	_keypad.init();
+
 }
 
 
@@ -37,6 +41,7 @@ void StateMachine::set_state(int new_state) {
 	switch(new_state) {
 		case 2:
 			_keypad.reset();
+			_keypad.clear_bargraph();
 			break;
 		case 3:
 			_success_state.reset();

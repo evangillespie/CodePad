@@ -2,11 +2,14 @@
   Arduino Keypad Project for Chris Millar. Title to be Determined
 ****************/
 
+#include <Adafruit_GFX.h>
+#include <gfxfont.h>
+#include <Adafruit_LEDBackpack.h>
+#include <Wire.h>
 
 #include "StateMachine.h"
 #include "Passcode.h"
 #include "Pins.h"
-
 
 //////////////////////////
 //	global variables	//
@@ -14,7 +17,6 @@
 
 StateMachine state_machine;
 Passcode passcode;
-
 
 //////////////////////
 //	intialization	//

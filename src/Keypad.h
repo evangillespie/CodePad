@@ -9,6 +9,7 @@
 
 #include "Arduino.h"
 #include "Passcode.h"
+#include <Adafruit_LEDBackpack.h>
 
 class Keypad {
 public:
@@ -18,6 +19,9 @@ public:
 	int get_entered_code();
 	void reset();
 
+	void init();
+
+	void clear_bargraph();
 private:
 	int _entered_values[4];
 	unsigned long _init_time;
