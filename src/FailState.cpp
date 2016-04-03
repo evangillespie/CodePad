@@ -19,9 +19,7 @@ long FailState::_get_pause_length(int index) {
 		100, 	// 6
 		200, 	// 7
 		300, 	// 8
-		100, 	// 9
-		200, 	// 10
-		300, 	// 11
+		100 	// 9
 	};
 		
 	return _pause_lengths[index];
