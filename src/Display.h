@@ -22,7 +22,9 @@ private:
 
 	void _reset_next_action_time(unsigned long);
 	void _generate_passcode_and_advance();
-	void _display_next_digit(Passcode);
+	void _display_next_digit(Passcode, bool);
+	void _display_nixie_tube(int, int);
+	void _display_servo(int);
 };
 
 

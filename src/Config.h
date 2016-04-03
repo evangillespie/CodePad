@@ -5,6 +5,8 @@
 */
 
 
+#define DEBUG_MODE false
+
 //Length of the passcode in digits
 #define CODE_LENGTH 4
 
