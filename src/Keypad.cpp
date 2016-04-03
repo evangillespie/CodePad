@@ -14,7 +14,7 @@ unsigned long _last_ok_change;
 unsigned long _bargraph_time_step;
 int _bargraph_num_lights;	//number of bargraph elements that are currently lit up
 
-unsigned long keypad_timeout = KEYPAD_TIMEOUT_SECS * 1000;
+unsigned long keypad_timeout = (unsigned long)KEYPAD_TIMEOUT_SECS * (unsigned long)1000;
 
 Adafruit_24bargraph bar = Adafruit_24bargraph();
 

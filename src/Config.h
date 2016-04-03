@@ -5,7 +5,7 @@
 */
 
 
-#define DEBUG_MODE false
+#define DEBUG_MODE true
 
 //Length of the passcode in digits
 #define CODE_LENGTH 4
@@ -19,7 +19,7 @@
 
 
 //Time in seconds before the keypad times out
-#define KEYPAD_TIMEOUT_SECS 10
+#define KEYPAD_TIMEOUT_SECS 40
 #define KEYPAD_CLR_FLASH_PERIOD 250
 #define KEYPAD_OK_FLASH_PERIOD 250
 
