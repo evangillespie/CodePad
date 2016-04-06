@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "StateMachine.h"
 #include "Config.h"
+#include "LEDManager.h"
 
 
 /* STATES:
@@ -12,8 +13,6 @@
 	5 - wrong code sequence
 	6 - waiting to generate code again
 */
-
-
 
 /*
 	boring empty constructor

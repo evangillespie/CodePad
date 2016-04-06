@@ -16,6 +16,9 @@
 #include "FailState.h"
 #include "PauseState.h"
 #include "KeypadPreenableState.h"
+#include "LEDManager.h"
+
+extern LEDManager g_led_manager;
 
 class StateMachine
 {
