@@ -35,7 +35,12 @@ void LEDFlasher::init(int index, int pin) {
 	:param freq: the frequency to flash at, in hz
 */
 void LEDFlasher::turn_on(double freq){
-	_period = 1.0/freq;
+	if (freq == 0.0){
+		_period = 0;
+		digitalWrite(_pin, HIGH);
+	} else {
+		_period = 1000.0/freq;
+	}
 	_is_active = true;
 	_last_update = millis();
 }
@@ -56,8 +61,9 @@ void LEDFlasher::turn_off(){
 	update each flasher. TO be called in the loop
 */
 void LEDFlasher::update(){
-	if (_is_active == true){
-		if (millis() >= (_last_update + (unsigned long)(_period * 1000 / 2)) ) {
+
+	if (_is_active == true && _period != 0){
+		if (millis() >= (_last_update + (unsigned long)(_period / 2)) ) {
 			digitalWrite(_pin, !digitalRead(_pin));
 			_last_update = millis();
 		}
