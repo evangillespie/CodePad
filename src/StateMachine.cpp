@@ -72,14 +72,12 @@ void StateMachine::update() {
 			_update_display_and_advance();
 			break;
 		case 2:
-			g_led_manager.start_flasher(1, 0.5);
 			_update_keypad_preenable_and_advance();
 			break;
 		case 3:
 			_update_keypad_and_advance();
 			break;
 		case 4:
-			g_led_manager.stop_flasher(1);
 			_update_success_state_and_advance();
 			break;
 		case 5:
