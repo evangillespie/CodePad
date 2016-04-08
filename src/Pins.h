@@ -23,3 +23,9 @@
 #define keypad_number_ok 48
 #define keypad_number_clr_led 39
 #define keypad_number_ok_led 41
+
+
+// LED pins
+#define LED_1_PIN 1
+#define LED_2_PIN 3
+	..
