@@ -38,8 +38,7 @@
 #define LED_10_PIN 43 //Keypad LED
 #define LED_11_PIN 45 //Green lights Keypad
 #define LED_12_PIN 46 //power crystal
-#define LED_13_PIN 
-#define LED_14_PIN
+
 
 
 
