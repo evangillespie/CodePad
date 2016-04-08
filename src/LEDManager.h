@@ -18,6 +18,7 @@ class LEDManager{
 		void stop_flasher(int);
 		void update();
 	private:
+		int _get_pin_number(int);
 		LEDFlasher _led_flashers[NUM_LED_FLASHERS];
 };
 

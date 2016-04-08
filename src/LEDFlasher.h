@@ -20,7 +20,8 @@ class LEDFlasher{
 		int _index;
 		int _pin;
 		bool _is_active;
-		double _freq;
+		long _period;
+		unsigned long _last_update;
 };
 
 #endif

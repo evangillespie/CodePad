@@ -9,7 +9,7 @@ LEDFlasher::LEDFlasher() {
 	_pin = 0;
 	_index = 0;
 	_is_active = false;
-	_freq = 0;
+	_period = 0;
 }
 
 
@@ -23,6 +23,7 @@ LEDFlasher::LEDFlasher() {
 void LEDFlasher::init(int index, int pin) {
 	_pin = pin;
 	_index = index;
+	pinMode(_pin, OUTPUT);
 }
 
 
@@ -34,8 +35,9 @@ void LEDFlasher::init(int index, int pin) {
 	:param freq: the frequency to flash at, in hz
 */
 void LEDFlasher::turn_on(double freq){
-	_freq = freq;
+	_period = 1.0/freq;
 	_is_active = true;
+	_last_update = millis();
 }
 
 
@@ -46,6 +48,7 @@ void LEDFlasher::turn_on(double freq){
 */
 void LEDFlasher::turn_off(){
 	_is_active = false;
+	digitalWrite(_pin, LOW);
 }
 
 
@@ -54,8 +57,9 @@ void LEDFlasher::turn_off(){
 */
 void LEDFlasher::update(){
 	if (_is_active == true){
-		Serial.print("led ");
-		Serial.print(_index);
-		Serial.print(" is flashing\n");
+		if (millis() >= (_last_update + (unsigned long)(_period * 1000 / 2)) ) {
+			digitalWrite(_pin, !digitalRead(_pin));
+			_last_update = millis();
+		}
 	}
 }
