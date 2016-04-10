@@ -119,7 +119,7 @@ void Keypad::_register_queued_key(){
 			//clr button
 			if (_queued_num == 11){
 				//backspace
-				for (int i = CODE_LENGTH-1; i > 0; i--){
+				for (int i = CODE_LENGTH-1; i >= 0; i--){
 					if (_entered_values[i] >= 0){
 						_entered_values[i] = -1;
 						break;
