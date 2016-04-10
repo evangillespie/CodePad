@@ -24,6 +24,17 @@
 #define keypad_number_clr_led 39
 #define keypad_number_ok_led 41
 
+#define KEYPAD_DISPLAY_WRITE_PIN A6
+#define KEYPAD_DISPLAY_A1_PIN A7
+#define KEYPAD_DISPLAY_A2_PIN A8
+#define KEYPAD_DISPLAY_D0_PIN A11
+#define KEYPAD_DISPLAY_D1_PIN A13
+#define KEYPAD_DISPLAY_D2_PIN A15
+#define KEYPAD_DISPLAY_D3_PIN A14
+#define KEYPAD_DISPLAY_D4_PIN A12
+#define KEYPAD_DISPLAY_D5_PIN A10
+#define KEYPAD_DISPLAY_D6_PIN A9
+
 
 // LED pins
 #define LED_1_PIN 2  //yellow LEDs

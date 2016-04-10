@@ -36,6 +36,18 @@ Keypad::Keypad() {
 	pinMode(keypad_number_ok, INPUT);
 	pinMode(keypad_number_clr_led, OUTPUT);
 	pinMode(keypad_number_ok_led, OUTPUT);
+
+	pinMode(KEYPAD_DISPLAY_WRITE_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_A1_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_A2_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D0_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D1_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D2_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D3_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D4_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D5_PIN, OUTPUT);
+	pinMode(KEYPAD_DISPLAY_D6_PIN, OUTPUT);
+
 	digitalWrite(keypad_number_clr_led, LOW);
 	digitalWrite(keypad_number_clr_led, LOW);
 
@@ -49,6 +61,7 @@ Keypad::Keypad() {
 void Keypad::init() {
 	bar.begin(0x70);
 	clear_bargraph();
+	_update_display();
 }
 
 /*
@@ -119,8 +132,60 @@ void Keypad::_register_queued_key(){
 				_status = 1;
 			}
 		}
+		_update_display();
 		_queued_num = -1;
 	}
+}
+
+
+/*
+	update the 4 digit display based on what's in _entered_values
+*/
+void Keypad::_update_display(){
+	for (int i=0; i<CODE_LENGTH; i++){
+		_write_display_character(i, _entered_values[i]);
+	}
+}
+
+
+/*
+	write a single character to the 4-digit dot matrix display
+
+	:param index: where do I write it? 0-3
+	:param num: which number to I write? write blank if -1
+*/
+void Keypad::_write_display_character(int index, int num){
+	// only elements 0-3 change for numbers and 4 for blank
+	int sequence[7] = {0, 0, 0, 0, 1, 1, 0}; // initialize to 0
+
+	//turn write pin off while we get ready
+	digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, HIGH);
+
+	//posistion
+	digitalWrite(KEYPAD_DISPLAY_A1_PIN, index / 2);
+	digitalWrite(KEYPAD_DISPLAY_A2_PIN, index % 2);
+	
+	// character
+	if (num == -1){
+		sequence[4] = 0;
+	} else {
+		//convert num to binary
+		for (int j=0; j < 4; j++){
+			sequence[j] = num % 2;
+			num = num / 2;
+		}
+	}
+
+	digitalWrite(KEYPAD_DISPLAY_D0_PIN, sequence[0]);
+	digitalWrite(KEYPAD_DISPLAY_D1_PIN, sequence[1]);
+	digitalWrite(KEYPAD_DISPLAY_D2_PIN, sequence[2]);
+	digitalWrite(KEYPAD_DISPLAY_D3_PIN, sequence[3]);
+	digitalWrite(KEYPAD_DISPLAY_D4_PIN, sequence[4]);
+	digitalWrite(KEYPAD_DISPLAY_D5_PIN, sequence[5]);
+	digitalWrite(KEYPAD_DISPLAY_D6_PIN, sequence[6]);
+
+	// write it
+	digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, LOW);
 }
 
 
@@ -250,6 +315,8 @@ void Keypad::reset() {
 	for (int i = 0; i < CODE_LENGTH; i++){
 		_entered_values[i] = -1;
 	}
+
+	_update_display();
 
 	_init_time = millis();
 	_status = 0;

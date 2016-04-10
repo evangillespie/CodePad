@@ -29,6 +29,8 @@ private:
 
 	void _is_key_pressed();
 	void _register_queued_key();
+	void _update_display();
+	void _write_display_character(int, int);
 	void _update_status(Passcode);
 	void _update_btns_flashing();
 	int _convert_byte_to_int(int);
