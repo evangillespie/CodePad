@@ -162,6 +162,7 @@ void Keypad::_write_display_character(int index, int num){
 	digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, HIGH);
 
 	//posistion
+	index = 3 - index;	// index is reversed on the display
 	digitalWrite(KEYPAD_DISPLAY_A1_PIN, index / 2);
 	digitalWrite(KEYPAD_DISPLAY_A2_PIN, index % 2);
 	
