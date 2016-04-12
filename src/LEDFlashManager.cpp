@@ -1,4 +1,4 @@
-#include "LEDManager.h"
+#include "LEDFlashManager.h"
 #include "LEDFlasher.h"
 #include "Arduino.h"
 #include "Config.h"
@@ -8,7 +8,7 @@
 /*
 	Constructor. Generic. Boring
 */
-LEDManager::LEDManager() {
+LEDFlashManager::LEDFlashManager() {
 	for(int i=0; i < NUM_LED_FLASHERS; i++){
 		_led_flashers[i].init(i+1, _get_pin_number(i+1));
 	}
@@ -23,7 +23,7 @@ LEDManager::LEDManager() {
 	led_index starts at 1 but the array index starts at 0, hence the -1.
 	:param freq: the frequency to flash at, in hz
 */
-void LEDManager::start_flasher(int led_index, double freq){
+void LEDFlashManager::start_flasher(int led_index, double freq){
 	_led_flashers[led_index-1].turn_on(freq);
 }
 
@@ -33,7 +33,7 @@ void LEDManager::start_flasher(int led_index, double freq){
 
 	:param led_index: which led do i turn off? Same index as in start_flasher
 */
-void LEDManager::stop_flasher(int led_index){
+void LEDFlashManager::stop_flasher(int led_index){
 	_led_flashers[led_index-1].turn_off();	
 }
 
@@ -41,7 +41,7 @@ void LEDManager::stop_flasher(int led_index){
 /*
 	update each flasher. TO be called in the loop
 */
-void LEDManager::update(){
+void LEDFlashManager::update(){
 	for(int i=0; i < NUM_LED_FLASHERS; i++){
 		_led_flashers[i].update();
 	}
@@ -55,7 +55,7 @@ void LEDManager::update(){
 
 	:return: digital pin number connected to that led on the arduino
 */
-int LEDManager::_get_pin_number(int led_index) {
+int LEDFlashManager::_get_pin_number(int led_index) {
 	switch(led_index){
 		case 1:
 			return LED_1_PIN;

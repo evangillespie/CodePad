@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "StateMachine.h"
 #include "Config.h"
-#include "LEDManager.h"
+#include "LEDFlashManager.h"
 
 
 /* STATES:

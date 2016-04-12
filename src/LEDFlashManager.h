@@ -4,16 +4,16 @@
 	:Author: Evan Gillespie
 */
 
-#ifndef LEDManager_h
-#define LEDManager_h
+#ifndef LEDFlashManager_h
+#define LEDFlashManager_h
 
 #include "Arduino.h"
 #include "LEDFlasher.h"
 #include "Config.h"
 
-class LEDManager{
+class LEDFlashManager{
 	public:
-		LEDManager();
+		LEDFlashManager();
 		void start_flasher(int, double);
 		void stop_flasher(int);
 		void update();
