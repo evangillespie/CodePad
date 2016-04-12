@@ -35,7 +35,7 @@ Keypad::Keypad() {
 	pinMode(keypad_number_clr, INPUT);
 	pinMode(keypad_number_ok, INPUT);
 	pinMode(keypad_number_clr_led, OUTPUT);
-	pinMode(keypad_number_ok_led, OUTPUT);
+	pinMode(keypad_number_ok_LED_9, OUTPUT);
 
 	pinMode(KEYPAD_DISPLAY_WRITE_PIN, OUTPUT);
 	pinMode(KEYPAD_DISPLAY_A1_PIN, OUTPUT);
@@ -261,11 +261,11 @@ void Keypad::_update_btns_flashing(){
 	if (_is_ok_flashing){
 		if (int(millis() - _last_ok_change) > KEYPAD_OK_FLASH_PERIOD / 2){
 			//togle led status
-			digitalWrite(keypad_number_ok_led, !digitalRead(keypad_number_ok_led));
+			digitalWrite(keypad_number_ok_LED_9, !digitalRead(keypad_number_ok_LED_9));
 			_last_ok_change = millis();
 		}
 	} else{
-		digitalWrite(keypad_number_ok_led, LOW);
+		digitalWrite(keypad_number_ok_LED_9, LOW);
 	}
 }
 

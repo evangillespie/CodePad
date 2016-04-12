@@ -58,29 +58,29 @@ void LEDFlashManager::update(){
 int LEDFlashManager::_get_pin_number(int led_index) {
 	switch(led_index){
 		case 1:
-			return LED_1_PIN;
+			return yellow_LED;
 		case 2:
-			return LED_2_PIN;
+			return panel_3_LED;
 		case 3:
-			return LED_3_PIN;
+			return warning_brick_LED;
 		case 4:
-			return LED_4_PIN;
+			return warning_finger_LED;
 		case 5:
-			return LED_5_PIN;
+			return button_3_LED;
 		case 6:
-			return LED_6_PIN;
+			return button_2_LED;
 		case 7:
-			return LED_7_PIN;
+			return button_1_LED;
 		case 8:
-			return LED_8_PIN;
+			return clear_LED;
 		case 9:
-			return LED_9_PIN;
+			return ok_LED;
 		case 10:
-			return LED_10_PIN;
+			return keypad_LED;
 		case 11:
-			return LED_11_PIN;
+			return green_light_keypad_LED;
 		case 12:
-			return LED_12_PIN;
+			return power_crystal_LED;
 		default:
 			Serial.println("I can't find that pin, Evan");		
 	}
