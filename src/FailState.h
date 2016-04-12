@@ -9,6 +9,9 @@
 
 #include "Arduino.h"
 #include "ProcedureState.h"
+#include "LEDManager.h"
+
+extern LEDManager g_led_manager;
 
 class FailState: public ProcedureState {
 public:

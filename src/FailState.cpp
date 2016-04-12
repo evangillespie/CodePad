@@ -47,7 +47,8 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: Big Two");
 			Serial.println("Keypad yellow leds fade down over 5 s");
 			Serial.println("Servo 5 moves");
-			Serial.println("Brick warning finger flashes @ 5hz");
+			//Brick warning finger flashes @ 5hz
+			g_led_manager.start_flasher(3, 5);
 			Serial.println("Brick warning finger sound triggers when led is on");
 			break;
 		case 3:
@@ -60,7 +61,8 @@ void FailState::_dispatcher() {
 			break;
 		case 4:
 			Serial.println("Fail: Four");
-			Serial.println("turn off brick warning led");
+			//turn off brick warning led
+			g_led_manager.stop_flasher(3);
 			Serial.println("turn off timer led");
 			Serial.println("Servo 8 moves");
 			Serial.println("display elements turn off at random times");
