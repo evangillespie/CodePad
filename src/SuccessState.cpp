@@ -42,7 +42,7 @@ void SuccessState::_dispatcher() {
 			Serial.println("keypad clr and ok leds off");
 			break;
 		case 2:
-			Serial.println("Big Two");
+			Serial.println("Two");
 			Serial.println("turn off bricklamp led");
 			Serial.println("fade keypad greed led down over 3s");
 			Serial.println("fade keypad button leds down over 5s");
@@ -50,7 +50,7 @@ void SuccessState::_dispatcher() {
 			Serial.println("trigger power crystal sound");
 			break;
 		case 3:
-			Serial.println("Tha Three");
+			Serial.println("Three");
 			Serial.println("turn off timer led");
 			Serial.println("Servo 6 moves");
 			Serial.println("servo 5 moves");
