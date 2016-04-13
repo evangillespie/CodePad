@@ -22,7 +22,7 @@
 #define keypad_number_clr 42
 #define keypad_number_ok 48
 #define keypad_number_clr_led 39
-#define keypad_number_ok_LED_9 41
+#define keypad_number_ok_led 41
 
 #define KEYPAD_DISPLAY_WRITE_PIN A6
 #define KEYPAD_DISPLAY_A1_PIN A7
@@ -37,15 +37,15 @@
 
 
 // LED pins
-#define YELLOW_LED 2  //yellow LEDs	1
-#define PANEL_3_LED 16 //LED Panel#3  2
-#define WARNING_BRICK_LED 23 //Warning Brick LED  3
-#define WARNING_FINGER_LED 25 //Warning Finger LED 4
-#define BUTTON_3_LED 27 //Button 3 LED 5
-#define BUTTON_2_LED 29 //Button 2 LED 6
-#define BUTTON_1_LED 31 //Button 1 LED 7
-#define CLEAR_LED 39//CLR LED 8
-#define OK_LED 41 //OK LED 9
-#define KEYPAD_LED 43 //Keypad LED 10
-#define GREEN_LIGHT_KEYPAD_LED 45 //Green lights Keypad 11
-#define POWER_CRYSTAL_LED 46 //power crystal 12
+#define LED_1_PIN 2  //yellow LEDs
+#define LED_2_PIN 16 //LED Panel#3
+#define LED_3_PIN 23 //Warning Brick LED
+#define LED_4_PIN 25 //Warning Finger LED
+#define LED_5_PIN 27 //Button 3 LED
+#define LED_6_PIN 29 //Button 2 LED
+#define LED_7_PIN 31 //Button 1 LED
+#define LED_8_PIN 39 //CLR LED
+#define LED_9_PIN 41 //OK LED
+#define LED_10_PIN 43 //Keypad LED
+#define LED_11_PIN 45 //Green lights Keypad
+#define LED_12_PIN 46 //power crystal
