@@ -30,6 +30,7 @@ int KeypadPreenableState::_get_max_state() {
 void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
+			// g_led_fade_manager.fade(1, 5000, 0, 255);
 			Serial.println("Preenable zero");
 			Serial.println("Servo 6 move from 0-500 @ speed=100");
 			_increment_state();
@@ -41,6 +42,7 @@ void KeypadPreenableState::_dispatcher() {
 			_increment_state();
 			break;
 		case 2:
+			// g_led_fade_manager.fade(1, 10000, 255, 0);
 			Serial.println("Preenable: Big Two");
 			Serial.println("Servo 8 move from 0-500 @ speed=100");
 			Serial.println("Brick warning LED flashed @ 4 hz");

@@ -10,7 +10,7 @@
 #include "StateMachine.h"
 #include "Passcode.h"
 #include "Pins.h"
-#include "LEDFlashManager.h"
+#include "LEDFadeManager.h"
 
 //////////////////////////
 //	global variables	//
@@ -18,6 +18,7 @@
 
 StateMachine state_machine;
 LEDFlashManager g_led_flash_manager;
+LEDFadeManager g_led_fade_manager;
 
 //////////////////////
 //	intialization	//
@@ -34,5 +35,6 @@ void setup() {
 void loop() {
 	state_machine.update();
 	g_led_flash_manager.update();
+	g_led_fade_manager.update();
 	delay(50);
 }
