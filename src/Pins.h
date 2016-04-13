@@ -47,5 +47,5 @@
 #define LED_8_PIN 39 //CLR LED
 #define LED_9_PIN 41 //OK LED
 #define LED_10_PIN 43 //Keypad LED
-#define LED_11_PIN 45 //Green lights Keypad
+#define LED_11_PIN 45 //Keypad Green LED
 #define LED_12_PIN 46 //power crystal

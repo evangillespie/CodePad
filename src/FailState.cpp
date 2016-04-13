@@ -34,13 +34,17 @@ void FailState::_dispatcher() {
 			Serial.println("ControlPanel led off");
 			Serial.println("4-digit display off");
 			Serial.println("turn off all pindigit leds");
-			Serial.println("Turn off Keypad clr and ok leds");
+			//Serial.println("Turn off Keypad clr and ok leds");
+			g_led_flash_manager.stop_flasher(8);
+			g_led_flash_manager.stop_flasher(9);
 			break;
 		case 1:
 			Serial.println("Fail: One");
 			Serial.println("Servo 6 moves");
 			Serial.println("Turn off Bricklamp led");
+			//g_led_flash_manager.stopflasher(*); //NOTE: BricklampLED no position
 			Serial.println("Keypad Green LED fades down over 3s");
+			//g_led_fade_manager.fade(11, 3000, 255, 0) //Keypadgreen LED fade 
 			Serial.println("Keypad buttons fade down over 3s");
 			break;
 		case 2:

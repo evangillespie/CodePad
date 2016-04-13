@@ -45,13 +45,16 @@ void KeypadPreenableState::_dispatcher() {
 			// g_led_fade_manager.fade(1, 10000, 255, 0);
 			Serial.println("Preenable: Big Two");
 			Serial.println("Servo 8 move from 0-500 @ speed=100");
-			Serial.println("Brick warning LED flashed @ 4 hz");
+			//Serial.println("Brick warning LED flashed @ 4 hz");
+			g_led_flash_manager.start_flasher(3, 4);
 			Serial.println("Brick warning sound triggers when led is high");
 			_increment_state();
 			break;
 		case 3:
 			Serial.println("Preenable: Th-Three");
-			Serial.println("Brick warning LED flashed @ 12 hz for 2 seconds");
+			g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
+			//Serial.println("Brick warning LED flashed @ 12 hz for 2 seconds");
+			g_led_flash_manager.start_flasher(3, 12);// NOTE: this needs to only go for 2 seconds
 			Serial.println("Servo 1 Move from 500 - 955 @ speed=60");
 			Serial.println("Servo 2 Move from 500 - 45 @ speed of 60");
 			Serial.println("Servo 3 move from 1000 - 460 @ speed of 71");
@@ -63,12 +66,16 @@ void KeypadPreenableState::_dispatcher() {
 		case 4:
 			Serial.println("Preenable: Four");
 			Serial.println("keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds");
+			//g_led_fade_manager.fade(11, 3000, 0, keypadgreenpot); //NOTE: need "keypadgreenpot" variable
 			Serial.println("keypadbuttons fade from 0 - max over 3 seconds");
-			Serial.println("TimerLED = HIGH");
+			//g_led_fade_manager.fade(*, 3000, 0, 255); //NOTE: need keypadbuttons pin position
+			Serial.println("TimerLED = HIGH");//TimerLED no pin yet
 			Serial.println("keypadyellow LEDs fade from max - 0 over 4 seconds");
+			//g_led_fade_manager.fade(*, 4000, 255, 0); //NOTE: need keypadyellowLED pin position
 			Serial.println("servo5 move from 0 - 500 @ speed = 100");
 			Serial.println("Wait for servo5 to reach 500");
 			Serial.println("bricklightLED = HIGH");
+			//g_led_flash_manager.start_flasher(*,0);//bricklightLED no pin position
 			_increment_state();
 			break;
 		case 5:
