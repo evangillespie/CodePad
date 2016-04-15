@@ -30,8 +30,8 @@ int KeypadPreenableState::_get_max_state() {
 void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
-			// g_led_fade_manager.fade(1, 5000, 0, 255);
 			// g_sound_manager.play_sound(1);
+			// g_led_fade_manager.fade(1, 5000, 0, 255);
 			Serial.println("Preenable zero");
 			Serial.println("Servo 6 move from 0-500 @ speed=100");
 			_increment_state();
@@ -43,10 +43,8 @@ void KeypadPreenableState::_dispatcher() {
 			_increment_state();
 			break;
 		case 2:
-			// g_led_fade_manager.fade(1, 10000, 255, 0);
 			Serial.println("Preenable: Big Two");
 			Serial.println("Servo 8 move from 0-500 @ speed=100");
-			//Serial.println("Brick warning LED flashed @ 4 hz");
 			g_led_flash_manager.start_flasher(3, 4);
 			Serial.println("Brick warning sound triggers when led is high");
 			_substate = 0;
@@ -59,7 +57,7 @@ void KeypadPreenableState::_dispatcher() {
 				g_led_flash_manager.stop_flasher(3);
 				
 				//Brick warning LED flashed @ 12 hz for 2 seconds
-				g_led_flash_manager.start_flasher(3, 12);// NOTE: this needs to only go for 2 seconds
+				g_led_flash_manager.start_flasher(3, 12);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
 				_substate = 1;
 			} else if (_substate == 1){

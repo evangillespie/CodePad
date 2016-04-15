@@ -64,6 +64,28 @@ int LEDFadeManager::_get_pin_number(int led_index) {
 		//@TODO: figure these out
 		case 1:
 			return LED_1_PIN;
+		case 2:
+			return LED_2_PIN;
+		case 3:
+			return LED_3_PIN;
+		case 4:
+			return LED_4_PIN;
+		case 5:
+			return LED_5_PIN;
+		case 6:
+			return LED_6_PIN;
+		case 7:
+			return LED_7_PIN;
+		case 8:
+			return LED_8_PIN;
+		case 9:
+			return LED_9_PIN;
+		case 10:
+			return LED_10_PIN;
+		case 11:
+			return LED_11_PIN;
+		case 12:
+			return LED_12_PIN;
 		default:
 			Serial.println("I can't find that pin, Evan");		
 	}

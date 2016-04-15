@@ -35,8 +35,8 @@ void FailState::_dispatcher() {
 			Serial.println("4-digit display off");
 			Serial.println("turn off all pindigit leds");
 			//Serial.println("Turn off Keypad clr and ok leds");
-			g_led_flash_manager.stop_flasher(8);
-			g_led_flash_manager.stop_flasher(9);
+			g_led_flash_manager.stop_flasher(8);//stop clear LED flashing
+			g_led_flash_manager.stop_flasher(9);//stop ok LED flashing
 			break;
 		case 1:
 			Serial.println("Fail: One");
