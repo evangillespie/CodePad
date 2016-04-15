@@ -15,6 +15,7 @@ class LEDFlashManager{
 	public:
 		LEDFlashManager();
 		void start_flasher(int, double);
+		void start_flasher_with_sound(int, double, int);
 		void stop_flasher(int);
 		void update();
 	private:

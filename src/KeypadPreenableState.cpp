@@ -57,7 +57,7 @@ void KeypadPreenableState::_dispatcher() {
 				g_led_flash_manager.stop_flasher(3);
 				
 				//Brick warning LED flashed @ 12 hz for 2 seconds
-				g_led_flash_manager.start_flasher(3, 12);//Brick warning LED flashed @ 12 hz for 2 seconds
+				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 1);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
 				_substate = 1;
 			} else if (_substate == 1){

@@ -29,6 +29,20 @@ void LEDFlashManager::start_flasher(int led_index, double freq){
 
 
 /*
+	same as above, but it plays a sound on each flash as well as lighting the led
+
+	:param led_index: which led are we going to start flashing?
+	this is the led number as given in the project description, not the pin number
+	led_index starts at 1 but the array index starts at 0, hence the -1.
+	:param freq: the frequency to flash at, in hz
+	:param sound_index: the sound to play
+*/
+void LEDFlashManager::start_flasher_with_sound(int led_index, double freq, int sound_index){
+	_led_flashers[led_index-1].turn_on_with_sound(freq, sound_index);
+}
+
+
+/*
 	stop one of the flashing leds from flashing any more. Turn it off
 
 	:param led_index: which led do i turn off? Same index as in start_flasher
