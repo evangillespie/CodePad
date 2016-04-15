@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "KeypadPreenableState.h"
+#include "Pins.h"
 
 /*
 	Constructor. Generic. Boring
@@ -31,7 +32,6 @@ void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			// g_sound_manager.play_sound(1);
-			// g_led_fade_manager.fade(1, 5000, 0, 255);
 			Serial.println("Preenable zero");
 			Serial.println("Servo 6 move from 0-500 @ speed=100");
 			_increment_state();
@@ -78,7 +78,7 @@ void KeypadPreenableState::_dispatcher() {
 		case 4:
 			Serial.println("Preenable: Four");
 			Serial.println("keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds");
-			//g_led_fade_manager.fade(11, 3000, 0, keypadgreenpot); //NOTE: need "keypadgreenpot" variable
+			g_led_fade_manager.fade(11, 3000, 0, analogRead(ANALOG_INPUT_1)/4); //NOTE: need "keypadgreenpot" variable
 			Serial.println("keypadbuttons fade from 0 - max over 3 seconds");
 			//g_led_fade_manager.fade(*, 3000, 0, 255); //NOTE: need keypadbuttons pin position
 			Serial.println("TimerLED = HIGH");//TimerLED no pin yet

@@ -31,7 +31,7 @@
 
 // THE NUMBER OF CONNECTED LEDS THAT CAN BE TURNED ON TO FLASH
 #define NUM_LED_FLASHERS 12
-#define NUM_LED_FADERS 1
+#define NUM_LED_FADERS 12
 
 
 // how long (in ms) between steps for fading leds

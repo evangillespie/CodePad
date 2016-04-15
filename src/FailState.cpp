@@ -50,9 +50,9 @@ void FailState::_dispatcher() {
 		case 2:
 			Serial.println("Fail: Big Two");
 			Serial.println("Keypad yellow leds fade down over 5 s");
+			//g_led_fade_manager.fade(*, 5000, 255, 0)//NOTE yellowLED no pin 
 			Serial.println("Servo 5 moves");
-			//Brick warning finger flashes @ 5hz
-			g_led_flash_manager.start_flasher(3, 5);
+			g_led_flash_manager.start_flasher(3, 5);//Brick warning finger flashes @ 5hz
 			Serial.println("Brick warning finger sound triggers when led is on");
 			break;
 		case 3:
