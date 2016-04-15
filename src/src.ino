@@ -11,6 +11,7 @@
 #include "Passcode.h"
 #include "Pins.h"
 #include "LEDFadeManager.h"
+#include "SoundManager.h"
 
 //////////////////////////
 //	global variables	//
@@ -19,6 +20,7 @@
 StateMachine state_machine;
 LEDFlashManager g_led_flash_manager;
 LEDFadeManager g_led_fade_manager;
+SoundManager g_sound_manager;
 
 //////////////////////
 //	intialization	//

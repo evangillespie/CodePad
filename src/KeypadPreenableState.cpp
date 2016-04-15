@@ -31,6 +31,7 @@ void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			// g_led_fade_manager.fade(1, 5000, 0, 255);
+			// g_sound_manager.play_sound(1);
 			Serial.println("Preenable zero");
 			Serial.println("Servo 6 move from 0-500 @ speed=100");
 			_increment_state();
@@ -52,9 +53,8 @@ void KeypadPreenableState::_dispatcher() {
 			_increment_state();
 			break;
 		case 3:
-			Serial.println("Preenable: Th-Three");
-
 			if (_substate == 0){
+				Serial.println("Preenable: Th-Three");
 				//stop Brick warning LED from previous case
 				g_led_flash_manager.stop_flasher(3);
 				

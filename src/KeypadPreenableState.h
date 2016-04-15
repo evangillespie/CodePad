@@ -12,9 +12,11 @@
 #include "ProcedureState.h"
 #include "LEDFlashManager.h"
 #include "LEDFadeManager.h"
+#include "SoundManager.h"
 
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
+extern SoundManager g_sound_manager;
 
 class KeypadPreenableState: public ProcedureState {
 public:
