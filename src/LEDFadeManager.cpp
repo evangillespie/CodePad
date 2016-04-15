@@ -31,6 +31,18 @@ void LEDFadeManager::fade(int led_index, int total_time, int init_value, int fin
 
 
 /*
+	Return true if the led in question is still in the middle of fading
+
+	:param led_index: which led am i checking?
+
+	:return: true if the led is fading, false if not
+*/
+bool LEDFadeManager::is_fading(int led_index){
+	return _led_faders[led_index-1].is_fading();
+}
+
+
+/*
 	update each Fader. To be called in the main loop
 */
 void LEDFadeManager::update(){

@@ -14,6 +14,7 @@ class LEDFader{
 		LEDFader();
 		void init(int, int);
 		void start_fading(int, int, int);
+		bool is_fading();
 		void update();
 	private:
 		int _index;

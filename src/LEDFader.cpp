@@ -46,6 +46,14 @@ void LEDFader::start_fading(int total_time, int init_value, int final_value){
 
 
 /*
+	return true if the led is still fading
+*/
+bool LEDFader::is_fading(){
+	return _is_active;
+}
+
+
+/*
 	update each Fader. TO be called in the loop
 */
 void LEDFader::update(){

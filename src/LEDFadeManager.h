@@ -15,6 +15,7 @@ class LEDFadeManager{
 	public:
 		LEDFadeManager();
 		void fade(int, int, int, int);
+		bool is_fading(int);
 		void update();
 	private:
 		int _get_pin_number(int);
