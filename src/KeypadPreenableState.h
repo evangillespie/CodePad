@@ -24,6 +24,9 @@ private:
 	void _dispatcher();
 	long _get_pause_length(int);
 	int _get_max_state();
+
+	unsigned long _stored_time;
+	int _substate;
 };
 
 #endif
