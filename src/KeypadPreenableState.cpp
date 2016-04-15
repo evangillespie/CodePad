@@ -78,7 +78,11 @@ void KeypadPreenableState::_dispatcher() {
 		case 4:
 			Serial.println("Preenable: Four");
 			Serial.println("keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds");
-			g_led_fade_manager.fade(11, 3000, 0, analogRead(ANALOG_INPUT_1)/4); //NOTE: need "keypadgreenpot" variable
+			Serial.println("Pot Value=");
+			_substate = analogRead(ANALOG_INPUT_1) / 4;
+			Serial.println(_substate);
+			g_led_fade_manager.fade(11, 3000, 0, _substate); //NOTE: need "keypadgreenpot" variable
+			//g_led_fade_manager.fade(11, 3000, 0, 255);
 			Serial.println("keypadbuttons fade from 0 - max over 3 seconds");
 			//g_led_fade_manager.fade(*, 3000, 0, 255); //NOTE: need keypadbuttons pin position
 			Serial.println("TimerLED = HIGH");//TimerLED no pin yet

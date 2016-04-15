@@ -65,8 +65,7 @@ void FailState::_dispatcher() {
 			break;
 		case 4:
 			Serial.println("Fail: Four");
-			//turn off brick warning led
-			g_led_flash_manager.stop_flasher(3);
+			g_led_flash_manager.stop_flasher(3);//turn off brick warning led
 			Serial.println("turn off timer led");
 			Serial.println("Servo 8 moves");
 			Serial.println("display elements turn off at random times");
