@@ -37,7 +37,7 @@
 
 
 // LED pins
-#define LED_1_PIN 2  //yellow LEDs
+#define LED_1_PIN 2  //yellow LEDs aka keypad Yellow
 #define LED_2_PIN 16 //LED Panel#3
 #define LED_3_PIN 23 //Warning Brick LED
 #define LED_4_PIN 25 //Warning Finger LED
@@ -46,8 +46,8 @@
 #define LED_7_PIN 31 //Button 1 LED
 #define LED_8_PIN 39 //CLR LED
 #define LED_9_PIN 41 //OK LED
-#define LED_10_PIN 43 //Keypad LED
-#define LED_11_PIN 45 //Keypad Green LED
+#define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
+#define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 
 	// ANALOG INPUT pins
