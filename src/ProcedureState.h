@@ -23,6 +23,7 @@ protected:
 	bool _is_procedure_complete;
 	int _max_state;
 	int _substate;
+	unsigned long _stored_time;
 
 	void _increment_state();
 
