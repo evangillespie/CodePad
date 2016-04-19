@@ -22,6 +22,7 @@ protected:
 	long _next_update_time;
 	bool _is_procedure_complete;
 	int _max_state;
+	int _substate;
 
 	void _increment_state();
 

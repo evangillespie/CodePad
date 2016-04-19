@@ -45,8 +45,9 @@ void KeypadPreenableState::_dispatcher() {
 		case 2:
 			Serial.println("Preenable: Big Two");
 			Serial.println("Servo 8 move from 0-500 @ speed=100");
-			g_led_flash_manager.start_flasher(3, 4);
-			Serial.println("Brick warning sound triggers when led is high");
+
+			// Brick warning sound triggers when led is high
+			g_led_flash_manager.start_flasher_with_sound(3, 4.0, 1);
 			_substate = 0;
 			_increment_state();
 			break;
@@ -70,7 +71,8 @@ void KeypadPreenableState::_dispatcher() {
 				Serial.println("Servo 2 Move from 500 - 45 @ speed of 60");
 				Serial.println("Servo 3 move from 1000 - 460 @ speed of 71");
 				Serial.println("Servo 4 move from 0 - 540 @speed of 71");
-				Serial.println("Keypad door sound triggers");
+				// Keypad door sound triggers
+				g_sound_manager.play_sound(1);
 				Serial.println("Wait for Servo 1-4 to get to final position");
 				_increment_state();
 			}

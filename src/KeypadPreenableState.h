@@ -28,7 +28,6 @@ private:
 	int _get_max_state();
 
 	unsigned long _stored_time;
-	int _substate;
 };
 
 #endif
