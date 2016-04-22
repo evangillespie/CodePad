@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include "Pins.h"
 #include "FailState.h"
 #include "Keypad.h"
 
@@ -40,10 +41,13 @@ void FailState::_dispatcher() {
 			// 4-digit display off
 			Keypad::clear_4_digit();
 
-			// @TODO: these
-			// ControlPanel led off
-			// turn off all pindigit leds
 			// Turn off Keypad clr and ok leds
+			digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
+			digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
+
+			// ControlPanel led off
+			
+			// turn off all pindigit leds
 
 			_increment_state();
 			break;
