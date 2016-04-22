@@ -50,6 +50,11 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 
+// SHift register pins
+#define SHIFT_REGISTER_LCLOCK_PIN 47
+#define SHIFT_REGISTER_CLOCK_PIN 49
+#define SHIFT_REGISTER_SER_IN_PIN 50
+
 	// ANALOG INPUT pins
 #define ANALOG_INPUT_0 A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
