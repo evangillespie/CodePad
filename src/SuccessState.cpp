@@ -1,5 +1,7 @@
 #include "Arduino.h"
 #include "SuccessState.h"
+#include "Pins.h"
+#include "Keypad.h"
 
 /*
 	Constructor. Generic. Boring
@@ -30,53 +32,108 @@ void SuccessState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			Serial.println("Zero");
-			Serial.println("bargraph off");
-			Serial.println("timersound off");
+
+			// clear bargraph
+			Keypad::clear_bargraph();
+
+			//timersound off
 			break;
 		case 1:
 			Serial.println("One");
-			Serial.println("goodpin sound");
-			Serial.println("control panel leds off");
-			Serial.println("4-digit display off");
-			Serial.println("pindigit leds off");
-			Serial.println("keypad clr and ok leds off");
+			
+			//goodpin sound
+
+			//control panel leds off
+
+
+			// 4-digit display off
+			Keypad::clear_4_digit();
+			
+			//pindigit leds off
+
+			//keypad clr and ok leds off
+
 			break;
 		case 2:
 			Serial.println("Two");
-			Serial.println("turn off bricklamp led");
-			Serial.println("fade keypad greed led down over 3s");
-			Serial.println("fade keypad button leds down over 5s");
-			Serial.println("red crystal fades down");
-			Serial.println("trigger power crystal sound");
+			//TODO:
+			//turn off bricklamp led NOTE: Brick lamp on shift registers
+
+			//get pot value
+			_substate = analogRead(ANALOG_INPUT_1) / 4; 
+
+			//fade keypad green led down over 3s from pot position 0 - <keypadgreenpot>
+			g_led_fade_manager.fade(11, 3000, _substate, 0); 
+
+
+			//fade keypad button leds down over 5s"); NOTE: I dont think these pins can fade
+			// Button 3 - keypadbutton's fade from max-0 over 5 seconds
+			g_led_fade_manager.fade(5, 5000, 255, 0); 
+
+			// Button 2 - keypadbutton's fade from max-0 over 5 seconds
+			g_led_fade_manager.fade(6, 5000, 255, 0); 
+
+			// Button 1 - keypadbutton's fade from max-0 over 5 seconds
+			g_led_fade_manager.fade(7, 5000, 255, 0); 
+
+			//TODO:
+			//Red Crystal fades up and down at random times continuously until end of next state
+
+			//TODO:
+			//trigger power crystal sound
+
 			break;
 		case 3:
 			Serial.println("Three");
-			Serial.println("turn off timer led");
-			Serial.println("Servo 6 moves");
-			Serial.println("servo 5 moves");
-			Serial.println("servos 10, 11, 12 move");
-			Serial.println("power crystal sound off");
-			Serial.println("turn power crystal led off");
+
+			//TODO:
+			//turn off timer led
+
+			//Servo 6 moves
+			//servo 5 moves
+			//servos 10, 11, 12 move
+
+
+			//power crystal sound off
+
+			//turn power crystal led off
+			digitalWrite(LED_12_PIN, LOW);
+
 			break;
 		case 4:
 			Serial.println("Four");
-			Serial.println("Servo 13 moves");
-			Serial.println("after random times, all digit displays turn off");
-			Serial.println("brick warning finger flashed @ 5hz");
-			Serial.println("brick warning sound triggers when brick warning finger is high");
-			Serial.println("Servos 1, 2, 3, 4 move");
-			Serial.println("keypad door sound triggers");
+
+			//Servo 13 moves
+
+			//TODO EVAN: after random times, all digit displays turn off (pause23-26)
+
+			//brick warning finger flashed @ 5hz and brick warning sound triggers when brick warning finger is high
+			g_led_flash_manager.start_flasher_with_sound(3, 5.0, 1);
+			
+			//Servos 1, 2, 3, 4 move
+
+			//keypad door sound triggers
+
 			break;
 		case 5:
 			Serial.println("Five");
-			Serial.println("turn off brick warning led");
-			Serial.println("servo 8 moves");
-			Serial.println("servo 7 moves");
-			Serial.println("keypad yellow leds fade up over 10s");
-			Serial.println("3-6 minute pause");
-			Serial.println("turn paintinglight off");
-			Serial.println("Servo 13 moves");
-			Serial.println("Servos 10, 11, 12 move");
+
+			//turn off brick warning led and sound
+			g_led_flash_manager.stop_flasher(3);
+
+			//servo 8 moves
+			//servo 7 moves
+
+			//keypad yellow leds fade up over 10s");
+			g_led_fade_manager.fade(1, 10000, 0, 255);
+
+			//3-6 minute pause
+
+			//turn paintinglight off NOTE: no pin assinged
+
+			//Servo 13 moves
+
+			//Servos 10, 11, 12 move
 			break;
 		default:
 			Serial.println("You're in a weird state, brah");
