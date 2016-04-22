@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "FailState.h"
+#include "Keypad.h"
 
 /*
 	Constructor. Generic. Boring
@@ -33,10 +34,14 @@ void FailState::_dispatcher() {
 			// badpin sound
 			g_sound_manager.play_sound(1);
 
-			// @TODO: these
-			// bargraph off
-			// ControlPanel led off
+			// clear bargraph
+			Keypad::clear_bargraph();
+
 			// 4-digit display off
+			Keypad::clear_4_digit();
+
+			// @TODO: these
+			// ControlPanel led off
 			// turn off all pindigit leds
 			// Turn off Keypad clr and ok leds
 
@@ -132,6 +137,7 @@ void FailState::_dispatcher() {
 									// turn off clock led
 									break;
 							}
+							_elements_turned_off[i] = true;
 						}
 					}
 				}

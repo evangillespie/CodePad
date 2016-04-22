@@ -21,7 +21,8 @@ public:
 
 	void init();
 
-	void clear_bargraph();
+	static void clear_bargraph();
+	static void clear_4_digit();
 private:
 	int _entered_values[4];
 	unsigned long _init_time;

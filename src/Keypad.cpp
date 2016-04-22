@@ -22,20 +22,20 @@ Adafruit_24bargraph bar = Adafruit_24bargraph();
 	Constructor. Generic. Boring
 */
 Keypad::Keypad() {
-	pinMode(keypad_number_1, INPUT);
-	pinMode(keypad_number_2, INPUT);
-	pinMode(keypad_number_3, INPUT);
-	pinMode(keypad_number_4, INPUT);
-	pinMode(keypad_number_5, INPUT);
-	pinMode(keypad_number_6, INPUT);
-	pinMode(keypad_number_7, INPUT);
-	pinMode(keypad_number_8, INPUT);
-	pinMode(keypad_number_9, INPUT);
-	pinMode(keypad_number_0, INPUT);
-	pinMode(keypad_number_clr, INPUT);
-	pinMode(keypad_number_ok, INPUT);
-	pinMode(keypad_number_clr_led, OUTPUT);
-	pinMode(keypad_number_ok_led, OUTPUT);
+	pinMode(KEYPAD_NUMBER_1, INPUT);
+	pinMode(KEYPAD_NUMBER_2, INPUT);
+	pinMode(KEYPAD_NUMBER_3, INPUT);
+	pinMode(KEYPAD_NUMBER_4, INPUT);
+	pinMode(KEYPAD_NUMBER_5, INPUT);
+	pinMode(KEYPAD_NUMBER_6, INPUT);
+	pinMode(KEYPAD_NUMBER_7, INPUT);
+	pinMode(KEYPAD_NUMBER_8, INPUT);
+	pinMode(KEYPAD_NUMBER_9, INPUT);
+	pinMode(KEYPAD_NUMBER_0, INPUT);
+	pinMode(KEYPAD_NUMBER_CLR, INPUT);
+	pinMode(KEYPAD_NUMBER_OK, INPUT);
+	pinMode(KEYPAD_NUMBER_CLR_LED, OUTPUT);
+	pinMode(KEYPAD_NUMBER_OK_LED, OUTPUT);
 
 	pinMode(KEYPAD_DISPLAY_WRITE_PIN, OUTPUT);
 	pinMode(KEYPAD_DISPLAY_A1_PIN, OUTPUT);
@@ -48,8 +48,8 @@ Keypad::Keypad() {
 	pinMode(KEYPAD_DISPLAY_D5_PIN, OUTPUT);
 	pinMode(KEYPAD_DISPLAY_D6_PIN, OUTPUT);
 
-	digitalWrite(keypad_number_clr_led, LOW);
-	digitalWrite(keypad_number_clr_led, LOW);
+	digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
+	digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
 
 	_bargraph_time_step = keypad_timeout / 24;
 	_bargraph_num_lights = 0;
@@ -79,29 +79,29 @@ void Keypad::update(Passcode passcode) {
 	save that a key was pressed on the keypad
 */
 void Keypad::_is_key_pressed(){
-	if (digitalRead(keypad_number_1))
+	if (digitalRead(KEYPAD_NUMBER_1))
 		_queued_num = 1;
-	else if (digitalRead(keypad_number_2))
+	else if (digitalRead(KEYPAD_NUMBER_2))
 		_queued_num = 2;
-	else if (digitalRead(keypad_number_3))
+	else if (digitalRead(KEYPAD_NUMBER_3))
 		_queued_num = 3;
-	else if (digitalRead(keypad_number_4))
+	else if (digitalRead(KEYPAD_NUMBER_4))
 		_queued_num = 4;
-	else if (digitalRead(keypad_number_5))
+	else if (digitalRead(KEYPAD_NUMBER_5))
 		_queued_num = 5;
-	else if (digitalRead(keypad_number_6))
+	else if (digitalRead(KEYPAD_NUMBER_6))
 		_queued_num = 6;
-	else if (digitalRead(keypad_number_7))
+	else if (digitalRead(KEYPAD_NUMBER_7))
 		_queued_num = 7;
-	else if (digitalRead(keypad_number_8))
+	else if (digitalRead(KEYPAD_NUMBER_8))
 		_queued_num = 8;
-	else if (digitalRead(keypad_number_9))
+	else if (digitalRead(KEYPAD_NUMBER_9))
 		_queued_num = 9;
-	else if (digitalRead(keypad_number_0))
+	else if (digitalRead(KEYPAD_NUMBER_0))
 		_queued_num = 0;
-	else if (digitalRead(keypad_number_clr))
+	else if (digitalRead(KEYPAD_NUMBER_CLR))
 		_queued_num = 11;
-	else if (digitalRead(keypad_number_ok))
+	else if (digitalRead(KEYPAD_NUMBER_OK))
 		_queued_num = 12;
 	else
 		_register_queued_key();
@@ -152,7 +152,7 @@ void Keypad::_update_display(){
 	write a single character to the 4-digit dot matrix display
 
 	:param index: where do I write it? 0-3
-	:param num: which number to I write? write blank if -1
+	:param num: which number to I write? num=-1 to write blank
 */
 void Keypad::_write_display_character(int index, int num){
 	// only elements 0-3 change for numbers and 4 for blank
@@ -251,21 +251,21 @@ void Keypad::_update_btns_flashing(){
 	if (_is_clr_flashing){
 		if (int(millis() - _last_clr_change) > KEYPAD_CLR_FLASH_PERIOD / 2){
 			//togle led status
-			digitalWrite(keypad_number_clr_led, !digitalRead(keypad_number_clr_led));
+			digitalWrite(KEYPAD_NUMBER_CLR_LED, !digitalRead(KEYPAD_NUMBER_CLR_LED));
 			_last_clr_change = millis();
 		}
 	} else{
-		digitalWrite(keypad_number_clr_led, LOW);
+		digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
 	}
 
 	if (_is_ok_flashing){
 		if (int(millis() - _last_ok_change) > KEYPAD_OK_FLASH_PERIOD / 2){
 			//togle led status
-			digitalWrite(keypad_number_ok_led, !digitalRead(keypad_number_ok_led));
+			digitalWrite(KEYPAD_NUMBER_OK_LED, !digitalRead(KEYPAD_NUMBER_OK_LED));
 			_last_ok_change = millis();
 		}
 	} else{
-		digitalWrite(keypad_number_ok_led, LOW);
+		digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 	}
 }
 
@@ -355,4 +355,37 @@ void Keypad::clear_bargraph(){
 		bar.setBar(b, LED_OFF);
 	}
 	bar.writeDisplay();
+}
+
+
+/*
+	clear the 4-digit display imediately
+	mostly code copied from _write_display_character
+*/
+void Keypad::clear_4_digit(){
+	int index;
+	for (int i=0; i<CODE_LENGTH; i++){
+		// only elements 0-3 change for numbers and 4 for blank
+		int sequence[7] = {0, 0, 0, 0, 0, 1, 0}; // initialize to 0
+
+		//turn write pin off while we get ready
+		digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, HIGH);
+
+		//posistion
+		index = 3 - i;	// index is reversed on the display
+		digitalWrite(KEYPAD_DISPLAY_A1_PIN, index / 2);
+		digitalWrite(KEYPAD_DISPLAY_A2_PIN, index % 2);
+		
+
+		digitalWrite(KEYPAD_DISPLAY_D0_PIN, sequence[0]);
+		digitalWrite(KEYPAD_DISPLAY_D1_PIN, sequence[1]);
+		digitalWrite(KEYPAD_DISPLAY_D2_PIN, sequence[2]);
+		digitalWrite(KEYPAD_DISPLAY_D3_PIN, sequence[3]);
+		digitalWrite(KEYPAD_DISPLAY_D4_PIN, sequence[4]);
+		digitalWrite(KEYPAD_DISPLAY_D5_PIN, sequence[5]);
+		digitalWrite(KEYPAD_DISPLAY_D6_PIN, sequence[6]);
+
+		// write it
+		digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, LOW);
+	}
 }

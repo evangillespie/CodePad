@@ -9,20 +9,20 @@
 
 
 // Keypad pins
-#define keypad_number_1 22
-#define keypad_number_2 24
-#define keypad_number_3 26
-#define keypad_number_4 28
-#define keypad_number_5 30
-#define keypad_number_6 32
-#define keypad_number_7 34
-#define keypad_number_8 36
-#define keypad_number_9 38
-#define keypad_number_0 40
-#define keypad_number_clr 42
-#define keypad_number_ok 48
-#define keypad_number_clr_led 39
-#define keypad_number_ok_led 41
+#define KEYPAD_NUMBER_1 22
+#define KEYPAD_NUMBER_2 24
+#define KEYPAD_NUMBER_3 26
+#define KEYPAD_NUMBER_4 28
+#define KEYPAD_NUMBER_5 30
+#define KEYPAD_NUMBER_6 32
+#define KEYPAD_NUMBER_7 34
+#define KEYPAD_NUMBER_8 36
+#define KEYPAD_NUMBER_9 38
+#define KEYPAD_NUMBER_0 40
+#define KEYPAD_NUMBER_CLR 42
+#define KEYPAD_NUMBER_OK 48
+#define KEYPAD_NUMBER_CLR_LED 39
+#define KEYPAD_NUMBER_OK_LED 41
 
 #define KEYPAD_DISPLAY_WRITE_PIN A6
 #define KEYPAD_DISPLAY_A1_PIN A7
