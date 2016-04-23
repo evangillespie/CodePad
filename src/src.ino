@@ -24,7 +24,7 @@ LEDFlashManager g_led_flash_manager;
 LEDFadeManager g_led_fade_manager;
 SoundManager g_sound_manager;
 
-Shifter shifter(SHIFT_REGISTER_SER_IN_PIN,
+Shifter g_shifter(SHIFT_REGISTER_SER_IN_PIN,
 				SHIFT_REGISTER_LCLOCK_PIN,
 				SHIFT_REGISTER_CLOCK_PIN,
 				4);
@@ -41,10 +41,8 @@ void setup() {
 	state_machine.begin(0);
 
 	//prep the shift registers
-	shifter.clear();
-	shifter.write();
-	// shifter.setPin(5, HIGH);
-	// shifter.write();
+	g_shifter.clear();
+	g_shifter.write();
 
 }
 

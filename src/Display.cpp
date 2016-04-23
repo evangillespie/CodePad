@@ -1,11 +1,14 @@
+#include <Shifter.h>
+
 #include "Arduino.h"
 #include "Display.h"
 #include "Config.h"
+#include "Pins.h"
 
 /*
 	Constructor. Generic. Boring
 */
-Display::Display() {}
+Display::Display(){}
 
 
 /*
@@ -52,19 +55,19 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 	if (serial_display == true ){
 		Serial.print(dig);
 		Serial.print(" ");
-	} else {
-		switch(_next_action){
-			case 0:
-				//fallthrough
-			case 1:
-				//fallthrough
-			case 2:
-				_display_nixie_tube(_next_action, dig);
-				break;
-			case 3:
-				_display_servo(dig);
-				break;
-		}
+	}
+	switch(_next_action){
+		case 0:
+			//fallthrough
+		case 1:
+			_display_nixie_tube(_next_action, dig);
+			break;
+		case 2:
+			_display_led_matrix(dig);
+			break;
+		case 3:
+			_display_servo(dig);
+			break;
 	}
 
 	_reset_next_action_time(random(MIN_DISPLAY_LAG_TIME, MAX_DISPLAY_LAG_TIME+1));
@@ -75,13 +78,64 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 /*
 	Show a number on a particular nixie tube
 
-	:param tube_index: which nixe tube are we looking at here? 0, 1 or 2?
+	:param tube_index: which nixe tube are we looking at here? 0 or 1?
 	:param display_digit: the digit to display on that nixie tube
 */
 void Display::_display_nixie_tube(int tube_index, int display_digit){
-	Serial.print("NT");
-	Serial.print(tube_index);
-	Serial.print(":");
+	bool sequence[4];
+	int offset;
+	switch(tube_index){
+		case 0:
+			offset = NIXIE_TUBE_1_PIN_OFFSET;
+			break;
+		case 1:
+			offset = NIXIE_TUBE_2_PIN_OFFSET;
+			break;
+	}
+
+	// convert display_digit to binary
+	for (int i=0; i < 4; i++){
+		sequence[i] = display_digit % 2;
+		display_digit = display_digit / 2;
+	}
+
+	for (int i=0; i < 4; i++){
+		g_shifter.setPin(i+offset, sequence[i]);
+	}
+	g_shifter.write();
+}
+
+
+/*
+	Clear a particular nixie tube
+
+	:param tube_index: which nixe tube are we looking at here? 0 or 1?
+*/
+void Display::clear_nixie_tube(int tube_index){
+	int offset;
+	switch(tube_index){
+		case 0:
+			offset = NIXIE_TUBE_1_PIN_OFFSET;
+			break;
+		case 1:
+			offset = NIXIE_TUBE_2_PIN_OFFSET;
+			break;
+	}
+
+	for (int i=0; i < 4; i++){
+		g_shifter.setPin(i+offset, HIGH);
+	}
+	g_shifter.write();
+}
+
+
+/*
+	display a particular number on the led matrix
+
+	:param display_digit: the number to show on the led matrix
+*/
+void Display::_display_led_matrix(int display_digit){
+	Serial.print("MAT:");
 	Serial.print(display_digit);
 	Serial.print("\n");
 }

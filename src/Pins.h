@@ -35,6 +35,9 @@
 #define KEYPAD_DISPLAY_D5_PIN A10
 #define KEYPAD_DISPLAY_D6_PIN A9
 
+// Nixie Tube Shift register
+#define NIXIE_TUBE_1_PIN_OFFSET 16
+#define NIXIE_TUBE_2_PIN_OFFSET 20
 
 // LED pins
 #define LED_1_PIN 2  //yellow LEDs aka keypad Yellow
@@ -50,12 +53,12 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 
-// SHift register pins
+// Shift register pins
 #define SHIFT_REGISTER_LCLOCK_PIN 47
 #define SHIFT_REGISTER_CLOCK_PIN 49
 #define SHIFT_REGISTER_SER_IN_PIN 50
 
-	// ANALOG INPUT pins
+// ANALOG INPUT pins
 #define ANALOG_INPUT_0 A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
 #define ANALOG_INPUT_2 A2 //Potentiometer 2
