@@ -54,11 +54,12 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 	int dig = passcode.get_digit(_next_action);
 	if (serial_display == true ){
 		Serial.print(dig);
-		Serial.print(" ");
+		Serial.print(" \n");
 	}
 	switch(_next_action){
 		case 0:
 			//fallthrough
+			// case 0 and 1 use nixie tubes
 		case 1:
 			_display_nixie_tube(_next_action, dig);
 			break;

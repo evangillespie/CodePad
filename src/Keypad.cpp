@@ -224,14 +224,22 @@ void Keypad::_update_status(Passcode passcode) {
 
 	
 	//update bar graph
-	_bargraph_num_lights = (millis() - _init_time) / _bargraph_time_step;
-	for(int b = 0; b < _bargraph_num_lights; b++){
-		if (b < 8){
-			bar.setBar(b, LED_GREEN);
-		} else if (b < 16) {
-			bar.setBar(b, LED_YELLOW);
+	_bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
+	int led_color = 0;
+	
+	if (_bargraph_num_lights < 8){
+		led_color = LED_RED;
+	} else if (_bargraph_num_lights < 16){
+		led_color = LED_YELLOW;
+	} else {
+		led_color = LED_GREEN;
+	}
+
+	for(int b = 0; b < 24; b++){
+		if (b < _bargraph_num_lights) {
+			bar.setBar(b, led_color);
 		} else {
-			bar.setBar(b, LED_RED);
+			bar.setBar(b, LED_OFF);
 		}
 	}
 	bar.writeDisplay();
