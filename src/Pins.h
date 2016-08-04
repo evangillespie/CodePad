@@ -35,6 +35,12 @@
 #define KEYPAD_DISPLAY_D5_PIN A10
 #define KEYPAD_DISPLAY_D6_PIN A9
 
+// Pin offsets in the DUAL SHIFT REGISTER to control LEDs that 
+// show if the keypad pressed are right or wrong
+// correct pins are [correct_offset:correct_offset + 3]
+#define KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET 0
+#define KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET 4	
+
 // Nixie Tube Shift register
 #define NIXIE_TUBE_1_PIN_OFFSET 16
 #define NIXIE_TUBE_2_PIN_OFFSET 20
@@ -54,9 +60,13 @@
 #define LED_12_PIN 46 //power crystal
 
 // Shift register pins
-#define SHIFT_REGISTER_LCLOCK_PIN 47
-#define SHIFT_REGISTER_CLOCK_PIN 49
-#define SHIFT_REGISTER_SER_IN_PIN 50
+#define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
+#define QUAD_SHIFT_REGISTER_CLOCK_PIN A5
+#define QUAD_SHIFT_REGISTER_SER_IN_PIN A3
+
+#define DUAL_SHIFT_REGISTER_LCLOCK_PIN 47
+#define DUAL_SHIFT_REGISTER_CLOCK_PIN 49
+#define DUAL_SHIFT_REGISTER_SER_IN_PIN 50
 
 // ANALOG INPUT pins
 #define ANALOG_INPUT_0 A0 //PIR sensor

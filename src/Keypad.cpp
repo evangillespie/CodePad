@@ -49,7 +49,9 @@ Keypad::Keypad() {
 	pinMode(KEYPAD_DISPLAY_D6_PIN, OUTPUT);
 
 	digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
-	digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
+	digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
+
+	_turn_off_right_wrong_leds();
 
 	_bargraph_time_step = keypad_timeout / 24;
 	_bargraph_num_lights = 0;
@@ -70,7 +72,7 @@ void Keypad::init() {
 */
 void Keypad::update(Passcode passcode) {
 	_update_status(passcode);
-	_is_key_pressed();
+	_is_key_pressed(passcode);
 	_update_btns_flashing();
 }
 
@@ -78,7 +80,7 @@ void Keypad::update(Passcode passcode) {
 /*
 	save that a key was pressed on the keypad
 */
-void Keypad::_is_key_pressed(){
+void Keypad::_is_key_pressed(Passcode passcode){
 	if (digitalRead(KEYPAD_NUMBER_1))
 		_queued_num = 1;
 	else if (digitalRead(KEYPAD_NUMBER_2))
@@ -104,14 +106,14 @@ void Keypad::_is_key_pressed(){
 	else if (digitalRead(KEYPAD_NUMBER_OK))
 		_queued_num = 12;
 	else
-		_register_queued_key();
+		_register_queued_key(passcode);
 }
 
 
 /*
 	register the last pressed key in now that all are released
 */
-void Keypad::_register_queued_key(){
+void Keypad::_register_queued_key(Passcode passcode){
 	if (_queued_num >= 0){
 		if (_queued_num < 10){
 			_add_digit_to_received(_queued_num);
@@ -133,6 +135,7 @@ void Keypad::_register_queued_key(){
 			}
 		}
 		_update_display();
+		_update_right_wrong_leds(passcode);
 		_queued_num = -1;
 	}
 }
@@ -146,7 +149,6 @@ void Keypad::_update_display(){
 		_write_display_character(i, _entered_values[i]);
 	}
 }
-
 
 /*
 	write a single character to the 4-digit dot matrix display
@@ -219,9 +221,6 @@ void Keypad::_update_status(Passcode passcode) {
 			_is_ok_flashing = false;
 		}
 	}
-
-	_update_right_wrong_leds(passcode);
-
 	
 	//update bar graph
 	_bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
@@ -313,7 +312,44 @@ int Keypad::get_entered_code(){
 	turn leds on or off if the user has entered correct or incorrect values
 */
 void Keypad::_update_right_wrong_leds(Passcode passcode){
-	// @TODO: make this work once hardware is ready
+	// @TODO: turn off leds after ok is pressed
+	for (int i=0; i<CODE_LENGTH; i++){
+		if (_entered_values[i] >= 0){
+			if (_entered_values[i] == passcode.get_digit(i)){
+				g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, HIGH);
+				g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
+			} else {
+				g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, LOW);
+				g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, HIGH);
+			}
+		} else {
+			g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, LOW);
+			g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
+		}
+		g_shifter_dual.write();
+	}
+}
+
+
+/*
+	Turn off all right/wrong leds
+*/
+void Keypad::_turn_off_right_wrong_leds(){
+	for (int i=0; i<4; i++){
+		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, LOW);
+		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
+	}
+	g_shifter_dual.write();
+}
+
+
+/*
+	turn off all displays at the end of the keypad cycle
+*/
+void Keypad::turn_off_displays(){
+	_turn_off_right_wrong_leds();
+	clear_bargraph();
+	clear_4_digit();
 }
 
 
@@ -336,6 +372,8 @@ void Keypad::reset() {
 	_last_ok_change = millis();
 
 	_bargraph_num_lights = 0;
+
+	_turn_off_right_wrong_leds();
 }
 
 

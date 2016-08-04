@@ -24,10 +24,14 @@ LEDFlashManager g_led_flash_manager;
 LEDFadeManager g_led_fade_manager;
 SoundManager g_sound_manager;
 
-Shifter g_shifter(SHIFT_REGISTER_SER_IN_PIN,
-				SHIFT_REGISTER_LCLOCK_PIN,
-				SHIFT_REGISTER_CLOCK_PIN,
+Shifter g_shifter_quad(QUAD_SHIFT_REGISTER_SER_IN_PIN,
+				QUAD_SHIFT_REGISTER_LCLOCK_PIN,
+				QUAD_SHIFT_REGISTER_CLOCK_PIN,
 				4);
+Shifter g_shifter_dual(DUAL_SHIFT_REGISTER_SER_IN_PIN,
+				DUAL_SHIFT_REGISTER_LCLOCK_PIN,
+				DUAL_SHIFT_REGISTER_CLOCK_PIN,
+				2);
 
 //////////////////////
 //	intialization	//
@@ -41,8 +45,10 @@ void setup() {
 	state_machine.begin(0);
 
 	//prep the shift registers
-	g_shifter.clear();
-	g_shifter.write();
+	g_shifter_quad.clear();
+	g_shifter_quad.write();
+	g_shifter_dual.clear();
+	g_shifter_dual.write();
 
 }
 

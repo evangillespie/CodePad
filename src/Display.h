@@ -13,7 +13,7 @@
 #include "Passcode.h"
 #include "Pins.h"
 
-extern Shifter g_shifter;
+extern Shifter g_shifter_quad;
 
 class Display {
 public:

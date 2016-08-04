@@ -101,9 +101,9 @@ void Display::_display_nixie_tube(int tube_index, int display_digit){
 	}
 
 	for (int i=0; i < 4; i++){
-		g_shifter.setPin(i+offset, sequence[i]);
+		g_shifter_quad.setPin(i+offset, sequence[i]);
 	}
-	g_shifter.write();
+	g_shifter_quad.write();
 }
 
 
@@ -124,9 +124,9 @@ void Display::clear_nixie_tube(int tube_index){
 	}
 
 	for (int i=0; i < 4; i++){
-		g_shifter.setPin(i+offset, HIGH);
+		g_shifter_quad.setPin(i+offset, HIGH);
 	}
-	g_shifter.write();
+	g_shifter_quad.write();
 }
 
 
