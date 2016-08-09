@@ -28,6 +28,7 @@ public:
 
 	static void clear_bargraph();
 	static void clear_4_digit();
+	static void turn_off_right_wrong_leds();
 private:
 	int _entered_values[4];
 	unsigned long _init_time;
@@ -43,7 +44,6 @@ private:
 	int _convert_byte_to_int(int);
 	void _add_digit_to_received(int);
 	void _update_right_wrong_leds(Passcode);
-	void _turn_off_right_wrong_leds();
 };
 
 #endif

@@ -42,16 +42,20 @@ void SuccessState::_dispatcher() {
 			Serial.println("One");
 			
 			//goodpin sound
+			g_sound_manager.play_sound(1);
 
 			//control panel leds off
-
+			digitalWrite(KEYPAD_NUMBERS_LED, LOW);
 
 			// 4-digit display off
 			Keypad::clear_4_digit();
 			
 			//pindigit leds off
+			Keypad::turn_off_right_wrong_leds();
 
 			//keypad clr and ok leds off
+			digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
+			digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
 			break;
 		case 2:

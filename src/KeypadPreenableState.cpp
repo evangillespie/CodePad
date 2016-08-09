@@ -103,7 +103,10 @@ void KeypadPreenableState::_dispatcher() {
 			//TimerLED no pin yet - NOTE: on Shift register
 
 			//keypadyellow LEDs fade from max - 0 over 4 seconds
-			g_led_fade_manager.fade(2, 4000, 255, 0); 
+			g_led_fade_manager.fade(2, 4000, 255, 0);
+
+			//control panel leds on
+			digitalWrite(KEYPAD_NUMBERS_LED, HIGH);
 
 			//servo5 move from 0 - 500 @ speed = 100
 

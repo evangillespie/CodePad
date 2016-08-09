@@ -46,8 +46,10 @@ void FailState::_dispatcher() {
 			digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
 			// ControlPanel led off
+			digitalWrite(KEYPAD_NUMBERS_LED, LOW);
 			
 			// turn off all pindigit leds
+			Keypad::turn_off_right_wrong_leds();
 
 			_increment_state();
 			break;

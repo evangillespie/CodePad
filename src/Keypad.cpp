@@ -34,6 +34,7 @@ Keypad::Keypad() {
 	pinMode(KEYPAD_NUMBER_0, INPUT);
 	pinMode(KEYPAD_NUMBER_CLR, INPUT);
 	pinMode(KEYPAD_NUMBER_OK, INPUT);
+	pinMode(KEYPAD_NUMBERS_LED, OUTPUT);
 	pinMode(KEYPAD_NUMBER_CLR_LED, OUTPUT);
 	pinMode(KEYPAD_NUMBER_OK_LED, OUTPUT);
 
@@ -51,8 +52,6 @@ Keypad::Keypad() {
 	digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
 	digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
-	_turn_off_right_wrong_leds();
-
 	_bargraph_time_step = keypad_timeout / 24;
 	_bargraph_num_lights = 0;
 
@@ -64,6 +63,8 @@ void Keypad::init() {
 	bar.begin(0x70);
 	clear_bargraph();
 	_update_display();
+	digitalWrite(KEYPAD_NUMBERS_LED, LOW);
+	clear_4_digit();
 }
 
 /*
@@ -170,7 +171,14 @@ void Keypad::_write_display_character(int index, int num){
 	
 	// character
 	if (num == -1){
+		// show a dash when digit not entered yet
+		sequence[0] = 1;
+		sequence[1] = 0;
+		sequence[2] = 1;
+		sequence[3] = 1;
 		sequence[4] = 0;
+		sequence[5] = 1;
+		sequence[6] = 0;
 	} else {
 		//convert num to binary
 		for (int j=0; j < 4; j++){
@@ -312,7 +320,6 @@ int Keypad::get_entered_code(){
 	turn leds on or off if the user has entered correct or incorrect values
 */
 void Keypad::_update_right_wrong_leds(Passcode passcode){
-	// @TODO: turn off leds after ok is pressed
 	for (int i=0; i<CODE_LENGTH; i++){
 		if (_entered_values[i] >= 0){
 			if (_entered_values[i] == passcode.get_digit(i)){
@@ -334,7 +341,7 @@ void Keypad::_update_right_wrong_leds(Passcode passcode){
 /*
 	Turn off all right/wrong leds
 */
-void Keypad::_turn_off_right_wrong_leds(){
+void Keypad::turn_off_right_wrong_leds(){
 	for (int i=0; i<4; i++){
 		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, LOW);
 		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
@@ -347,7 +354,7 @@ void Keypad::_turn_off_right_wrong_leds(){
 	turn off all displays at the end of the keypad cycle
 */
 void Keypad::turn_off_displays(){
-	_turn_off_right_wrong_leds();
+	turn_off_right_wrong_leds();
 	clear_bargraph();
 	clear_4_digit();
 }
@@ -373,7 +380,7 @@ void Keypad::reset() {
 
 	_bargraph_num_lights = 0;
 
-	_turn_off_right_wrong_leds();
+	turn_off_right_wrong_leds();
 }
 
 
