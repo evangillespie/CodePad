@@ -5,7 +5,12 @@
 /*
 	Constructor. Generic. Boring
 */
-SoundManager::SoundManager() {}
+SoundManager::SoundManager() {
+
+	_wTrig.start();
+	_wTrig.stopAllTracks();
+	_wTrig.masterGain(0);
+}
 
 
 /*
@@ -14,8 +19,5 @@ SoundManager::SoundManager() {}
 	:param sound_index: the sound to play, as named on the Wav Trigger sd card.
 */
 void SoundManager::play_sound(int sound_index){
-	// Serial.print("!$! ");
-	// Serial.print("Playing sound: ");
-	// Serial.print(sound_index);
-	// Serial.print(" !$!\n");
+	_wTrig.trackPlayPoly(sound_index);
 }

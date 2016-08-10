@@ -8,13 +8,14 @@
 #define SoundManager_h
 
 #include "Arduino.h"
+#include <wavTrigger.h>
 
 class SoundManager{
 	public:
 		SoundManager();
 		void play_sound(int);
 	private:
-		//none yet
+		wavTrigger _wTrig;
 };
 
 #endif

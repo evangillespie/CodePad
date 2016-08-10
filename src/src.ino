@@ -8,6 +8,7 @@
 #include <Adafruit_LEDBackpack.h>
 #include <Wire.h>
 #include <Shifter.h>
+#include <wavTrigger.h>
 
 #include "StateMachine.h"
 #include "Passcode.h"
