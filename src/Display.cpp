@@ -151,6 +151,8 @@ void Display::_display_led_matrix(int display_digit){
 	// INSERT CODE FOR THE ADAFRUIT MATRIX HERE //
 	//////////////////////////////////////////////
 
+	// use the matrix object, as in matrix.writeDisplay();
+
 	// Bargraph example below. Delete it when the matrix display is working.
 	// for (int i=0; i<24; i++){
 	// 	if (i == display_digit){
