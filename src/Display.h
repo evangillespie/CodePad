@@ -12,12 +12,14 @@
 #include "Arduino.h"
 #include "Passcode.h"
 #include "Pins.h"
+#include <Adafruit_LEDBackpack.h>
 
 extern Shifter g_shifter_quad;
 
 class Display {
 public:
 	Display();
+	void init();
 	void update(Passcode);
 	bool is_complete();
 	static void clear_nixie_tube(int);

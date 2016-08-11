@@ -29,6 +29,7 @@ void StateMachine::begin(int init_state) {
 	_state = init_state;
 
 	_keypad.init();
+	_display.init();
 
 }
 

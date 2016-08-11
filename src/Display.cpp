@@ -5,10 +5,20 @@
 #include "Config.h"
 #include "Pins.h"
 
+Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
+
 /*
 	Constructor. Generic. Boring
 */
 Display::Display(){}
+
+
+/*
+	initialize anything for the display object
+*/
+void Display::init(){
+	matrix.begin(0x71);
+}
 
 
 /*
@@ -136,9 +146,20 @@ void Display::clear_nixie_tube(int tube_index){
 	:param display_digit: the number to show on the led matrix
 */
 void Display::_display_led_matrix(int display_digit){
-	Serial.print("MAT:");
-	Serial.print(display_digit);
-	Serial.print("\n");
+
+	//////////////////////////////////////////////
+	// INSERT CODE FOR THE ADAFRUIT MATRIX HERE //
+	//////////////////////////////////////////////
+
+	// Bargraph example below. Delete it when the matrix display is working.
+	// for (int i=0; i<24; i++){
+	// 	if (i == display_digit){
+	// 		barg.setBar(i, LED_GREEN);
+	// 	} else {
+	// 		barg.setBar(i, LED_OFF);
+	// 	}
+	// }
+	// barg.writeDisplay();
 }
 
 
