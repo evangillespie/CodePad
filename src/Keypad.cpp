@@ -13,6 +13,7 @@ bool _is_ok_flashing;
 unsigned long _last_ok_change;
 unsigned long _bargraph_time_step;
 int _bargraph_num_lights;	//number of bargraph elements that are currently lit up
+int _prev_bargraph_num_lights;
 
 unsigned long keypad_timeout = (unsigned long)KEYPAD_TIMEOUT_SECS * (unsigned long)1000;
 
@@ -54,6 +55,7 @@ Keypad::Keypad() {
 
 	_bargraph_time_step = keypad_timeout / 24;
 	_bargraph_num_lights = 0;
+	_prev_bargraph_num_lights = 0;
 
 	reset();
 }
@@ -242,6 +244,16 @@ void Keypad::_update_status(Passcode passcode) {
 		led_color = LED_GREEN;
 	}
 
+	// plat sound for bargraph click down
+	if (_prev_bargraph_num_lights != _bargraph_num_lights
+			&& _prev_bargraph_num_lights != 0){
+		if (led_color == LED_RED){
+			g_sound_manager.play_sound(5);
+		} else {
+			g_sound_manager.play_sound(4);
+		}
+	}
+
 	for(int b = 0; b < 24; b++){
 		if (b < _bargraph_num_lights) {
 			bar.setBar(b, led_color);
@@ -250,6 +262,7 @@ void Keypad::_update_status(Passcode passcode) {
 		}
 	}
 	bar.writeDisplay();
+	_prev_bargraph_num_lights = _bargraph_num_lights;
 
 
 	//check for timeout

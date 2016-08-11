@@ -11,9 +11,11 @@
 
 #include "Arduino.h"
 #include "Passcode.h"
+#include "SoundManager.h"
 #include <Adafruit_LEDBackpack.h>
 
 extern Shifter g_shifter_dual;
+extern SoundManager g_sound_manager;
 
 class Keypad {
 public:
