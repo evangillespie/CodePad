@@ -29,5 +29,5 @@ void SoundManager::play_sound(int sound_index){
 	:param sound_index: the sound to stop
 */
 void SoundManager::stop_sound(int sound_index){
-	Serial.println("Stopping Sound");
+	_wTrig.trackStop(sound_index);
 }
