@@ -39,13 +39,14 @@ private:
 	void _is_key_pressed(Passcode);
 	void _register_queued_key(Passcode);
 	void _update_display();
-	void _update_right_wrong_leds();
+
 	void _write_display_character(int, int);
 	void _update_status(Passcode);
 	void _update_btns_flashing();
 	int _convert_byte_to_int(int);
 	void _add_digit_to_received(int);
 	void _update_right_wrong_leds(Passcode);
+	void _play_right_wrong_sound(Passcode, int);
 };
 
 #endif

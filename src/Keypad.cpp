@@ -139,6 +139,7 @@ void Keypad::_register_queued_key(Passcode passcode){
 		}
 		_update_display();
 		_update_right_wrong_leds(passcode);
+		_play_right_wrong_sound(passcode, _queued_num);
 		_queued_num = -1;
 	}
 }
@@ -331,6 +332,8 @@ int Keypad::get_entered_code(){
 
 /*
 	turn leds on or off if the user has entered correct or incorrect values
+
+	:param passcode: Passcode object to compare against
 */
 void Keypad::_update_right_wrong_leds(Passcode passcode){
 	for (int i=0; i<CODE_LENGTH; i++){
@@ -347,6 +350,39 @@ void Keypad::_update_right_wrong_leds(Passcode passcode){
 			g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
 		}
 		g_shifter_dual.write();
+	}
+}
+
+
+/*
+	play a sound to indicate whether the correct digit was entered
+
+	:param passcode: Passcode object to compare against
+	:param entered_digit: the last entered digit
+*/
+void Keypad::_play_right_wrong_sound(Passcode passcode, int entered_digit){
+	int pass_index = -1;
+
+	if (entered_digit == 12){
+		// OK
+		return;
+	} else if ( entered_digit == 11){
+		g_sound_manager.play_sound(8);
+		return;
+	} else {
+		for (int i=CODE_LENGTH-1; i>=0; i--){
+			if (_entered_values[i] > -1){
+				pass_index = i;
+				break;
+			}
+		}
+		if (pass_index > -1){
+			g_sound_manager.play_sound(6);
+			if (passcode.get_digit(pass_index) != entered_digit){
+				g_sound_manager.play_sound(7);
+			}
+			return;
+		}
 	}
 }
 
