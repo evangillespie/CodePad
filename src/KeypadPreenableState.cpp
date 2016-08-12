@@ -47,8 +47,8 @@ void KeypadPreenableState::_dispatcher() {
 
 			//Servo 8 move from 0-500 @ speed=100
 
-			// Brick warning sound triggers when led is high
-			g_led_flash_manager.start_flasher_with_sound(3, 4.0, 1);
+			// Door warning sound triggers when led is high
+			g_led_flash_manager.start_flasher_with_sound(3, 4.0, 2);
 			_substate = 0;
 			_increment_state();
 			break;
@@ -56,7 +56,7 @@ void KeypadPreenableState::_dispatcher() {
 			if (_substate == 0){
 				Serial.println("Preenable: Th-Three");
 				g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
-				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 1);//Brick warning LED flashed @ 12 hz for 2 seconds
+				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 2);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
 				_substate = 1;
 			} else if (_substate == 1){
@@ -74,7 +74,7 @@ void KeypadPreenableState::_dispatcher() {
 				
 				// Servo 4 move from 0 - 540 @speed of 71
 				
-				// Keypad door sound triggers
+				// Keypad door sound triggers or possile "doorOpenSound"
 				g_sound_manager.play_sound(1);
 
 				// Wait for Servo 1-4 to get to final position

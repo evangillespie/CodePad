@@ -42,7 +42,7 @@ void SuccessState::_dispatcher() {
 			Serial.println("One");
 			
 			//goodpin sound
-			g_sound_manager.play_sound(1);
+			g_sound_manager.play_sound(10);
 
 			//control panel leds off
 			digitalWrite(KEYPAD_NUMBERS_LED, LOW);
@@ -83,8 +83,8 @@ void SuccessState::_dispatcher() {
 			//TODO:
 			//Red Crystal fades up and down at random times continuously until end of next state
 
-			//TODO:
 			//trigger power crystal sound
+			g_sound_manager.play_sound(11); 
 
 			break;
 		case 3:
@@ -98,7 +98,7 @@ void SuccessState::_dispatcher() {
 			//servos 10, 11, 12 move
 
 
-			//power crystal sound off
+			g_sound_manager.stop_sound(11);
 
 			//turn power crystal led off
 			digitalWrite(LED_12_PIN, LOW);
@@ -112,11 +112,12 @@ void SuccessState::_dispatcher() {
 			//TODO EVAN: after random times, all digit displays turn off (pause23-26)
 
 			//brick warning finger flashed @ 5hz and brick warning sound triggers when brick warning finger is high
-			g_led_flash_manager.start_flasher_with_sound(3, 5.0, 1);
+			g_led_flash_manager.start_flasher_with_sound(3, 5.0, 3);
 			
 			//Servos 1, 2, 3, 4 move
 
 			//keypad door sound triggers
+			g_sound_manager.play_sound(1);
 
 			break;
 		case 5:

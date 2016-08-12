@@ -33,7 +33,7 @@ void FailState::_dispatcher() {
 		case 0:
 			Serial.println("Fail: Zero");
 			// badpin sound
-			g_sound_manager.play_sound(1);
+			g_sound_manager.play_sound(9);
 
 			// clear bargraph
 			Keypad::clear_bargraph();
@@ -50,6 +50,10 @@ void FailState::_dispatcher() {
 			
 			// turn off all pindigit leds
 			Keypad::turn_off_right_wrong_leds();
+
+			// timer sound off
+			g_sound_manager.stop_sound(4);
+			g_sound_manager.stop_sound(5);
 
 			_increment_state();
 			break;
@@ -81,7 +85,7 @@ void FailState::_dispatcher() {
 			//Servo 5 moves
 
 			//Brick warning finger flashes @ 5hz. blick warning sound triggers on high
-			g_led_flash_manager.start_flasher_with_sound(3, 5, 1);
+			g_led_flash_manager.start_flasher_with_sound(3, 5, 3);
 
 			_increment_state();
 			break;
