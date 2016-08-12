@@ -21,3 +21,13 @@ SoundManager::SoundManager() {
 void SoundManager::play_sound(int sound_index){
 	_wTrig.trackPlayPoly(sound_index);
 }
+
+
+/*
+	Stop a particular sound if it's playing
+
+	:param sound_index: the sound to stop
+*/
+void SoundManager::stop_sound(int sound_index){
+	Serial.println("Stopping Sound");
+}

@@ -14,6 +14,7 @@ class SoundManager{
 	public:
 		SoundManager();
 		void play_sound(int);
+		void stop_sound(int);
 	private:
 		wavTrigger _wTrig;
 };
