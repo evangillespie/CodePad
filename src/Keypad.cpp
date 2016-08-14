@@ -105,9 +105,9 @@ void Keypad::_is_key_pressed(Passcode passcode){
 	else if (digitalRead(KEYPAD_NUMBER_7)){
 		_queued_num = 7;
 	}
-	// else if (digitalRead(KEYPAD_NUMBER_8)){
-	// 	_queued_num = 8;
-	// }
+	 else if (digitalRead(KEYPAD_NUMBER_8)){
+	 	_queued_num = 8;
+	}
 	else if (digitalRead(KEYPAD_NUMBER_9)){
 		_queued_num = 9;
 	}
