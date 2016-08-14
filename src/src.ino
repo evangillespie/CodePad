@@ -40,10 +40,10 @@ Shifter g_shifter_dual(DUAL_SHIFT_REGISTER_SER_IN_PIN,
 
 void setup() {
 	Serial.begin(9600);
-	
-	randomSeed(analogRead(UNCONNECTED_PIN));	// make sure this is always reading an unconnected pin
+	while (!Serial); // while the serial stream is not open, do nothing
+	delay(100);
 
-	state_machine.begin(0);
+	randomSeed(analogRead(UNCONNECTED_PIN));	// make sure this is always reading an unconnected pin
 
 	//prep the shift registers
 	g_shifter_quad.clear();
@@ -51,6 +51,7 @@ void setup() {
 	g_shifter_dual.clear();
 	g_shifter_dual.write();
 
+	state_machine.begin(0);
 }
 
 void loop() {

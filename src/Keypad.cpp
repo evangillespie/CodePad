@@ -84,32 +84,44 @@ void Keypad::update(Passcode passcode) {
 	save that a key was pressed on the keypad
 */
 void Keypad::_is_key_pressed(Passcode passcode){
-	if (digitalRead(KEYPAD_NUMBER_1))
+	if (digitalRead(KEYPAD_NUMBER_1)){
 		_queued_num = 1;
-	else if (digitalRead(KEYPAD_NUMBER_2))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_2)){
 		_queued_num = 2;
-	else if (digitalRead(KEYPAD_NUMBER_3))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_3)){
 		_queued_num = 3;
-	else if (digitalRead(KEYPAD_NUMBER_4))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_4)){
 		_queued_num = 4;
-	else if (digitalRead(KEYPAD_NUMBER_5))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_5)){
 		_queued_num = 5;
-	else if (digitalRead(KEYPAD_NUMBER_6))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_6)){
 		_queued_num = 6;
-	else if (digitalRead(KEYPAD_NUMBER_7))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_7)){
 		_queued_num = 7;
-	else if (digitalRead(KEYPAD_NUMBER_8))
-		_queued_num = 8;
-	else if (digitalRead(KEYPAD_NUMBER_9))
+	}
+	// else if (digitalRead(KEYPAD_NUMBER_8)){
+	// 	_queued_num = 8;
+	// }
+	else if (digitalRead(KEYPAD_NUMBER_9)){
 		_queued_num = 9;
-	else if (digitalRead(KEYPAD_NUMBER_0))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_0)){
 		_queued_num = 0;
-	else if (digitalRead(KEYPAD_NUMBER_CLR))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_CLR)){
 		_queued_num = 11;
-	else if (digitalRead(KEYPAD_NUMBER_OK))
+	}
+	else if (digitalRead(KEYPAD_NUMBER_OK)){
 		_queued_num = 12;
-	else
+	} else {
 		_register_queued_key(passcode);
+	}
 }
 
 
