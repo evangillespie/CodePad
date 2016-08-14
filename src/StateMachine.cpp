@@ -30,7 +30,6 @@ void StateMachine::begin(int init_state) {
 
 	_keypad.init();
 	_display.init();
-
 }
 
 
@@ -41,6 +40,9 @@ void StateMachine::begin(int init_state) {
 */
 void StateMachine::set_state(int new_state) {
 	switch(new_state) {
+		case 2:
+			_keypad_preenable_state.reset();
+			break;
 		case 3:
 			_keypad.reset();
 			_keypad.clear_bargraph();
