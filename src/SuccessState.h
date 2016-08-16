@@ -12,10 +12,12 @@
 #include "LEDFlashManager.h"
 #include "LEDFadeManager.h"
 #include "SoundManager.h"
+#include "ServoManager.h"
 
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
 extern SoundManager g_sound_manager;
+extern ServoManager g_servo_manager;
 
 class SuccessState: public ProcedureState {
 public:

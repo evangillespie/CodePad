@@ -34,18 +34,30 @@ void KeypadPreenableState::_dispatcher() {
 			// g_sound_manager.play_sound(1);
 			Serial.println("Preenable zero");
 			//Servo 6 move from 0-500 @ speed=100
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(6, 500, 100);
 			_increment_state();
 			break;
 		case 1:
 			Serial.println("Preenable: One");
 			//Servo 7 move from 0-500 @ speed=100
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(7, 500, 100);
+
+			//TODO:
 			//Wait for Servo 7 to reach 500
+			//servo index, final pos, speed
+			g_servo_manager.read_servo(7);
+
 			_increment_state();
 			break;
 		case 2:
 			Serial.println("Preenable: Big Two");
 
 			//Servo 8 move from 0-500 @ speed=100
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(8, 500, 100);
+
 
 			// Door warning sound triggers when led is high
 			g_led_flash_manager.start_flasher_with_sound(3, 4.0, 2);
@@ -67,17 +79,31 @@ void KeypadPreenableState::_dispatcher() {
 				g_led_flash_manager.stop_flasher(3);
 
 				// Servo 1 Move from 500 - 955 @ speed=60
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(1, 955, 60);
 
+				//TODO: get direction
 				// Servo 2 Move from 500 - 45 @ speed of 60
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(2, 45, 60);
 				
 				// Servo 3 move from 1000 - 460 @ speed of 71
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(3, 460, 71);
 				
 				// Servo 4 move from 0 - 540 @speed of 71
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(4, 540, 71);
 				
 				// Keypad door sound triggers or possile "doorOpenSound"
 				g_sound_manager.play_sound(1);
 
+				//TODO:
 				// Wait for Servo 1-4 to get to final position
+				g_servo_manager.read_servo(1);
+				g_servo_manager.read_servo(2);
+				g_servo_manager.read_servo(3);
+				g_servo_manager.read_servo(4);
 
 				_increment_state();
 			}
@@ -109,8 +135,11 @@ void KeypadPreenableState::_dispatcher() {
 			digitalWrite(KEYPAD_NUMBERS_LED, HIGH);
 
 			//servo5 move from 0 - 500 @ speed = 100
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(5, 500, 100);
 
 			//Wait for servo5 to reach 500
+			g_servo_manager.read_servo(5);
 
 			//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
 			

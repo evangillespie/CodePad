@@ -94,6 +94,8 @@ void SuccessState::_dispatcher() {
 			//turn off timer led
 
 			//Servo 6 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(6, 0, 100);
 			//servo 5 moves
 			//servos 10, 11, 12 move
 
