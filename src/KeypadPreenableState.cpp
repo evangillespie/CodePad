@@ -37,22 +37,27 @@ void KeypadPreenableState::_dispatcher() {
 			//servo index, final pos, speed
 			g_servo_manager.move_servo(6, 500, 100);
 			_increment_state();
+			_substate = 0;
 			break;
 		case 1:
 			Serial.println("Preenable: One");
 			//Servo 7 move from 0-500 @ speed=100
 			//servo index, final pos, speed
-			g_servo_manager.move_servo(7, 500, 100);
-
-			//TODO:
-			//Wait for Servo 7 to reach 500
-			//servo index, final pos, speed
-			g_servo_manager.read_servo(7);
-
-			_increment_state();
+			if (_substate == 0){
+				g_servo_manager.move_servo(7, 500, 100);
+				_substate++;
+			} else if (_substate == 1){
+				//Wait for Servo 7 to reach 500
+				if (g_servo_manager.read_servo(7) == 500){
+					_substate++;
+				}
+			} else {
+				_increment_state();
+				_substate = 0;
+			}
 			break;
 		case 2:
-			Serial.println("Preenable: Big Two");
+			Serial.println("Preenable: Two");
 
 			//Servo 8 move from 0-500 @ speed=100
 			//servo index, final pos, speed
@@ -66,7 +71,7 @@ void KeypadPreenableState::_dispatcher() {
 			break;
 		case 3:
 			if (_substate == 0){
-				Serial.println("Preenable: Th-Three");
+				Serial.println("Preenable: Three");
 				g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
 				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 2);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
@@ -75,7 +80,7 @@ void KeypadPreenableState::_dispatcher() {
 				if (millis() >= (_stored_time + 2000)){
 					_substate = 2;
 				}
-			} else {
+			} else if (_substate == 2){
 				g_led_flash_manager.stop_flasher(3);
 
 				// Servo 1 Move from 500 - 955 @ speed=60
@@ -97,53 +102,64 @@ void KeypadPreenableState::_dispatcher() {
 				
 				// Keypad door sound triggers or possile "doorOpenSound"
 				g_sound_manager.play_sound(1);
-
-				//TODO:
+				_substate = 3;
+			} else if (_substate == 3){
 				// Wait for Servo 1-4 to get to final position
-				g_servo_manager.read_servo(1);
-				g_servo_manager.read_servo(2);
-				g_servo_manager.read_servo(3);
-				g_servo_manager.read_servo(4);
-
+				if ( 
+					g_servo_manager.read_servo(1) == 955 &&
+					g_servo_manager.read_servo(2) == 45 &&
+					g_servo_manager.read_servo(3) == 460 &&
+					g_servo_manager.read_servo(4) == 540
+				){
+					_substate = 4;
+				}
+			} else {
 				_increment_state();
+				_substate = 0;
 			}
 			break;
 		case 4:
-			Serial.println("Preenable: Four");
-			
-			//get pot value
-			_substate = analogRead(ANALOG_INPUT_1) / 4; 
+			if (_substate == 0){
+				Serial.println("Preenable: Four");
+				
+				//get pot value. use _susbstate temporarily so we don't need another variable
+				_substate = analogRead(ANALOG_INPUT_1) / 4; 
 
-			// keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds
-			g_led_fade_manager.fade(11, 3000, 0, _substate);
+				// keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds
+				g_led_fade_manager.fade(11, 3000, 0, _substate);
 
-			// Button 3 - keypadbutton's fade from 0 - max over 3 seconds
-			g_led_fade_manager.fade(5, 3000, 0, 255); 
+				// Button 3 - keypadbutton's fade from 0 - max over 3 seconds
+				g_led_fade_manager.fade(5, 3000, 0, 255); 
 
-			// Button 2 - keypadbutton's fade from 0 - max over 3 seconds
-			g_led_fade_manager.fade(6, 3000, 0, 255); 
+				// Button 2 - keypadbutton's fade from 0 - max over 3 seconds
+				g_led_fade_manager.fade(6, 3000, 0, 255); 
 
-			// Button 1 - keypadbutton's fade from 0 - max over 3 seconds
-			g_led_fade_manager.fade(7, 3000, 0, 255); 
+				// Button 1 - keypadbutton's fade from 0 - max over 3 seconds
+				g_led_fade_manager.fade(7, 3000, 0, 255); 
 
-			//TimerLED no pin yet - NOTE: on Shift register
+				//TimerLED no pin yet - NOTE: on Shift register
 
-			//keypadyellow LEDs fade from max - 0 over 4 seconds
-			g_led_fade_manager.fade(2, 4000, 255, 0);
+				//keypadyellow LEDs fade from max - 0 over 4 seconds
+				g_led_fade_manager.fade(2, 4000, 255, 0);
 
-			//control panel leds on
-			digitalWrite(KEYPAD_NUMBERS_LED, HIGH);
+				//control panel leds on
+				digitalWrite(KEYPAD_NUMBERS_LED, HIGH);
 
-			//servo5 move from 0 - 500 @ speed = 100
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(5, 500, 100);
+				//servo5 move from 0 - 500 @ speed = 100
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(5, 500, 100);
 
-			//Wait for servo5 to reach 500
-			g_servo_manager.read_servo(5);
-
-			//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
-			
-			_increment_state();
+				//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
+				
+				_substate = 1;
+			} else if (_substate == 1){
+				if (g_servo_manager.read_servo(5) == 500){
+					_substate = 2;
+				}
+			} else {
+				_increment_state();
+				_substate = 0;
+			}
 			break;
 		case 5:
 			_increment_state();

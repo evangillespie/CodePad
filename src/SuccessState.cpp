@@ -36,7 +36,7 @@ void SuccessState::_dispatcher() {
 			// clear bargraph
 			Keypad::clear_bargraph();
 
-			//timersound off
+			_increment_state();
 			break;
 		case 1:
 			Serial.println("One");
@@ -57,6 +57,7 @@ void SuccessState::_dispatcher() {
 			digitalWrite(KEYPAD_NUMBER_CLR_LED, LOW);
 			digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
+			_increment_state();
 			break;
 		case 2:
 			Serial.println("Two");
@@ -85,100 +86,137 @@ void SuccessState::_dispatcher() {
 
 			//trigger power crystal sound
 			g_sound_manager.play_sound(11); 
-
+			_substate = 0;
+			_increment_state();
 			break;
 		case 3:
 			Serial.println("Three");
+			if (_substate == 0){
+				//TODO:
+				//turn off timer led
 
-			//TODO:
-			//turn off timer led
+				//Servo 6 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(6, 0, 100);
+				//servo 5 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(5, 0, 100);
 
-			//Servo 6 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(6, 0, 100);
-			//servo 5 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(5, 0, 100);
+				//servos 10, 11, 12 move
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(10, 0, 100);
+				g_servo_manager.move_servo(11, 0, 100);
+				g_servo_manager.move_servo(12, 0, 100);
 
-			//servos 10, 11, 12 move
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(10, 0, 100);
-			g_servo_manager.move_servo(11, 0, 100);
-			g_servo_manager.move_servo(12, 0, 100);
+				_substate = 1;
+			} else if (_substate == 1){
+				//wait for servos to reach final pos
+				if (
+					g_servo_manager.read_servo(10) == 0 &&
+					g_servo_manager.read_servo(11) == 0 &&
+					g_servo_manager.read_servo(12) == 0
+				){
+					_substate = 2;
+				}
+			} else {
+				g_sound_manager.stop_sound(11);
 
-			//TODO wait for servos to reach final pos
-
-
-			g_sound_manager.stop_sound(11);
-
-			//turn power crystal led off
-			digitalWrite(LED_12_PIN, LOW);
-
+				//turn power crystal led off
+				digitalWrite(LED_12_PIN, LOW);
+				_increment_state();
+				_substate = 0;
+			}
 			break;
 		case 4:
 			Serial.println("Four");
 
-			//Servo 13 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(13, 500, 100);
+			if (_substate == 0){
+				//Servo 13 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(13, 500, 100);
 
-			//TODO EVAN: after random times, all digit displays turn off (pause23-26)
+				//TODO EVAN: after random times, all digit displays turn off (pause23-26)
 
-			//brick warning finger flashed @ 5hz and brick warning sound triggers when brick warning finger is high
-			g_led_flash_manager.start_flasher_with_sound(3, 5.0, 3);
-			
-			//Servos 1, 2, 3, 4 move
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(1, 500, 60);
+				//brick warning finger flashed @ 5hz and brick warning sound triggers when brick warning finger is high
+				g_led_flash_manager.start_flasher_with_sound(3, 5.0, 3);
+				
+				//Servos 1, 2, 3, 4 move
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(1, 500, 60);
 
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(2, 500, 60);
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(2, 500, 60);
 
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(3, 1000, 71);
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(3, 1000, 71);
 
-			//keypad door sound triggers
-			g_sound_manager.play_sound(1);
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(4, 0, 71);
 
+				_substate = 1;
+			} else if (_substate == 1){
+				if (
+					g_servo_manager.read_servo(1) == 500 &&
+					g_servo_manager.read_servo(2) == 500 &&
+					g_servo_manager.read_servo(3) == 1000 &&
+					g_servo_manager.read_servo(4) == 0
+				){
+					_substate = 2;
+				}
+			} else {
+				//keypad door sound triggers
+				g_sound_manager.play_sound(1);
+				_increment_state();
+			}
 			break;
 		case 5:
 			Serial.println("Five");
 
-			//turn off brick warning led and sound
-			g_led_flash_manager.stop_flasher(3);
+			if (_substate == 0){
+				//turn off brick warning led and sound
+				g_led_flash_manager.stop_flasher(3);
 
-			//servo 8 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(8, 0, 100);
+				//servo 8 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(8, 0, 100);
 
-			//TODO: When servo 8 reaches final pos continue
+				//TODO: When servo 8 reaches final pos continue
 
-			//servo 7 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(7, 0, 100);
+				//servo 7 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(7, 0, 100);
 
-			//keypad yellow leds fade up over 10s");
-			g_led_fade_manager.fade(1, 10000, 0, 255);
+				//keypad yellow leds fade up over 10s");
+				g_led_fade_manager.fade(1, 10000, 0, 255);
 
-			//3-6 minute pause
+				//3-6 minute pause
 
-			//turn paintinglight off NOTE: no pin assinged
+				//turn paintinglight off NOTE: no pin assinged
 
-			//Servo 13 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(13, 0, 100);
-			//TODO: When Servo 13 is at final position continue
+				//Servo 13 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(13, 0, 100);
 
-			//Servos 10, 11, 12 move
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(10, 0, 100);
-			g_servo_manager.move_servo(11, 0, 100);
-			g_servo_manager.move_servo(12, 0, 100);
+				_substate = 1;
+			} else if (_substate == 1){
+				//When Servo 13 is at final position continue
+				if (g_servo_manager.read_servo(13) == 0){
+					_substate = 2;
+				}
+			} else {
 
+				//Servos 10, 11, 12 move
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(10, 0, 100);
+				g_servo_manager.move_servo(11, 0, 100);
+				g_servo_manager.move_servo(12, 0, 100);
+
+				_increment_state();
+				_substate = 0;
+			}
 			break;
+
 		default:
 			Serial.println("You're in a weird state, brah");
 	}
-
-	_increment_state();
 }

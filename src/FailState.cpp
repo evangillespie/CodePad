@@ -92,50 +92,70 @@ void FailState::_dispatcher() {
 			g_led_flash_manager.start_flasher_with_sound(3, 5, 3);
 
 			_increment_state();
+			_substate = 0;
 			break;
 		case 3:
 			Serial.println("Fail: Three");
 
-			// Servo 1 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(1, 500, 60);
+			if (_substate == 0){
+				// Servo 1 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(1, 500, 60);
 
-			// Servo 2 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(2, 500, 60);
+				// Servo 2 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(2, 500, 60);
 
-			// Servo 3 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(3, 1000, 71);
+				// Servo 3 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(3, 1000, 71);
 
-			// Servo 4 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(4, 540, 71);
+				// Servo 4 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(4, 540, 71);
 
-			// Keypad door sound
-			g_sound_manager.play_sound(1);
+				// Keypad door sound
+				g_sound_manager.play_sound(1);
 
-			_increment_state();
+				_substate = 1;
+			} else if (_substate == 1){
+				if (
+					g_servo_manager.read_servo(1) == 500 &&
+					g_servo_manager.read_servo(2) == 500 &&
+					g_servo_manager.read_servo(3) == 1000 &&
+					g_servo_manager.read_servo(4) == 540		
+				){
+					_substate = 2;
+				}
+			} else {
+				_increment_state();
+				_substate = 0;
+			}
 			break;
 		case 4:
 			Serial.println("Fail: Four");
 			
-			//turn off brick warning led
-			g_led_flash_manager.stop_flasher(3);
-			
-			// turn off timer led
-			// g_led_flash_manager.stop_flasher(*); wating on pin assignment
+			if (_substate == 0){
+				//turn off brick warning led
+				g_led_flash_manager.stop_flasher(3);
+				
+				// turn off timer led
+				// g_led_flash_manager.stop_flasher(*); wating on pin assignment
 
-			// Servo 8 moves
-			//servo index, final pos, speed
-			g_servo_manager.move_servo(8, 0, 100);
+				// Servo 8 moves
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(8, 0, 100);
 
-			// wait until servo 8 stops moving
-			//TODO wait for servo 8
-
-
-			_increment_state();
-			_substate = 0;
+				_substate = 1;
+			} else if (_substate == 1){
+				// wait until servo 8 stops moving
+				if (g_servo_manager.read_servo(8) == 0){
+					_substate = 2;
+				}
+			} else {
+				_increment_state();
+				_substate = 0;
+			}
 			break;
 		case 5:
 			if (_substate == 0){
