@@ -8,13 +8,15 @@
 #define Display_h
 
 #include <Shifter.h>
+#include <Adafruit_LEDBackpack.h>
 
 #include "Arduino.h"
 #include "Passcode.h"
 #include "Pins.h"
-#include <Adafruit_LEDBackpack.h>
+#include "Servomanager.h"
 
 extern Shifter g_shifter_quad;
+extern ServoManager g_servo_manager;
 
 class Display {
 public:

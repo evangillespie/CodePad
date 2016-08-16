@@ -172,7 +172,39 @@ void Display::_display_led_matrix(int display_digit){
 	:param display_digit: the number to display with the servo
 */
 void Display::_display_servo(int display_digit){
-	Serial.print("SER:");
-	Serial.print(display_digit);
-	Serial.print("\n");
+	// @TODO: put the real positions in here for each number when you have them
+	// @TODO: put the real servo id in each of these move_servo commands
+	// @TODO: put the real speed in each of these move_servo commands
+	switch(display_digit){
+		case 0:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 1:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 2:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 3:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 4:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 5:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 6:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 7:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 8:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+		case 9:
+			g_servo_manager.move_servo(1, 100, 100);
+			break;
+	}
 }
