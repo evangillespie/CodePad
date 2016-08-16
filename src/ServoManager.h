@@ -8,6 +8,7 @@
 #define ServoManager_h
 
 #include "Arduino.h"
+#include <DynamixelSerial1.h>
 
 class ServoManager{
 	public:
