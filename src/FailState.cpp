@@ -62,6 +62,8 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: One");
 
 			// Servo 6 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(6, 500, 100);
 
 			// Turn off Bricklamp led
 			// g_led_flash_manager.stop_flasher(*)	waiting on pin assignment
@@ -83,6 +85,8 @@ void FailState::_dispatcher() {
 			g_led_fade_manager.fade(1, 5000, 255, 0);
 	
 			//Servo 5 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(5, 0, 100);
 
 			//Brick warning finger flashes @ 5hz. blick warning sound triggers on high
 			g_led_flash_manager.start_flasher_with_sound(3, 5, 3);
@@ -93,9 +97,20 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: Three");
 
 			// Servo 1 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(1, 500, 60);
+
 			// Servo 2 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(2, 500, 60);
+
 			// Servo 3 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(3, 1000, 71);
+
 			// Servo 4 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(4, 540, 71);
 
 			// Keypad door sound
 			g_sound_manager.play_sound(1);
@@ -112,7 +127,12 @@ void FailState::_dispatcher() {
 			// g_led_flash_manager.stop_flasher(*); wating on pin assignment
 
 			// Servo 8 moves
+			//servo index, final pos, speed
+			g_servo_manager.move_servo(8, 0, 100);
+
 			// wait until servo 8 stops moving
+			//TODO wait for servo 8
+
 
 			_increment_state();
 			_substate = 0;
@@ -122,6 +142,8 @@ void FailState::_dispatcher() {
 				Serial.println("Fail: Five");
 				
 				// move servo 7
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(7, 0, 100);
 
 				_stored_time = millis();
 				for (int i=0; i < 4; i++){
