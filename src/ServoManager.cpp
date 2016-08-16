@@ -5,30 +5,32 @@
 /*
 	Constructor. Generic. Boring
 */
-ServoManager::ServoManager() {}
+ServoManager::ServoManager() {
+	Dynamixel.begin(1000000);
+}
 
 
 /*
 	Move a particular servo to a position at a speed
 
-	:param servo_index: the servo to move
+	:param servo_id: the servo to move
 	:param position: the final position to move to
 	:param speed: how fast to move
 
 	:return
 */
-void ServoManager::move_servo(int servo_index, int position, int speed){
-
+void ServoManager::move_servo(int servo_id, int position, int speed){
+	Dynamixel.moveSpeed(servo_id, position, speed);
 }
 
 
 /*
 	Get the position of a particular servo
 
-	:param servo_index: the servo to check
+	:param servo_id: the servo to check
 
 	:return: the position of the servo
 */
-int ServoManager::read_servo(int servo_index){
-
+int ServoManager::read_servo(int servo_id){
+	return Dynamixel.readPosition(servo_id);
 }
