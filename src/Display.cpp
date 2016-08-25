@@ -146,22 +146,14 @@ void Display::clear_nixie_tube(int tube_index){
 	:param display_digit: the number to show on the led matrix
 */
 void Display::_display_led_matrix(int display_digit){
+	// @TODO: this needs to be tested with hardware
 
-	//////////////////////////////////////////////
-	// INSERT CODE FOR THE ADAFRUIT MATRIX HERE //
-	//////////////////////////////////////////////
+	matrix.setCursor(1, 0);   // start at top left, with one pixel of spacing
+	matrix.setTextSize(1);    // size 1 == 8 pixels high
 
-	// use the matrix object, as in matrix.writeDisplay();
+	matrix.print(char(display_digit));
 
-	// Bargraph example below. Delete it when the matrix display is working.
-	// for (int i=0; i<24; i++){
-	// 	if (i == display_digit){
-	// 		barg.setBar(i, LED_GREEN);
-	// 	} else {
-	// 		barg.setBar(i, LED_OFF);
-	// 	}
-	// }
-	// barg.writeDisplay();
+	matrix.writeDisplay();
 }
 
 
