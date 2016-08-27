@@ -129,6 +129,7 @@ void KeypadPreenableState::_dispatcher() {
 				// keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds
 				g_led_fade_manager.fade(11, 3000, 0, _substate);
 
+				/*REMOVED 
 				// Button 3 - keypadbutton's fade from 0 - max over 3 seconds
 				g_led_fade_manager.fade(5, 3000, 0, 255); 
 
@@ -136,9 +137,17 @@ void KeypadPreenableState::_dispatcher() {
 				g_led_fade_manager.fade(6, 3000, 0, 255); 
 
 				// Button 1 - keypadbutton's fade from 0 - max over 3 seconds
-				g_led_fade_manager.fade(7, 3000, 0, 255); 
+				g_led_fade_manager.fade(7, 3000, 0, 255);
+				*/ 
 
+				//ADDED
+				//KEYPAD_NUMBERS_LED fade 0-max over 3 seconds
+				g_led_fade_manager.fade(13, 3000, 0, 255);
+
+				
 				//TimerLED no pin yet - NOTE: on Shift register
+				//TODO: on dual shift register pin 10
+				g_shifter_dual.setPin(10, HIGH);
 
 				//keypadyellow LEDs fade from max - 0 over 4 seconds
 				g_led_fade_manager.fade(2, 4000, 255, 0);
@@ -151,6 +160,10 @@ void KeypadPreenableState::_dispatcher() {
 				g_servo_manager.move_servo(5, SERVO_5_POSITION_B, SERVO_5_SPEED);
 
 				//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
+				//TODO: on dual shift register pin 9, find out if HIGH, LOW or FADE?
+				g_shifter_dual.setPin(9, HIGH);
+
+				g_shifter_dual.write();
 				
 				_substate = 1;
 			} else if (_substate == 1){
