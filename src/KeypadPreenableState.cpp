@@ -35,20 +35,21 @@ void KeypadPreenableState::_dispatcher() {
 			Serial.println("Preenable zero");
 			//Servo 6 move from 0-500 @ speed=100
 			//servo index, final pos, speed
-			g_servo_manager.move_servo(6, 500, 100);
+			g_servo_manager.move_servo(6,  SERVO_6_POSITION_B, SERVO_6_SPEED);
 			_increment_state();
 			_substate = 0;
 			break;
 		case 1:
 			Serial.println("Preenable: One");
 			//Servo 7 move from 0-500 @ speed=100
+			//Servo "Warning Bricks IN/OUT" extends outward
 			//servo index, final pos, speed
 			if (_substate == 0){
-				g_servo_manager.move_servo(7, 500, 100);
+				g_servo_manager.move_servo(7, SERVO_7_POSITION_B, SERVO_7_SPEED);
 				_substate++;
 			} else if (_substate == 1){
 				//Wait for Servo 7 to reach 500
-				if (g_servo_manager.read_servo(7) == 500){
+				if (g_servo_manager.read_servo(7) == SERVO_7_POSITION_B){
 					_substate++;
 				}
 			} else {
@@ -60,8 +61,9 @@ void KeypadPreenableState::_dispatcher() {
 			Serial.println("Preenable: Two");
 
 			//Servo 8 move from 0-500 @ speed=100
+			//Servo ""Warning Bricks rotation"  rotate to open (position B)
 			//servo index, final pos, speed
-			g_servo_manager.move_servo(8, 500, 100);
+			g_servo_manager.move_servo(8, SERVO_8_POSITION_B, SERVO_8_SPEED);
 
 
 			// Door warning sound triggers when led is high
@@ -83,22 +85,21 @@ void KeypadPreenableState::_dispatcher() {
 			} else if (_substate == 2){
 				g_led_flash_manager.stop_flasher(3);
 
-				// Servo 1 Move from 500 - 955 @ speed=60
+				// Servo Keypad door right A moves to open position (position B)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(1, 955, 60);
+				g_servo_manager.move_servo(1,SERVO_1_POSITION_B, SERVO_1_SPEED);
 
-				//TODO: get direction
-				// Servo 2 Move from 500 - 45 @ speed of 60
+				// Servo Keypad door right B moves to open position (position B)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(2, 45, 60);
+				g_servo_manager.move_servo(2, SERVO_2_POSITION_B, SERVO_2_SPEED);
 				
-				// Servo 3 move from 1000 - 460 @ speed of 71
+				// Servo Keypad door Left A moves to open position (position B)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(3, 460, 71);
+				g_servo_manager.move_servo(3, SERVO_3_POSITION_B, SERVO_3_SPEED);
 				
-				// Servo 4 move from 0 - 540 @speed of 71
+				// Servo Keypad door Left B moves to open position (position B)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(4, 540, 71);
+				g_servo_manager.move_servo(4, SERVO_4_POSITION_B, SERVO_4_SPEED);
 				
 				// Keypad door sound triggers or possile "doorOpenSound"
 				g_sound_manager.play_sound(1);
@@ -106,10 +107,10 @@ void KeypadPreenableState::_dispatcher() {
 			} else if (_substate == 3){
 				// Wait for Servo 1-4 to get to final position
 				if ( 
-					g_servo_manager.read_servo(1) == 955 &&
-					g_servo_manager.read_servo(2) == 45 &&
-					g_servo_manager.read_servo(3) == 460 &&
-					g_servo_manager.read_servo(4) == 540
+					g_servo_manager.read_servo(1) == SERVO_1_POSITION_B &&
+					g_servo_manager.read_servo(2) == SERVO_2_POSITION_B &&
+					g_servo_manager.read_servo(3) == SERVO_3_POSITION_B &&
+					g_servo_manager.read_servo(4) == SERVO_4_POSITION_B
 				){
 					_substate = 4;
 				}
@@ -147,13 +148,13 @@ void KeypadPreenableState::_dispatcher() {
 
 				//servo5 move from 0 - 500 @ speed = 100
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(5, 500, 100);
+				g_servo_manager.move_servo(5, SERVO_5_POSITION_B, SERVO_5_SPEED);
 
 				//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
 				
 				_substate = 1;
 			} else if (_substate == 1){
-				if (g_servo_manager.read_servo(5) == 500){
+				if (g_servo_manager.read_servo(5) == SERVO_5_POSITION_B){
 					_substate = 2;
 				}
 			} else {
