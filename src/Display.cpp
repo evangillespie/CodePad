@@ -169,34 +169,34 @@ void Display::_display_servo(int display_digit){
 	// @TODO: put the real speed in each of these move_servo commands
 	switch(display_digit){
 		case 0:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 435, 50);
 			break;
 		case 1:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 500, 50);
 			break;
 		case 2:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 590, 50);
 			break;
 		case 3:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 680, 50);
 			break;
 		case 4:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 760, 50);
 			break;
 		case 5:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 835, 50);
 			break;
 		case 6:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 100, 50);
 			break;
 		case 7:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 185, 50);
 			break;
 		case 8:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 265, 50);
 			break;
 		case 9:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 350, 50);
 			break;
 	}
 }
