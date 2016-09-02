@@ -38,6 +38,10 @@
 #define LED_FADE_TIME_INCREMENT 100
 
 
+// Maximum positional error in servo movements to trigger the next substate
+#define SERVO_MAXIMUM_ERROR 3
+
+
 // Destinations for the servo motors
 #define SERVO_1_POSITION_A 100
 #define SERVO_1_POSITION_B 200
