@@ -68,16 +68,16 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 	}
 	switch(_next_action){
 		case 0:
-			//fallthrough
-			// case 0 and 1 use nixie tubes
-		case 1:
-			_display_nixie_tube(_next_action, dig);
-			break;
-		case 2:
 			_display_led_matrix(dig);
 			break;
-		case 3:
+		case 1:
+			_display_nixie_tube(2, dig);
+			break;
+		case 2:
 			_display_servo(dig);
+			break;
+		case 3:
+			_display_nixie_tube(1, dig);
 			break;
 	}
 
