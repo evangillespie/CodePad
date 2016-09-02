@@ -109,9 +109,9 @@ void StateMachine::_generate_passcode_and_advance() {
 */
 void StateMachine::_update_display_and_advance() {
 	_display.update(_passcode);
-		if(_display.is_complete() == true){
-			set_state(2);
-		}
+	if(_display.is_complete() == true){
+		set_state(2);
+	}
 }
 
 

@@ -5,7 +5,7 @@
 */
 
 // Any unconnected pin
-#define UNCONNECTED_PIN 1
+#define UNCONNECTED_PIN A0
 
 
 // Keypad pins
