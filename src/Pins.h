@@ -43,8 +43,8 @@
 #define KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET 4	
 
 // Nixie Tube Shift register
-#define NIXIE_TUBE_1_PIN_OFFSET 16
-#define NIXIE_TUBE_2_PIN_OFFSET 20
+#define NIXIE_TUBE_1_PIN_OFFSET 0
+#define NIXIE_TUBE_2_PIN_OFFSET 4
 
 // LED pins
 #define LED_1_PIN 2  //yellow LEDs aka keypad Yellow
