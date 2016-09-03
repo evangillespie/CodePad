@@ -71,7 +71,7 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 			_display_led_matrix(dig);
 			break;
 		case 1:
-			_display_nixie_tube(2, dig);
+			_display_nixie_tube(1, dig);
 			break;
 		case 2:
 			_display_servo(dig);
@@ -125,12 +125,14 @@ void Display::_display_nixie_tube(int tube_index, int display_digit){
 void Display::clear_nixie_tube(int tube_index){
 	int offset;
 	switch(tube_index){
-		case 0:
+		case 1:
 			offset = NIXIE_TUBE_1_PIN_OFFSET;
 			break;
-		case 1:
+		case 2:
 			offset = NIXIE_TUBE_2_PIN_OFFSET;
 			break;
+		default:
+			Serial.println("Wrong nixie index");
 	}
 
 	for (int i=0; i < 4; i++){
