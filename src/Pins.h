@@ -51,14 +51,22 @@
 #define LED_2_PIN 44 //Keypad Blue numbers LEDs
 #define LED_3_PIN 23 //Warning Brick LED
 #define LED_4_PIN 25 //Warning Finger LED
-#define LED_5_PIN 27 //Button 3 LED
-#define LED_6_PIN 29 //Button 2 LED
-#define LED_7_PIN 31 //Button 1 LED
+#define LED_5_PIN 4 //Radar screen LED
+#define LED_6_PIN 5 //pizza coals inside pizza oven LED
+#define LED_7_PIN 6 //Clock illumination LEDs- 4 LEDs inside the clock face
 #define LED_8_PIN 39 //CLR LED
 #define LED_9_PIN 41 //OK LED
 #define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
+
+//Evan, these 5 solenoid pins need to be set LOW in initialization
+//Solenoid pins
+#define Tubaman 7 //tuba player that pops out of coo coo clock
+#define Warning_Bricks_mini 8 //miniature version of the warning bricks
+#define Stairs 9 //Brass stairs that pop up when cage lifts up
+#define Handrail 10 //Brass handrail door that opens when cage lifts up
+#define Pizza_oven_door 11 //pizza oven door
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
