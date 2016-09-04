@@ -65,7 +65,7 @@ void Keypad::init() {
 	bar.begin(0x70);
 	clear_bargraph();
 	_update_display();
-	digitalWrite(KEYPAD_NUMBERS_LED, LOW);
+	//digitalWrite(KEYPAD_NUMBERS_LED, LOW);
 	clear_4_digit();
 }
 
@@ -261,9 +261,9 @@ void Keypad::_update_status(Passcode passcode) {
 	if (_prev_bargraph_num_lights != _bargraph_num_lights
 			&& _prev_bargraph_num_lights != 0){
 		if (led_color == LED_RED){
-			g_sound_manager.play_sound(5);
+			g_sound_manager.play_sound(208);
 		} else {
-			g_sound_manager.play_sound(4);
+			g_sound_manager.play_sound(209);
 		}
 	}
 
@@ -379,7 +379,7 @@ void Keypad::_play_right_wrong_sound(Passcode passcode, int entered_digit){
 		// OK
 		return;
 	} else if ( entered_digit == 11){
-		g_sound_manager.play_sound(8);
+		g_sound_manager.play_sound(204);
 		return;
 	} else {
 		for (int i=CODE_LENGTH-1; i>=0; i--){
@@ -389,9 +389,9 @@ void Keypad::_play_right_wrong_sound(Passcode passcode, int entered_digit){
 			}
 		}
 		if (pass_index > -1){
-			g_sound_manager.play_sound(6);
+			g_sound_manager.play_sound(205);
 			if (passcode.get_digit(pass_index) != entered_digit){
-				g_sound_manager.play_sound(7);
+				g_sound_manager.play_sound(206);
 			}
 			return;
 		}
