@@ -192,8 +192,13 @@ void FailState::_dispatcher() {
 									// turn off led matrix
 									break;
 								case 3:
-									// clock begins to sweep back and forth from position A to position B 
-									//until it's called to display a code digit in the next loop
+									// clock illumination LEDs fade up
+									g_led_fade_manager.fade(7, 5000, 0, 100);
+									
+									//Green_LEDs_inside_clock turn off
+									g_shifter_quad.setPin(25,LOW);
+                        						g_shifter_quad.write();
+									
 									break;
 							}
 							_elements_turned_off[i] = true;
