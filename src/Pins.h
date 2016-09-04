@@ -62,11 +62,11 @@
 
 //Evan, these 5 solenoid pins need to be set LOW in initialization
 //Solenoid pins
-#define Tubaman 7 //tuba player that pops out of coo coo clock
-#define Warning_Bricks_mini 8 //miniature version of the warning bricks
-#define Stairs 9 //Brass stairs that pop up when cage lifts up
-#define Handrail 10 //Brass handrail door that opens when cage lifts up
-#define Pizza_oven_door 11 //pizza oven door
+#define TUBAMAN 7 //tuba player that pops out of coo coo clock
+#define WARNING_BRICKS_MINI 8 //miniature version of the warning bricks
+#define STAIRS 9 //Brass stairs that pop up when cage lifts up
+#define HANDRAIL 10 //Brass handrail door that opens when cage lifts up
+#define PIZZA_OVEN_DOOR 11 //pizza oven door
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
