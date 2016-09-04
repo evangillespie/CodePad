@@ -20,6 +20,9 @@
 
 extern Shifter g_shifter_quad;
 extern ServoManager g_servo_manager;
+extern LEDFlashManager g_led_flash_manager;
+extern LEDFadeManager g_led_fade_manager;
+extern SoundManager g_sound_manager;
 
 class Display {
 public:
