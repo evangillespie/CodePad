@@ -162,7 +162,7 @@
 //clock clockwise
 #define SERVO_14_POSITION_A 1
 //clock counter clockwise
-#define SERVO_14_POSITION_B 1100
+#define SERVO_14_POSITION_B 1000
 
 #define SERVO_14_SPEED 10
 
