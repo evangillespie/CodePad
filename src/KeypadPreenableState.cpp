@@ -32,7 +32,6 @@ void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			// g_sound_manager.play_sound(1);
-			Serial.println("Preenable zero");
 			//Servo 6 move from 0-500 @ speed=100
 			//servo index, final pos, speed
 			g_servo_manager.move_servo(6, 500, 100);
@@ -40,7 +39,6 @@ void KeypadPreenableState::_dispatcher() {
 			_substate = 0;
 			break;
 		case 1:
-			Serial.println("Preenable: One");
 			//Servo 7 move from 0-500 @ speed=100
 			//servo index, final pos, speed
 			if (_substate == 0){
@@ -48,7 +46,7 @@ void KeypadPreenableState::_dispatcher() {
 				_substate++;
 			} else if (_substate == 1){
 				//Wait for Servo 7 to reach 500
-				if (g_servo_manager.read_servo(7) == 500){
+				if (g_servo_manager.is_servo_in_position(7)){
 					_substate++;
 				}
 			} else {
@@ -57,7 +55,6 @@ void KeypadPreenableState::_dispatcher() {
 			}
 			break;
 		case 2:
-			Serial.println("Preenable: Two");
 
 			//Servo 8 move from 0-500 @ speed=100
 			//servo index, final pos, speed
@@ -71,7 +68,6 @@ void KeypadPreenableState::_dispatcher() {
 			break;
 		case 3:
 			if (_substate == 0){
-				Serial.println("Preenable: Three");
 				g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
 				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 2);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
@@ -106,10 +102,10 @@ void KeypadPreenableState::_dispatcher() {
 			} else if (_substate == 3){
 				// Wait for Servo 1-4 to get to final position
 				if ( 
-					g_servo_manager.read_servo(1) == 955 &&
-					g_servo_manager.read_servo(2) == 45 &&
-					g_servo_manager.read_servo(3) == 460 &&
-					g_servo_manager.read_servo(4) == 540
+					g_servo_manager.is_servo_in_position(1) &&
+					g_servo_manager.is_servo_in_position(2) &&
+					g_servo_manager.is_servo_in_position(3) &&
+					g_servo_manager.is_servo_in_position(4)
 				){
 					_substate = 4;
 				}
@@ -120,7 +116,6 @@ void KeypadPreenableState::_dispatcher() {
 			break;
 		case 4:
 			if (_substate == 0){
-				Serial.println("Preenable: Four");
 				
 				//get pot value. use _susbstate temporarily so we don't need another variable
 				_substate = analogRead(ANALOG_INPUT_1) / 4; 
@@ -153,7 +148,7 @@ void KeypadPreenableState::_dispatcher() {
 				
 				_substate = 1;
 			} else if (_substate == 1){
-				if (g_servo_manager.read_servo(5) == 500){
+				if (g_servo_manager.is_servo_in_position(5)){
 					_substate = 2;
 				}
 			} else {
