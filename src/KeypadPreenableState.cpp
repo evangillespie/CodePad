@@ -70,7 +70,7 @@ void KeypadPreenableState::_dispatcher() {
 			break;
 		case 3:
 			//The power to the Keypad must be turned on here
-			digitalWrite(43,HIGH);
+			digitalWrite(LED_10_PIN,HIGH);
 			if (_substate == 0){
 				Serial.println("Preenable: Three");
 				g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
