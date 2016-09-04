@@ -71,10 +71,15 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 			_display_led_matrix(dig);
 			break;
 		case 1:
-			_display_nixie_tube(1, dig);
+			_display_nixie_tube(0, dig);
 			break;
 		case 2:
 			_display_servo(dig);
+			// clock illumination LEDs fade down
+		        g_led_fade_manager.fade(7, 5000, 100, 0);
+			//Green_LEDs_inside_clock turn ON
+			g_shifter_quad.setPin(25,HIGH);
+                        g_shifter_quad.write();
 			break;
 		case 3:
 			_display_nixie_tube(1, dig);
@@ -148,12 +153,11 @@ void Display::clear_nixie_tube(int tube_index){
 	:param display_digit: the number to show on the led matrix
 */
 void Display::_display_led_matrix(int display_digit){
-	// @TODO: this needs to be tested with hardware
 
-	matrix.setCursor(1, 0);   // start at top left, with one pixel of spacing
+	matrix.setCursor(2, 1);   // start at top left, with one pixel of spacing
 	matrix.setTextSize(1);    // size 1 == 8 pixels high
 
-	matrix.print(char(display_digit));
+	matrix.print((display_digit));
 
 	matrix.writeDisplay();
 }
@@ -166,9 +170,6 @@ void Display::_display_led_matrix(int display_digit){
 	:param display_digit: the number to display with the servo
 */
 void Display::_display_servo(int display_digit){
-	// @TODO: put the real positions in here for each number when you have them
-	// @TODO: put the real servo id in each of these move_servo commands
-	// @TODO: put the real speed in each of these move_servo commands
 	switch(display_digit){
 		case 0:
 			g_servo_manager.move_servo(14, 435, 50);

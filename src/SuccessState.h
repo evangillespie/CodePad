@@ -13,7 +13,10 @@
 #include "LEDFadeManager.h"
 #include "SoundManager.h"
 #include "ServoManager.h"
+#include <Shifter.h>
 
+extern Shifter g_shifter_dual;
+extern Shifter g_shifter_quad;
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
 extern SoundManager g_sound_manager;
@@ -27,6 +30,10 @@ private:
 	void _dispatcher();
 	long _get_pause_length(int);
 	int _get_max_state();
+        
+        unsigned long _times[4];
+	bool _elements_turned_off[4];
+
 };
 
 #endif

@@ -17,6 +17,8 @@ class SoundManager{
 		void stop_sound(int);
 	private:
 		wavTrigger _wTrig;
+                //Can I set the volume of the individual audio tracks here?
+                //_wTrig.trackGain(2, -40);     //This isn't compiling
 };
 
 #endif

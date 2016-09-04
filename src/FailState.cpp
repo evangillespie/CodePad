@@ -12,10 +12,10 @@ FailState::FailState() {
 
 long FailState::_get_pause_length(int index) {
 	long _pause_lengths[] = {
-		1000,	// pause before the 0th state - Pause 10
-		1000,	// pause before the 1st state - Pause 11
-		2000,	// 2nd - Pause 12
-		2000,	// 3 - Pause 13
+		3000,	// pause before the 0th state - Pause 10
+		3000,	// pause before the 1st state - Pause 11
+		4000,	// 2nd - Pause 12
+		5000,	// 3 - Pause 13
 		2000, 	// 4 - Pause 14
 		0 		// 5 - no pause
 	};
@@ -32,8 +32,8 @@ void FailState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			Serial.println("Fail: Zero");
-			// badpin sound
-			g_sound_manager.play_sound(9);
+			// badpin tuba sound
+			g_sound_manager.play_sound(random(300,311));
 
 			// clear bargraph
 			Keypad::clear_bargraph();
@@ -46,14 +46,15 @@ void FailState::_dispatcher() {
 			digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
 			// ControlPanel led off
-			digitalWrite(KEYPAD_NUMBERS_LED, LOW);
+                        g_shifter_dual.setPin(9,LOW);
+                        g_shifter_dual.write();
 			
 			// turn off all pindigit leds
 			Keypad::turn_off_right_wrong_leds();
 
 			// timer sound off
-			g_sound_manager.stop_sound(4);
-			g_sound_manager.stop_sound(5);
+			g_sound_manager.stop_sound(208);
+			g_sound_manager.stop_sound(209);
 
 			_increment_state();
 			break;
@@ -61,35 +62,38 @@ void FailState::_dispatcher() {
 		case 1:
 			Serial.println("Fail: One");
 
-			// Servo 6 moves
+			// Timer Panel Servo 6 moves to the left- position A
 			//servo index, final pos, speed
-			g_servo_manager.move_servo(6, 500, 100);
+			g_servo_manager.move_servo(6, SERVO_6_POSITION_A, SERVO_6_SPEED);
 
-			// Turn off Bricklamp led
-			// g_led_flash_manager.stop_flasher(*)	waiting on pin assignment
+			// Turn off Bricklamp LED
+			g_shifter_dual.setPin(8,LOW);
+                        g_shifter_dual.write();
 
 			// Keypad Green LED fades down over 3s
-			g_led_fade_manager.fade(11, 3000, 255, 0);
+			g_led_fade_manager.fade(11, 3000, 100, 0);
 			
-			// Keypad buttons fade down over 3s
-			g_led_fade_manager.fade(5, 3000, 255, 0);
-			g_led_fade_manager.fade(6, 3000, 255, 0);
-			g_led_fade_manager.fade(7, 3000, 255, 0);
+			// Keypad buttons Blue LEDs fade down over 3s
+			g_led_fade_manager.fade(2, 3000, 200, 0);
 
 			_increment_state();
 			break;
 		case 2:
 			Serial.println("Fail: Two");
 
-			// Keypad yellow leds fade down over 5s
-			g_led_fade_manager.fade(1, 5000, 255, 0);
+			// Keypad yellow leds fade up over 3s
+			g_led_fade_manager.fade(1, 3000, 0, 50);
 	
-			//Servo 5 moves
+			//Lightbrick Servo 5 moves to IN position (position A)
 			//servo index, final pos, speed
-			g_servo_manager.move_servo(5, 0, 100);
+			g_servo_manager.move_servo(5, SERVO_5_POSITION_A, SERVO_5_SPEED);
 
 			//Brick warning finger flashes @ 5hz. blick warning sound triggers on high
-			g_led_flash_manager.start_flasher_with_sound(3, 5, 3);
+			g_led_flash_manager.start_flasher_with_sound(4, 2, 206);
+
+			//Timer LEDs turned OFF
+                        g_shifter_dual.setPin(10,LOW);
+                        g_shifter_dual.write();
 
 			_increment_state();
 			_substate = 0;
@@ -98,32 +102,36 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: Three");
 
 			if (_substate == 0){
-				// Servo 1 moves
+				
+				//Keypad doors close
+					
+				// Keypad door right A Servo 1 moves to closed position (Position A)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(1, 500, 60);
+				g_servo_manager.move_servo(1, SERVO_1_POSITION_A, SERVO_1_SPEED);
 
-				// Servo 2 moves
+				// Keypad door right B Servo 2 moves to closed position (Position A)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(2, 500, 60);
+				g_servo_manager.move_servo(2, SERVO_2_POSITION_A, SERVO_2_SPEED);
 
-				// Servo 3 moves
+				// Keypad door left A Servo 3 moves to closed position (Position A)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(3, 1000, 71);
+				g_servo_manager.move_servo(3, SERVO_3_POSITION_A, SERVO_3_SPEED);
 
-				// Servo 4 moves
+				// Keypad door left B Servo 4 moves to closed position (Position A)
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(4, 540, 71);
+				g_servo_manager.move_servo(4, SERVO_4_POSITION_A, SERVO_4_SPEED);
 
-				// Keypad door sound
-				g_sound_manager.play_sound(1);
+                                // Miniature Keypad door servo moves to closed position (position A)
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(16, SERVO_16_POSITION_A, SERVO_16_SPEED);
+
+				g_sound_manager.play_sound(202);   // Keypad door sound
 
 				_substate = 1;
 			} else if (_substate == 1){
 				if (
-					g_servo_manager.read_servo(1) == 500 &&
-					g_servo_manager.read_servo(2) == 500 &&
-					g_servo_manager.read_servo(3) == 1000 &&
-					g_servo_manager.read_servo(4) == 540		
+					//read one of the Keypad door servos to see if its at closed position
+					g_servo_manager.read_servo(4) == SERVO_4_POSITION_A		
 				){
 					_substate = 2;
 				}
@@ -136,20 +144,20 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: Four");
 			
 			if (_substate == 0){
-				//turn off brick warning led
-				g_led_flash_manager.stop_flasher(3);
+				//turn off brick finger warning LED
+				g_led_flash_manager.stop_flasher(4);
 				
-				// turn off timer led
-				// g_led_flash_manager.stop_flasher(*); wating on pin assignment
-
-				// Servo 8 moves
+				//turn off the Keypad power MOSFET
+				digitalWrite(LED_10_PIN,LOW);
+				
+				// Warning Bricks rotation Servo 8 rotates to closed position
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(8, 0, 100);
+				g_servo_manager.move_servo(8, SERVO_8_POSITION_A, SERVO_8_SPEED);
 
 				_substate = 1;
 			} else if (_substate == 1){
-				// wait until servo 8 stops moving
-				if (g_servo_manager.read_servo(8) == 0){
+				// wait until Warning Bricks rotation servo 8 stops moving
+				if (g_servo_manager.read_servo(8) == SERVO_8_POSITION_A){
 					_substate = 2;
 				}
 			} else {
@@ -161,9 +169,9 @@ void FailState::_dispatcher() {
 			if (_substate == 0){
 				Serial.println("Fail: Five");
 				
-				// move servo 7
+				// move Warning Bricks IN/OUT servo 7 to IN position A
 				//servo index, final pos, speed
-				g_servo_manager.move_servo(7, 0, 100);
+				g_servo_manager.move_servo(7, SERVO_7_POSITION_A, SERVO_7_SPEED);
 
 				_stored_time = millis();
 				for (int i=0; i < 4; i++){
@@ -177,6 +185,7 @@ void FailState::_dispatcher() {
 						if (millis() >= _times[i]){
 							switch (i){
 								case 0:
+									//Evan, can you add the code to turn these displays off?
 									// turn off nixie tube 1
 									break;
 								case 1:
@@ -186,7 +195,13 @@ void FailState::_dispatcher() {
 									// turn off led matrix
 									break;
 								case 3:
-									// turn off clock led
+									// clock illumination LEDs fade up
+									g_led_fade_manager.fade(7, 5000, 0, 100);
+									
+									//Green_LEDs_inside_clock turn off
+									g_shifter_quad.setPin(25,LOW);
+                        						g_shifter_quad.write();
+									
 									break;
 							}
 							_elements_turned_off[i] = true;

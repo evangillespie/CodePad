@@ -10,10 +10,14 @@ PauseState::PauseState(){}
 
 
 /*
-	update the puse state. called ever iteration of the main loop
+	update the pause state. called ever iteration of the main loop
 */
 void PauseState::update() {
 	// @TODO: move the servo back and forth
+	//Evan, can you add the clock servo sweeping here
+	//servo 14 sweeps between SERVO_14_POSITION_A and SERVO_14_POSITION_B at SERVO_14_SPEED
+	
+	//g_servo_manager.move_servo(14, SERVO_14_POSITION_A, SERVO_14_SPEED);
 }
 
 

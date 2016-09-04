@@ -8,6 +8,9 @@
 #define Pause_State_h
 
 #include "Arduino.h"
+#include "ServoManager.h"
+
+extern ServoManager g_servo_manager;
 
 class PauseState {
 public:
