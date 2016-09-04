@@ -11,12 +11,12 @@ KeypadPreenableState::KeypadPreenableState() {
 
 long KeypadPreenableState::_get_pause_length(int index) {
 	long _pause_lengths[] = {
-		5000,	// pause before the 0th state - Pause 4
-		2000,	// pause before the 1st state 5
-		2000,	// 2nd Pause 6
-		2000,	// 3 Pause 7
-		2000,	// 4 - Pause 8
-		2000,	// 5 - Pause 9
+		8000,	// pause before the 0th state - Pause 4
+		5000,	// pause before the 1st state 5
+		4000,	// 2nd Pause 6
+		4000,	// 3 Pause 7
+		4000,	// 4 - Pause 8
+		4000,	// 5 - Pause 9
 
 	};
 		
@@ -31,24 +31,23 @@ int KeypadPreenableState::_get_max_state() {
 void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
-			// g_sound_manager.play_sound(1);
 			Serial.println("Preenable zero");
-			//Servo 6 move from 0-500 @ speed=100
-			//servo index, final pos, speed
+			//Timer panel moves to right position (position B)
+                        //servo index, final pos, speed
 			g_servo_manager.move_servo(6,  SERVO_6_POSITION_B, SERVO_6_SPEED);
 			_increment_state();
 			_substate = 0;
 			break;
 		case 1:
 			Serial.println("Preenable: One");
-			//Servo 7 move from 0-500 @ speed=100
 			//Servo "Warning Bricks IN/OUT" extends outward
 			//servo index, final pos, speed
 			if (_substate == 0){
 				g_servo_manager.move_servo(7, SERVO_7_POSITION_B, SERVO_7_SPEED);
+				g_sound_manager.play_sound(211);  //play air release sound
 				_substate++;
 			} else if (_substate == 1){
-				//Wait for Servo 7 to reach 500
+				//Wait for Servo "Warning Bricks IN/OUT" to reach outer postition
 				if (g_servo_manager.read_servo(7) == SERVO_7_POSITION_B){
 					_substate++;
 				}
@@ -60,22 +59,22 @@ void KeypadPreenableState::_dispatcher() {
 		case 2:
 			Serial.println("Preenable: Two");
 
-			//Servo 8 move from 0-500 @ speed=100
 			//Servo ""Warning Bricks rotation"  rotate to open (position B)
 			//servo index, final pos, speed
 			g_servo_manager.move_servo(8, SERVO_8_POSITION_B, SERVO_8_SPEED);
 
-
 			// Door warning sound triggers when led is high
-			g_led_flash_manager.start_flasher_with_sound(3, 4.0, 2);
+			g_led_flash_manager.start_flasher_with_sound(3, 1.5, 206);
 			_substate = 0;
 			_increment_state();
 			break;
 		case 3:
+			//The power to the Keypad must be turned on here
+			digitalWrite(43,HIGH);
 			if (_substate == 0){
 				Serial.println("Preenable: Three");
 				g_led_flash_manager.stop_flasher(3);//stop Brick warning LED from previous case
-				g_led_flash_manager.start_flasher_with_sound(3, 12.0, 2);//Brick warning LED flashed @ 12 hz for 2 seconds
+				g_led_flash_manager.start_flasher_with_sound(3, 5.0, 206);//Brick warning LED flashed @ 12 hz for 2 seconds
 				_stored_time = millis();
 				_substate = 1;
 			} else if (_substate == 1){
@@ -84,6 +83,8 @@ void KeypadPreenableState::_dispatcher() {
 				}
 			} else if (_substate == 2){
 				g_led_flash_manager.stop_flasher(3);
+				
+				//The Keypad doors open
 
 				// Servo Keypad door right A moves to open position (position B)
 				//servo index, final pos, speed
@@ -101,15 +102,16 @@ void KeypadPreenableState::_dispatcher() {
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(4, SERVO_4_POSITION_B, SERVO_4_SPEED);
 				
-				// Keypad door sound triggers or possile "doorOpenSound"
-				g_sound_manager.play_sound(1);
+				// Miniature Keypad door servo moves to open position (position B)
+				//servo index, final pos, speed
+				g_servo_manager.move_servo(16, SERVO_16_POSITION_B, SERVO_16_SPEED);
+				
+				g_sound_manager.play_sound(202);    // Keypad door sound triggers
 				_substate = 3;
 			} else if (_substate == 3){
 				// Wait for Servo 1-4 to get to final position
 				if ( 
-					g_servo_manager.read_servo(1) == SERVO_1_POSITION_B &&
-					g_servo_manager.read_servo(2) == SERVO_2_POSITION_B &&
-					g_servo_manager.read_servo(3) == SERVO_3_POSITION_B &&
+					//Read one of the Keypad door servos to see if it's at closed position
 					g_servo_manager.read_servo(4) == SERVO_4_POSITION_B
 				){
 					_substate = 4;
@@ -126,49 +128,32 @@ void KeypadPreenableState::_dispatcher() {
 				//get pot value. use _susbstate temporarily so we don't need another variable
 				_substate = analogRead(ANALOG_INPUT_1) / 4; 
 
-				// keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 3 seconds
-				g_led_fade_manager.fade(11, 3000, 0, _substate);
+				// keypadgreen LEDs fade from 0 - <keypadgreenpot> value over 4 seconds
+				g_led_fade_manager.fade(11, 4000, 0, _substate);
+//
+				//Keypad's blue LED number keys fade up 
+				//KEYPAD_NUMBERS_LED fade 0-200 over 3 seconds
+				g_led_fade_manager.fade(2, 3000, 0, 200);
 
-				/*REMOVED 
-				// Button 3 - keypadbutton's fade from 0 - max over 3 seconds
-				g_led_fade_manager.fade(5, 3000, 0, 255); 
-
-				// Button 2 - keypadbutton's fade from 0 - max over 3 seconds
-				g_led_fade_manager.fade(6, 3000, 0, 255); 
-
-				// Button 1 - keypadbutton's fade from 0 - max over 3 seconds
-				g_led_fade_manager.fade(7, 3000, 0, 255);
-				*/ 
-
-				//ADDED
-				//KEYPAD_NUMBERS_LED fade 0-max over 3 seconds
-				g_led_fade_manager.fade(13, 3000, 0, 255);
-
-				
-				//TimerLED no pin yet - NOTE: on Shift register
-				//TODO: on dual shift register pin 10
+				//TimerLED ON
 				g_shifter_dual.setPin(10, HIGH);
+				g_shifter_dual.write();
 
-				//keypadyellow LEDs fade from max - 0 over 4 seconds
-				g_led_fade_manager.fade(2, 4000, 255, 0);
+				//keypadyellow LEDs fade from 100 - 0 over 3 seconds
+				g_led_fade_manager.fade(1, 3000, 100, 0);
 
-				//control panel leds on
-				digitalWrite(KEYPAD_NUMBERS_LED, HIGH);
-
-				//servo5 move from 0 - 500 @ speed = 100
+				//Bricklight moves to outer position (B)
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(5, SERVO_5_POSITION_B, SERVO_5_SPEED);
-
-				//g_led_flash_manager.start_flasher(*,0);// NOTE: on Shift register
-				//TODO: on dual shift register pin 9, find out if HIGH, LOW or FADE?
-				g_shifter_dual.setPin(9, HIGH);
-
-				g_shifter_dual.write();
 				
 				_substate = 1;
 			} else if (_substate == 1){
+					//when Bricklight servo is out, turn on the Bricklight and timer LEDs
 				if (g_servo_manager.read_servo(5) == SERVO_5_POSITION_B){
-					_substate = 2;
+					g_shifter_dual.setPin(8,HIGH);
+                                	g_shifter_dual.setPin(9,HIGH);
+                                	g_shifter_dual.write();
+						_substate = 2;
 				}
 			} else {
 				_increment_state();
