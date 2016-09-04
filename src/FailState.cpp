@@ -147,6 +147,9 @@ void FailState::_dispatcher() {
 				//turn off brick finger warning LED
 				g_led_flash_manager.stop_flasher(4);
 				
+				//turn off the Keypad power MOSFET
+				digitalWrite(LED_10_PIN,LOW);
+				
 				// Warning Bricks rotation Servo 8 rotates to closed position
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(8, SERVO_8_POSITION_A, SERVO_8_SPEED);
