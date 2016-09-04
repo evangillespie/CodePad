@@ -1,5 +1,5 @@
 /*
-	Class for the flow once the passcode is entered correctly
+	Class for the flow once the passcode is entered incorrectly
 
 	:Author: Evan Gillespie
 */
