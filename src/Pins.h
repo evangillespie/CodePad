@@ -48,7 +48,7 @@
 
 // LED pins
 #define LED_1_PIN 2  //yellow LEDs aka keypad Yellow
-#define LED_2_PIN 16 //LED Panel#3
+#define LED_2_PIN 44 //Keypad Blue numbers LEDs
 #define LED_3_PIN 23 //Warning Brick LED
 #define LED_4_PIN 25 //Warning Finger LED
 #define LED_5_PIN 27 //Button 3 LED
@@ -59,7 +59,6 @@
 #define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
-#define LED_13_PIN 44 //KEYPAD_NUMBERS_LED	
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
