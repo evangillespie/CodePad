@@ -15,6 +15,7 @@
 #include "ServoManager.h"
 #include <Shifter.h>
 
+extern Shifter g_shifter_dual;
 extern Shifter g_shifter_quad;
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
