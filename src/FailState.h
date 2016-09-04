@@ -1,5 +1,5 @@
 /*
-	Class for the flow once the passcode is entered incorrectly
+	Class for the flow once the passcode is entered correctly
 
 	:Author: Evan Gillespie
 */
@@ -15,6 +15,7 @@
 #include "ServoManager.h"
 #include <Shifter.h>
 
+extern Shifter g_shifter_dual;
 extern Shifter g_shifter_quad;
 extern ServoManager g_servo_manager;
 extern LEDFlashManager g_led_flash_manager;
