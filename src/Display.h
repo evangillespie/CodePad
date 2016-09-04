@@ -14,6 +14,9 @@
 #include "Passcode.h"
 #include "Pins.h"
 #include "Servomanager.h"
+#include "SoundManager.h"
+#include "LEDFlashManager.h"
+#include "LEDFadeManager.h"
 
 extern Shifter g_shifter_quad;
 extern ServoManager g_servo_manager;
