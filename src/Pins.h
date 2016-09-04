@@ -60,7 +60,7 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 
-//Evan, these 5 solenoid pins need to be set LOW in initialization
+//Evan, these 5 solenoid pins need to be set as OUTPUT and LOW in initialization
 //Solenoid pins
 #define TUBAMAN 7 //tuba player that pops out of coo coo clock
 #define WARNING_BRICKS_MINI 8 //miniature version of the warning bricks
