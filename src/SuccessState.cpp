@@ -64,7 +64,7 @@ void SuccessState::_dispatcher() {
 			//TODO:
 			//turn off bricklamp led NOTE: Brick lamp on shift registers
 
-			//get pot value
+			//get pot value. store it in _substate because it's free
 			_substate = analogRead(ANALOG_INPUT_1) / 4; 
 
 			//fade keypad green led down over 3s from pot position 0 - <keypadgreenpot>
@@ -112,9 +112,9 @@ void SuccessState::_dispatcher() {
 			} else if (_substate == 1){
 				//wait for servos to reach final pos
 				if (
-					g_servo_manager.read_servo(10) == 0 &&
-					g_servo_manager.read_servo(11) == 0 &&
-					g_servo_manager.read_servo(12) == 0
+					g_servo_manager.is_servo_in_position(10)&&
+					g_servo_manager.is_servo_in_position(11)&&
+					g_servo_manager.is_servo_in_position(12)
 				){
 					_substate = 2;
 				}
@@ -156,10 +156,10 @@ void SuccessState::_dispatcher() {
 				_substate = 1;
 			} else if (_substate == 1){
 				if (
-					g_servo_manager.read_servo(1) == 500 &&
-					g_servo_manager.read_servo(2) == 500 &&
-					g_servo_manager.read_servo(3) == 1000 &&
-					g_servo_manager.read_servo(4) == 0
+					g_servo_manager.is_servo_in_position(1) &&
+					g_servo_manager.is_servo_in_position(2) &&
+					g_servo_manager.is_servo_in_position(3) &&
+					g_servo_manager.is_servo_in_position(4)
 				){
 					_substate = 2;
 				}
@@ -200,7 +200,7 @@ void SuccessState::_dispatcher() {
 				_substate = 1;
 			} else if (_substate == 1){
 				//When Servo 13 is at final position continue
-				if (g_servo_manager.read_servo(13) == 0){
+				if (g_servo_manager.is_servo_in_position(13)){
 					_substate = 2;
 				}
 			} else {
