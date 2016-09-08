@@ -13,6 +13,7 @@
 #include "LEDFadeManager.h"
 #include "SoundManager.h"
 #include "ServoManager.h"
+#include <Shifter.h>
 
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;

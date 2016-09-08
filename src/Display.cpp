@@ -68,16 +68,16 @@ void Display::_display_next_digit(Passcode passcode, bool serial_display=false) 
 	}
 	switch(_next_action){
 		case 0:
-			//fallthrough
-			// case 0 and 1 use nixie tubes
-		case 1:
-			_display_nixie_tube(_next_action, dig);
-			break;
-		case 2:
 			_display_led_matrix(dig);
 			break;
-		case 3:
+		case 1:
+			_display_nixie_tube(1, dig);
+			break;
+		case 2:
 			_display_servo(dig);
+			break;
+		case 3:
+			_display_nixie_tube(1, dig);
 			break;
 	}
 
@@ -125,12 +125,14 @@ void Display::_display_nixie_tube(int tube_index, int display_digit){
 void Display::clear_nixie_tube(int tube_index){
 	int offset;
 	switch(tube_index){
-		case 0:
+		case 1:
 			offset = NIXIE_TUBE_1_PIN_OFFSET;
 			break;
-		case 1:
+		case 2:
 			offset = NIXIE_TUBE_2_PIN_OFFSET;
 			break;
+		default:
+			Serial.println("Wrong nixie index");
 	}
 
 	for (int i=0; i < 4; i++){
@@ -169,34 +171,34 @@ void Display::_display_servo(int display_digit){
 	// @TODO: put the real speed in each of these move_servo commands
 	switch(display_digit){
 		case 0:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 435, 50);
 			break;
 		case 1:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 500, 50);
 			break;
 		case 2:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 590, 50);
 			break;
 		case 3:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 680, 50);
 			break;
 		case 4:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 760, 50);
 			break;
 		case 5:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 835, 50);
 			break;
 		case 6:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 100, 50);
 			break;
 		case 7:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 185, 50);
 			break;
 		case 8:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 265, 50);
 			break;
 		case 9:
-			g_servo_manager.move_servo(1, 100, 100);
+			g_servo_manager.move_servo(14, 350, 50);
 			break;
 	}
 }

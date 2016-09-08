@@ -5,7 +5,7 @@
 */
 
 // Any unconnected pin
-#define UNCONNECTED_PIN 1
+#define UNCONNECTED_PIN A0
 
 
 // Keypad pins
@@ -59,6 +59,7 @@
 #define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
+#define LED_13_PIN 44 //KEYPAD_NUMBERS_LED	
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
