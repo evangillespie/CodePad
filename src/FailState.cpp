@@ -120,10 +120,10 @@ void FailState::_dispatcher() {
 				_substate = 1;
 			} else if (_substate == 1){
 				if (
-					g_servo_manager.read_servo(1) == 500 &&
-					g_servo_manager.read_servo(2) == 500 &&
-					g_servo_manager.read_servo(3) == 1000 &&
-					g_servo_manager.read_servo(4) == 540		
+					g_servo_manager.is_servo_in_position(1) &&
+					g_servo_manager.is_servo_in_position(2) &&
+					g_servo_manager.is_servo_in_position(3) &&
+					g_servo_manager.is_servo_in_position(4)		
 				){
 					_substate = 2;
 				}
@@ -149,7 +149,7 @@ void FailState::_dispatcher() {
 				_substate = 1;
 			} else if (_substate == 1){
 				// wait until servo 8 stops moving
-				if (g_servo_manager.read_servo(8) == 0){
+				if (g_servo_manager.is_servo_in_position(8)) {
 					_substate = 2;
 				}
 			} else {

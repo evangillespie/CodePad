@@ -14,7 +14,11 @@ class ServoManager{
 	public:
 		ServoManager();
 		void move_servo(int, int, int); // servo index, final position, speed
-		int read_servo(int); // servo index, read servo position
+		bool is_servo_in_position(int); // servo index
+
+	private:
+		int _target_positions[18]; // store the target positions of moving servos
+		// using the id of the servos will leave element 0 unouched. Oh well.
 };
 
 #endif

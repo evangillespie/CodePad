@@ -38,6 +38,10 @@
 #define LED_FADE_TIME_INCREMENT 100
 
 
+// Maximum positional error in servo movements to trigger the next substate
+#define SERVO_MAXIMUM_ERROR 3
+
+
 // Destinations for the servo motors
 
 //Keypad door right A
