@@ -28,10 +28,66 @@ StateMachine::StateMachine(){}
 void StateMachine::begin(int init_state) {
 	_state = init_state;
 
+	_initialize_system_leds();
+
 	_keypad.init();
 	_display.init();
 }
 
+
+/*
+	Turn off (or on) any system leds at the start of the program
+*/
+void StateMachine::_initialize_system_leds(){
+	//12V LED strips - pin 17 (MEGA)
+	digitalWrite(LED_14_PIN, HIGH);
+
+	//Always ON panel 3 LEDs - pin 16 (MEGA)
+	digitalWrite(LED_2_PIN, HIGH);
+
+	//Red Pulley LED - pin 24 (quad shifter)
+	g_shifter_quad.setPin(24, HIGH);
+
+	//Always ON panel 1 LEDs – pin 26 (quad shifter)
+	g_shifter_quad.setPin(26, HIGH);
+
+	//Pizza oven exterior LEDs - pin 28 (quad shifter)
+	g_shifter_quad.setPin(28, HIGH);
+
+	//Magpanel LED - pin 29 (quad shifter)
+	g_shifter_quad.setPin(29, HIGH);
+
+	g_shifter_quad.write();
+}
+/*
+	Set Servo start postition
+*/
+void StateMachine::_initialize_system_servos(){
+
+	// move servos 8, 10, 11, 12 First
+	g_servo_manager.move_servo(8,SERVO_8_POSITION_A, SERVO_8_SPEED);
+	g_servo_manager.move_servo(10,SERVO_10_POSITION_A, SERVO_10_SPEED);
+	g_servo_manager.move_servo(11,SERVO_11_POSITION_A, SERVO_11_SPEED);
+	g_servo_manager.move_servo(12,SERVO_12_POSITION_A, SERVO_12_SPEED);
+
+	//delay to wait for first servos to reach position this can be edited
+	delay(1000);
+
+	// Move 1,2,3,4,5,6,7,9,13,15,16 servo
+	g_servo_manager.move_servo(1,SERVO_1_POSITION_A, SERVO_1_SPEED);
+	g_servo_manager.move_servo(2,SERVO_2_POSITION_A, SERVO_2_SPEED);
+	g_servo_manager.move_servo(3,SERVO_3_POSITION_A, SERVO_3_SPEED);
+	g_servo_manager.move_servo(3,SERVO_3_POSITION_A, SERVO_3_SPEED);
+	g_servo_manager.move_servo(4,SERVO_4_POSITION_A, SERVO_4_SPEED);
+	g_servo_manager.move_servo(5,SERVO_5_POSITION_A, SERVO_5_SPEED);
+	g_servo_manager.move_servo(6,SERVO_6_POSITION_A, SERVO_6_SPEED);
+	g_servo_manager.move_servo(7,SERVO_7_POSITION_A, SERVO_7_SPEED);
+	g_servo_manager.move_servo(9,SERVO_9_POSITION_A, SERVO_9_SPEED);
+	g_servo_manager.move_servo(13,SERVO_13_POSITION_A, SERVO_13_SPEED);
+	g_servo_manager.move_servo(15,SERVO_15_POSITION_A, SERVO_15_SPEED);
+	g_servo_manager.move_servo(16,SERVO_16_POSITION_A, SERVO_16_SPEED);
+
+}
 
 /*
 	Set the intenal state to a particular state
