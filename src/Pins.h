@@ -60,6 +60,7 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 #define LED_13_PIN 44 //KEYPAD_NUMBERS_LED	
+#define LED_14_PIN 17 // 12V LED strips 	
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4

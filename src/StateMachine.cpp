@@ -28,8 +28,36 @@ StateMachine::StateMachine(){}
 void StateMachine::begin(int init_state) {
 	_state = init_state;
 
+	_initialize_system_leds();
+
 	_keypad.init();
 	_display.init();
+}
+
+
+/*
+	Turn off (or on) any system leds at the start of the program
+*/
+void StateMachine::_initialize_system_leds(){
+	//12V LED strips - pin 17 (MEGA)
+	digitalWrite(LED_14_PIN, HIGH);
+
+	//Always ON panel 3 LEDs - pin 16 (MEGA)
+	digitalWrite(LED_2_PIN, HIGH);
+
+	//Red Pulley LED - pin 24 (quad shifter)
+	g_shifter_quad.setPin(24, HIGH);
+
+	//Always ON panel 1 LEDs – pin 26 (quad shifter)
+	g_shifter_quad.setPin(26, HIGH);
+
+	//Pizza oven exterior LEDs - pin 28 (quad shifter)
+	g_shifter_quad.setPin(28, HIGH);
+
+	//Magpanel LED - pin 29 (quad shifter)
+	g_shifter_quad.setPin(29, HIGH);
+
+	g_shifter_quad.write();
 }
 
 
