@@ -18,8 +18,9 @@
 #include "KeypadPreenableState.h"
 #include "LEDFlashManager.h"
 #include "LEDFadeManager.h"
+#include "ServoManager.h"
+#include "Display.h"
 #include <Shifter.h>
-#include "ServoManager.h"	
 
 extern LEDFlashManager g_led_flash_manager;
 extern Shifter g_shifter_dual;

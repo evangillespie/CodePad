@@ -168,12 +168,15 @@ void FailState::_dispatcher() {
 							switch (i){
 								case 0:
 									// turn off nixie tube 1
+									Display::clear_nixie_tube(1);
 									break;
 								case 1:
 									// turn off nixie tube 2
+									Display::clear_nixie_tube(2);
 									break;
 								case 2:
 									// turn off led matrix
+									Display::clear_matrix();
 									break;
 								case 3:
 									// turn off clock led

@@ -29,12 +29,12 @@ StateMachine::StateMachine(){}
 void StateMachine::begin(int init_state) {
 	_state = init_state;
 
+	_keypad.init();
+	_display.init();
+
 	_initialize_system_leds();
 	_initialize_system_servos();
 	_initialize_system_solenoids();
-
-	_keypad.init();
-	_display.init();
 }
 
 
@@ -42,8 +42,12 @@ void StateMachine::begin(int init_state) {
 	Turn off (or on) any system leds at the start of the program
 */
 void StateMachine::_initialize_system_leds(){
-	// Set LED 14 Pin as an output
 	pinMode(LED_14_PIN, OUTPUT);
+
+	//Clear the nixite tubes and matrix
+	Display::clear_nixie_tube(1);
+	Display::clear_nixie_tube(2);
+	Display::clear_matrix();
 
 	//12V LED strips - pin 17 (MEGA)
 	digitalWrite(LED_14_PIN, HIGH);
