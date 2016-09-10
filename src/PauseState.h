@@ -16,15 +16,18 @@ class PauseState {
 public:
 	PauseState();
 	bool is_complete();
-	bool is_pir_triggered();
 	void update();
 	void begin();
 
 private:
 	unsigned long _complete_time;
 	int _clock_sweep_dir;
+	int _system_state;
 
+	void _turn_system_off();
+	void _turn_system_on();
 	void _update_clock_sweep();
+	bool _is_pir_triggered();
 };
 
 #endif

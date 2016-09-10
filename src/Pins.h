@@ -72,6 +72,6 @@
 #define DUAL_SHIFT_REGISTER_SER_IN_PIN 50
 
 // ANALOG INPUT pins
-#define ANALOG_INPUT_0 A0 //PIR sensor
+#define PIR_INPUT A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
 #define ANALOG_INPUT_2 A2 //Potentiometer 2

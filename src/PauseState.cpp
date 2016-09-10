@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "PauseState.h"
 #include "Config.h"
+#include "Pins.h"
 
 /*
 	boring empty constructor
@@ -13,7 +14,36 @@ PauseState::PauseState(){}
 	update the puse state. called ever iteration of the main loop
 */
 void PauseState::update() {
-	_update_clock_sweep();
+	// everything is still working
+	if (_system_state == 1){
+		_update_clock_sweep();
+
+		if (_is_pir_triggered() == false){
+			_system_state = 0;
+			_turn_system_off();
+		}
+	} else {
+		if (_is_pir_triggered() == true){
+			_system_state = 1;
+			_turn_system_on();
+		}
+	}
+}
+
+
+/*
+	turn everything off when the PIR turns off
+*/
+void PauseState::_turn_system_off(){
+	Serial.println("everything turns off!");
+}
+
+
+/*
+	turn everything on when the PIR turns on
+*/
+void PauseState::_turn_system_on(){
+	Serial.println("everything turns on!");
 }
 
 
@@ -36,7 +66,11 @@ void PauseState::_update_clock_sweep(){
 	return true if this state is done and we should move on
 */
 bool PauseState::is_complete() {
-	if (millis() >= _complete_time){
+	if (millis() >= _complete_time && _is_pir_triggered() == true){
+		if (_system_state == 0){
+			_system_state = 1;
+			_turn_system_on();
+		}
 		return true;
 	}
 	return false;
@@ -46,10 +80,8 @@ bool PauseState::is_complete() {
 /*
 	return true if the PIR sensor has been triggered
 */
-bool PauseState::is_pir_triggered(){
-	// @TODO: check if it's really triggered
-	// @TODO: add that random timer
-	return true;
+bool PauseState::_is_pir_triggered(){
+	return digitalRead(PIR_INPUT);
 }
 
 
@@ -58,5 +90,6 @@ bool PauseState::is_pir_triggered(){
 */
 void PauseState::begin() {
 	_clock_sweep_dir = 0;
+	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);
 }
