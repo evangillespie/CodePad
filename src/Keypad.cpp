@@ -145,8 +145,13 @@ void Keypad::_register_queued_key(Passcode passcode){
 			}
 			// ok button
 			if (_queued_num == 12){
-				// once the okay button is pressed, code is locked in.
-				_status = 1;
+				// if less than 4 digits are entered, ignore!
+				if (_entered_values[0] != -1 &&
+					_entered_values[1] != -1 &&
+					_entered_values[2] != -1 &&
+					_entered_values[3] != -1){
+						_status = 1;
+				}
 			}
 		}
 		_update_display();
