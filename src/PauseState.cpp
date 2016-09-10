@@ -36,6 +36,24 @@ void PauseState::update() {
 */
 void PauseState::_turn_system_off(){
 	Serial.println("everything turns off!");
+
+	//Turn LEDs off
+	digitalWrite(LED_1_PIN, LOW);
+	digitalWrite(LED_2_PIN, LOW);
+	digitalWrite(LED_3_PIN, LOW);
+	digitalWrite(LED_4_PIN, LOW);
+	digitalWrite(LED_5_PIN, LOW);
+	digitalWrite(LED_6_PIN, LOW);
+	digitalWrite(LED_7_PIN, LOW);
+	digitalWrite(LED_8_PIN, LOW);
+	digitalWrite(LED_9_PIN, LOW);
+	digitalWrite(LED_10_PIN, LOW);
+	digitalWrite(LED_11_PIN, LOW);
+	digitalWrite(LED_12_PIN, LOW);
+	digitalWrite(LED_13_PIN, LOW);
+	digitalWrite(LED_14_PIN, LOW);
+
+	//Turn servos off, all servos should be in final position 
 }
 
 
@@ -44,6 +62,49 @@ void PauseState::_turn_system_off(){
 */
 void PauseState::_turn_system_on(){
 	Serial.println("everything turns on!");
+
+
+	/************************/
+	//**NOTE** - This is a copy of the "StateMachine::_initialize_system_leds" in Statmachine.cpp if anything is edited here it should be edited there too
+	/************************/
+	
+	// Set LED 14 Pin as an output
+	pinMode(LED_14_PIN, OUTPUT);
+
+	//12V LED strips - pin 17 (MEGA)
+	digitalWrite(LED_14_PIN, HIGH);
+
+	//Always ON panel 3 LEDs - pin 16 (MEGA)
+	digitalWrite(LED_2_PIN, HIGH);
+
+	//Red Pulley LED - pin 24 (quad shifter)
+	g_shifter_quad.setPin(24, HIGH);
+
+	//Always ON panel 1 LEDs – pin 26 (quad shifter)
+	g_shifter_quad.setPin(26, HIGH);
+
+	//Pizza oven exterior LEDs - pin 28 (quad shifter)
+	g_shifter_quad.setPin(28, HIGH);
+
+	//Magpanel LED - pin 29 (quad shifter)
+	g_shifter_quad.setPin(29, HIGH);
+
+	//Clock illumination LED - LED_7_PIN brightness of 100	This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(7, 100, 0, 100);
+
+	//Radar Screen - LED_5_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(5, 100, 0, 50);
+
+	//Power crystals - LED_12_PIN brightness 10 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(12, 100, 0, 10);
+
+	//Yellow LED inside Keyapd - LED_2_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(2, 100, 0, 50); 
+
+	//Pizza coals inside pizza oven - LED_6_PIN brightness 100 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(6, 100, 0, 100);
+
+	g_shifter_quad.write();
 }
 
 

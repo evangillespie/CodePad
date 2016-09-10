@@ -42,6 +42,15 @@ void StateMachine::begin(int init_state) {
 	Turn off (or on) any system leds at the start of the program
 */
 void StateMachine::_initialize_system_leds(){
+<<<<<<< HEAD
+=======
+
+	/************************/
+	//**NOTE** - this is copied into the pause "Turn everything on" state if anything is edited here it will need to be edited there too.
+	/************************/
+	
+	// Set LED 14 Pin as an output
+>>>>>>> origin/master
 	pinMode(LED_14_PIN, OUTPUT);
 
 	//Clear the nixite tubes and matrix
