@@ -57,6 +57,22 @@ void StateMachine::_initialize_system_leds(){
 	//Magpanel LED - pin 29 (quad shifter)
 	g_shifter_quad.setPin(29, HIGH);
 
+	//Clock illumination LED - LED_7_PIN brightness of 100		
+	g_led_fade_manager.fade(7, 100, 0, 100);
+
+	//Radar Screen - LED_5_PIN brightness 50
+	g_led_fade_manager.fade(5, 100, 0, 50);
+
+	//Power crystals - LED_12_PIN brightness 10
+	g_led_fade_manager.fade(12, 100, 0, 10);
+
+	//Yellow LED inside Keyapd - LED_2_PIN brightness 50
+	g_led_fade_manager.fade(2, 100, 0, 50); 
+
+	//Pizza coals inside pizza oven - LED_6_PIN brightness 100
+	g_led_fade_manager.fade(6, 100, 0, 100);
+
+
 	g_shifter_quad.write();
 }
 /*
