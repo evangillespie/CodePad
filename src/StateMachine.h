@@ -45,6 +45,7 @@ class StateMachine
 		PauseState _pause_state;
 		KeypadPreenableState _keypad_preenable_state;
 
+		void _initialize_system_solenoids();
 		void _initialize_system_servos();
 		void _initialize_system_leds();
 		void _generate_passcode_and_advance();

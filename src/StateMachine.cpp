@@ -2,6 +2,7 @@
 #include "StateMachine.h"
 #include "Config.h"
 #include "LEDFlashManager.h"
+#include "Pins.h"
 
 
 /* STATES:
@@ -29,6 +30,8 @@ void StateMachine::begin(int init_state) {
 	_state = init_state;
 
 	_initialize_system_leds();
+	_initialize_system_servos();
+	_initialize_system_solenoids();
 
 	_keypad.init();
 	_display.init();
@@ -39,6 +42,9 @@ void StateMachine::begin(int init_state) {
 	Turn off (or on) any system leds at the start of the program
 */
 void StateMachine::_initialize_system_leds(){
+	// Set LED 14 Pin as an output
+	pinMode(LED_14_PIN, OUTPUT);
+
 	//12V LED strips - pin 17 (MEGA)
 	digitalWrite(LED_14_PIN, HIGH);
 
@@ -105,6 +111,30 @@ void StateMachine::_initialize_system_servos(){
 
 }
 
+void StateMachine::_initialize_system_solenoids(){
+	//Set Solenoids as outputs
+	pinMode(SOLENOID_1_PIN, OUTPUT);
+	pinMode(SOLENOID_2_PIN, OUTPUT);
+	pinMode(SOLENOID_3_PIN, OUTPUT);
+	pinMode(SOLENOID_4_PIN, OUTPUT);
+	pinMode(SOLENOID_5_PIN, OUTPUT);
+
+	//TUBAMAN 7 tuba player that pops out of coo coo clock
+	digitalWrite(SOLENOID_1_PIN, LOW);
+
+	//WARNING_BRICKS_MINI 8 miniature version of the warning bricks 
+	digitalWrite(SOLENOID_2_PIN, LOW);
+
+	//STAIRS 9 Brass stairs that pop up when cage lifts up
+	digitalWrite(SOLENOID_3_PIN, LOW);
+
+	//HANDRAIL 10 Brass handrail door that opens when cage lifts up 
+	digitalWrite(SOLENOID_4_PIN, LOW);
+
+	//PIZZA_OVEN_DOOR 11 pizza oven door
+	digitalWrite(SOLENOID_5_PIN, LOW);
+
+}
 /*
 	Set the intenal state to a particular state
 

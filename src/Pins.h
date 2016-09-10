@@ -75,3 +75,11 @@
 #define ANALOG_INPUT_0 A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
 #define ANALOG_INPUT_2 A2 //Potentiometer 2
+
+// Solenoid Pins 
+
+#define SOLENOID_1_PIN 7 //tuba player that pops out of coo coo clock
+#define SOLENOID_2_PIN 8 //miniature version of the warning bricks
+#define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
+#define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up
+#define SOLENOID_5_PIN 11 //pizza oven door
