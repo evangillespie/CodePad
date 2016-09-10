@@ -17,6 +17,7 @@
 #include "PauseState.h"
 #include "KeypadPreenableState.h"
 #include "LEDFlashManager.h"
+#include "LEDFadeManager.h"
 #include <Shifter.h>
 #include "ServoManager.h"	
 
@@ -24,6 +25,7 @@ extern LEDFlashManager g_led_flash_manager;
 extern Shifter g_shifter_dual;
 extern Shifter g_shifter_quad;
 extern ServoManager g_servo_manager;
+extern LEDFadeManager g_led_fade_manager;
 
 class StateMachine
 {
@@ -43,6 +45,7 @@ class StateMachine
 		PauseState _pause_state;
 		KeypadPreenableState _keypad_preenable_state;
 
+		void _initialize_system_solenoids();
 		void _initialize_system_servos();
 		void _initialize_system_leds();
 		void _generate_passcode_and_advance();

@@ -2,6 +2,7 @@
 #include "StateMachine.h"
 #include "Config.h"
 #include "LEDFlashManager.h"
+#include "Pins.h"
 
 
 /* STATES:
@@ -29,6 +30,8 @@ void StateMachine::begin(int init_state) {
 	_state = init_state;
 
 	_initialize_system_leds();
+	_initialize_system_servos();
+	_initialize_system_solenoids();
 
 	_keypad.init();
 	_display.init();
@@ -39,6 +42,9 @@ void StateMachine::begin(int init_state) {
 	Turn off (or on) any system leds at the start of the program
 */
 void StateMachine::_initialize_system_leds(){
+	// Set LED 14 Pin as an output
+	pinMode(LED_14_PIN, OUTPUT);
+
 	//12V LED strips - pin 17 (MEGA)
 	digitalWrite(LED_14_PIN, HIGH);
 
@@ -56,6 +62,22 @@ void StateMachine::_initialize_system_leds(){
 
 	//Magpanel LED - pin 29 (quad shifter)
 	g_shifter_quad.setPin(29, HIGH);
+
+	//Clock illumination LED - LED_7_PIN brightness of 100		
+	g_led_fade_manager.fade(7, 100, 0, 100);
+
+	//Radar Screen - LED_5_PIN brightness 50
+	g_led_fade_manager.fade(5, 100, 0, 50);
+
+	//Power crystals - LED_12_PIN brightness 10
+	g_led_fade_manager.fade(12, 100, 0, 10);
+
+	//Yellow LED inside Keyapd - LED_2_PIN brightness 50
+	g_led_fade_manager.fade(2, 100, 0, 50); 
+
+	//Pizza coals inside pizza oven - LED_6_PIN brightness 100
+	g_led_fade_manager.fade(6, 100, 0, 100);
+
 
 	g_shifter_quad.write();
 }
@@ -89,6 +111,30 @@ void StateMachine::_initialize_system_servos(){
 
 }
 
+void StateMachine::_initialize_system_solenoids(){
+	//Set Solenoids as outputs
+	pinMode(SOLENOID_1_PIN, OUTPUT);
+	pinMode(SOLENOID_2_PIN, OUTPUT);
+	pinMode(SOLENOID_3_PIN, OUTPUT);
+	pinMode(SOLENOID_4_PIN, OUTPUT);
+	pinMode(SOLENOID_5_PIN, OUTPUT);
+
+	//TUBAMAN 7 tuba player that pops out of coo coo clock
+	digitalWrite(SOLENOID_1_PIN, LOW);
+
+	//WARNING_BRICKS_MINI 8 miniature version of the warning bricks 
+	digitalWrite(SOLENOID_2_PIN, LOW);
+
+	//STAIRS 9 Brass stairs that pop up when cage lifts up
+	digitalWrite(SOLENOID_3_PIN, LOW);
+
+	//HANDRAIL 10 Brass handrail door that opens when cage lifts up 
+	digitalWrite(SOLENOID_4_PIN, LOW);
+
+	//PIZZA_OVEN_DOOR 11 pizza oven door
+	digitalWrite(SOLENOID_5_PIN, LOW);
+
+}
 /*
 	Set the intenal state to a particular state
 
