@@ -31,7 +31,6 @@ int FailState::_get_max_state() {
 void FailState::_dispatcher() {
 	switch(_state_num){
 		case 0:
-			Serial.println("Fail: Zero");
 			// badpin sound
 			g_sound_manager.play_sound(9);
 
@@ -59,7 +58,6 @@ void FailState::_dispatcher() {
 			break;
 
 		case 1:
-			Serial.println("Fail: One");
 
 			// Servo 6 moves
 			//servo index, final pos, speed
@@ -79,8 +77,6 @@ void FailState::_dispatcher() {
 			_increment_state();
 			break;
 		case 2:
-			Serial.println("Fail: Two");
-
 			// Keypad yellow leds fade down over 5s
 			g_led_fade_manager.fade(1, 5000, 255, 0);
 	
@@ -95,8 +91,6 @@ void FailState::_dispatcher() {
 			_substate = 0;
 			break;
 		case 3:
-			Serial.println("Fail: Three");
-
 			if (_substate == 0){
 				// Servo 1 moves
 				//servo index, final pos, speed
@@ -133,8 +127,6 @@ void FailState::_dispatcher() {
 			}
 			break;
 		case 4:
-			Serial.println("Fail: Four");
-			
 			if (_substate == 0){
 				//turn off brick warning led
 				g_led_flash_manager.stop_flasher(3);
@@ -159,8 +151,6 @@ void FailState::_dispatcher() {
 			break;
 		case 5:
 			if (_substate == 0){
-				Serial.println("Fail: Five");
-				
 				// move servo 7
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(7, 0, 100);

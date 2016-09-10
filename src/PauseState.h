@@ -8,17 +8,23 @@
 #define Pause_State_h
 
 #include "Arduino.h"
+#include "ServoManager.h"
+
+extern ServoManager g_servo_manager;
 
 class PauseState {
 public:
 	PauseState();
 	bool is_complete();
+	bool is_pir_triggered();
 	void update();
 	void begin();
 
 private:
 	unsigned long _complete_time;
+	int _clock_sweep_dir;
 
+	void _update_clock_sweep();
 };
 
 #endif
