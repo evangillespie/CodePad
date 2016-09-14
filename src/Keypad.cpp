@@ -65,7 +65,6 @@ void Keypad::init() {
 	bar.begin(0x70);
 	clear_bargraph();
 	_update_display();
-	//digitalWrite(KEYPAD_NUMBERS_LED, LOW);
 	clear_4_digit();
 }
 
@@ -178,18 +177,18 @@ void Keypad::_update_display(){
 	:param num: which number to I write? num=-1 to write blank
 */
 void Keypad::_write_display_character(int index, int num){
-	// only elements 0-3 change for numbers and 4 for blank
+	//only elements 0-3 change for numbers and 4 for blank
 	int sequence[7] = {0, 0, 0, 0, 1, 1, 0}; // initialize to 0
 
 	//turn write pin off while we get ready
 	digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, HIGH);
 
-	//posistion
+	//position
 	index = 3 - index;	// index is reversed on the display
 	digitalWrite(KEYPAD_DISPLAY_A1_PIN, index / 2);
 	digitalWrite(KEYPAD_DISPLAY_A2_PIN, index % 2);
 	
-	// character
+	//character
 	if (num == -1){
 		// show a dash when digit not entered yet
 		sequence[0] = 1;
@@ -200,6 +199,7 @@ void Keypad::_write_display_character(int index, int num){
 		sequence[5] = 1;
 		sequence[6] = 0;
 	} else {
+  
 		//convert num to binary
 		for (int j=0; j < 4; j++){
 			sequence[j] = num % 2;
@@ -215,7 +215,7 @@ void Keypad::_write_display_character(int index, int num){
 	digitalWrite(KEYPAD_DISPLAY_D5_PIN, sequence[5]);
 	digitalWrite(KEYPAD_DISPLAY_D6_PIN, sequence[6]);
 
-	// write it
+	//write it
 	digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, LOW);
 }
 
@@ -242,7 +242,7 @@ void Keypad::_update_status(Passcode passcode) {
 		}
 	}
 
-	// check if ok should flash
+	//check if ok should flash
 	_is_ok_flashing = true;
 	for (int i=0; i<CODE_LENGTH; i++){
 		if (_entered_values[i] == -1){
@@ -262,7 +262,7 @@ void Keypad::_update_status(Passcode passcode) {
 		led_color = LED_GREEN;
 	}
 
-	// plat sound for bargraph click down
+	//play sound for bargraph click down
 	if (_prev_bargraph_num_lights != _bargraph_num_lights
 			&& _prev_bargraph_num_lights != 0){
 		if (led_color == LED_RED){
@@ -296,7 +296,7 @@ void Keypad::_update_status(Passcode passcode) {
 void Keypad::_update_btns_flashing(){
 	if (_is_clr_flashing){
 		if (int(millis() - _last_clr_change) > KEYPAD_CLR_FLASH_PERIOD / 2){
-			//togle led status
+			//toggle led status
 			digitalWrite(KEYPAD_NUMBER_CLR_LED, !digitalRead(KEYPAD_NUMBER_CLR_LED));
 			_last_clr_change = millis();
 		}
@@ -306,7 +306,7 @@ void Keypad::_update_btns_flashing(){
 
 	if (_is_ok_flashing){
 		if (int(millis() - _last_ok_change) > KEYPAD_OK_FLASH_PERIOD / 2){
-			//togle led status
+			//toggle led status
 			digitalWrite(KEYPAD_NUMBER_OK_LED, !digitalRead(KEYPAD_NUMBER_OK_LED));
 			_last_ok_change = millis();
 		}
@@ -394,9 +394,9 @@ void Keypad::_play_right_wrong_sound(Passcode passcode, int entered_digit){
 			}
 		}
 		if (pass_index > -1){
-			g_sound_manager.play_sound(205);
+			g_sound_manager.play_sound(203);
 			if (passcode.get_digit(pass_index) != entered_digit){
-				g_sound_manager.play_sound(206);
+				g_sound_manager.play_sound(205);
 			}
 			return;
 		}
@@ -490,7 +490,7 @@ void Keypad::clear_4_digit(){
 		//turn write pin off while we get ready
 		digitalWrite(KEYPAD_DISPLAY_WRITE_PIN, HIGH);
 
-		//posistion
+		//position
 		index = 3 - i;	// index is reversed on the display
 		digitalWrite(KEYPAD_DISPLAY_A1_PIN, index / 2);
 		digitalWrite(KEYPAD_DISPLAY_A2_PIN, index % 2);

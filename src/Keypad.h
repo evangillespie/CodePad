@@ -15,6 +15,7 @@
 #include <Adafruit_LEDBackpack.h>
 
 extern Shifter g_shifter_dual;
+extern Shifter g_shifter_quad;
 extern SoundManager g_sound_manager;
 
 class Keypad {

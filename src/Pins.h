@@ -5,7 +5,7 @@
 */
 
 // Any unconnected pin
-#define UNCONNECTED_PIN A0
+#define UNCONNECTED_PIN A2
 
 
 // Keypad pins
@@ -43,24 +43,29 @@
 #define KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET 4	
 
 // Nixie Tube Shift register
-#define NIXIE_TUBE_1_PIN_OFFSET 16
-#define NIXIE_TUBE_2_PIN_OFFSET 20
+#define NIXIE_TUBE_1_PIN_OFFSET 0
+#define NIXIE_TUBE_2_PIN_OFFSET 4
 
 // LED pins
 #define LED_1_PIN 2  //yellow LEDs aka keypad Yellow
-#define LED_2_PIN 16 //LED Panel#3
+#define LED_2_PIN 44 //Keypad Blue numbers LEDs
 #define LED_3_PIN 23 //Warning Brick LED
 #define LED_4_PIN 25 //Warning Finger LED
-#define LED_5_PIN 27 //Button 3 LED
-#define LED_6_PIN 29 //Button 2 LED
-#define LED_7_PIN 31 //Button 1 LED
+#define LED_5_PIN 4 //Radar screen LED    ///This pin is causing problems when used for fading///   
+#define LED_6_PIN 5 //pizza coals inside pizza oven LED
+#define LED_7_PIN 6 //Clock illumination LEDs- 4 LEDs inside the clock face
 #define LED_8_PIN 39 //CLR LED
 #define LED_9_PIN 41 //OK LED
 #define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
-#define LED_13_PIN 44 //KEYPAD_NUMBERS_LED	
-#define LED_14_PIN 17 // 12V LED strips 	
+
+// Solenoid Pins 
+#define SOLENOID_1_PIN 7 //tuba player that pops out of coo coo clock
+#define SOLENOID_2_PIN 8 //miniature version of the warning bricks
+#define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
+#define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up
+#define SOLENOID_5_PIN 11 //pizza oven door
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
@@ -75,11 +80,3 @@
 #define PIR_INPUT A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
 #define ANALOG_INPUT_2 A2 //Potentiometer 2
-
-// Solenoid Pins 
-
-#define SOLENOID_1_PIN 7 //tuba player that pops out of coo coo clock
-#define SOLENOID_2_PIN 8 //miniature version of the warning bricks
-#define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
-#define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up
-#define SOLENOID_5_PIN 11 //pizza oven door

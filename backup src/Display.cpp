@@ -143,12 +143,20 @@ void Display::clear_nixie_tube(int tube_index){
 
 
 /*
+	Clear the matrix display
+*/
+void Display::clear_matrix(){
+	matrix.clear();
+	matrix.writeDisplay();
+}
+
+
+/*
 	display a particular number on the led matrix
 
 	:param display_digit: the number to show on the led matrix
 */
 void Display::_display_led_matrix(int display_digit){
-	// @TODO: this needs to be tested with hardware
 
 	matrix.setCursor(1, 0);   // start at top left, with one pixel of spacing
 	matrix.setTextSize(1);    // size 1 == 8 pixels high
@@ -166,9 +174,6 @@ void Display::_display_led_matrix(int display_digit){
 	:param display_digit: the number to display with the servo
 */
 void Display::_display_servo(int display_digit){
-	// @TODO: put the real positions in here for each number when you have them
-	// @TODO: put the real servo id in each of these move_servo commands
-	// @TODO: put the real speed in each of these move_servo commands
 	switch(display_digit){
 		case 0:
 			g_servo_manager.move_servo(14, 435, 50);

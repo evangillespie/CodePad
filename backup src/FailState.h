@@ -4,8 +4,8 @@
 	:Author: Evan Gillespie
 */
 
-#ifndef Success_State_h
-#define Success_State_h
+#ifndef Fail_State_h
+#define Fail_State_h
 
 #include "Arduino.h"
 #include "ProcedureState.h"
@@ -13,20 +13,25 @@
 #include "LEDFadeManager.h"
 #include "SoundManager.h"
 #include "ServoManager.h"
+#include "Display.h"
+#include <Shifter.h>
 
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
 extern SoundManager g_sound_manager;
 extern ServoManager g_servo_manager;
 
-class SuccessState: public ProcedureState {
+class FailState: public ProcedureState {
 public:
-	SuccessState();
+	FailState();
 
 private:
 	void _dispatcher();
 	long _get_pause_length(int);
 	int _get_max_state();
+
+	unsigned long _times[4];
+	bool _elements_turned_off[4];
 };
 
 #endif

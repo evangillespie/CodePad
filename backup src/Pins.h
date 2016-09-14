@@ -60,6 +60,7 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 #define LED_13_PIN 44 //KEYPAD_NUMBERS_LED	
+#define LED_14_PIN 17 // 12V LED strips 	
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4
@@ -71,6 +72,14 @@
 #define DUAL_SHIFT_REGISTER_SER_IN_PIN 50
 
 // ANALOG INPUT pins
-#define ANALOG_INPUT_0 A0 //PIR sensor
+#define PIR_INPUT A0 //PIR sensor
 #define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
 #define ANALOG_INPUT_2 A2 //Potentiometer 2
+
+// Solenoid Pins 
+
+#define SOLENOID_1_PIN 7 //tuba player that pops out of coo coo clock
+#define SOLENOID_2_PIN 8 //miniature version of the warning bricks
+#define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
+#define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up
+#define SOLENOID_5_PIN 11 //pizza oven door

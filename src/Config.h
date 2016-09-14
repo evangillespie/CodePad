@@ -12,10 +12,10 @@
 
 
 // For the random times between when chatacters are displayed
-// #define MIN_DISPLAY_LAG_TIME 1000;
-// #define MAX_DISPLAY_LAG_TIME 5000;
-#define MIN_DISPLAY_LAG_TIME 100
-#define MAX_DISPLAY_LAG_TIME 500
+#define MIN_DISPLAY_LAG_TIME 2000
+ #define MAX_DISPLAY_LAG_TIME 4000
+//#define MIN_DISPLAY_LAG_TIME 100
+//#define MAX_DISPLAY_LAG_TIME 500
 
 
 //Time in seconds before the keypad times out
@@ -25,8 +25,8 @@
 
 
 // THE TIME BETWEEN ITERATIONS OF THE WHOLE FLOW CHART
-#define MIN_PAUSE_TIME_BETWEEN_RUNS 10000
-#define MAX_PAUSE_TIME_BETWEEN_RUNS 20000
+#define MIN_PAUSE_TIME_BETWEEN_RUNS 200000
+#define MAX_PAUSE_TIME_BETWEEN_RUNS 210000
 
 
 // THE NUMBER OF CONNECTED LEDS THAT CAN BE TURNED ON TO FLASH
@@ -39,7 +39,7 @@
 
 
 // Maximum positional error in servo movements to trigger the next substate
-#define SERVO_MAXIMUM_ERROR 3
+#define SERVO_MAXIMUM_ERROR 25
 
 
 // Destinations for the servo motors
@@ -47,36 +47,36 @@
 //Keypad door right A
 
 //Keypad door right A closed
-#define SERVO_1_POSITION_A 505
+#define SERVO_1_POSITION_A 500
 //Keypad door right A open
-#define SERVO_1_POSITION_B 980
+#define SERVO_1_POSITION_B 971
 
 #define SERVO_1_SPEED 17
 
 //Keypad door right B
 
 //Keypad door right B closed
-#define SERVO_2_POSITION_A 495
+#define SERVO_2_POSITION_A 500
 //Keypad door right B open
-#define SERVO_2_POSITION_B 20
+#define SERVO_2_POSITION_B 29
 
 #define SERVO_2_SPEED 17
 
 //Keypad door left A
 
 //Keypad door left A closed
-#define SERVO_3_POSITION_A 985
-//Keypad door left A open
-#define SERVO_3_POSITION_B 435
+#define SERVO_3_POSITION_A 874
+//Keypad door left A open`
+#define SERVO_3_POSITION_B 339
 
 #define SERVO_3_SPEED 20
 
 //Keypad door left B
 
 //Keypad door left B closed
-#define SERVO_4_POSITION_A 15
+#define SERVO_4_POSITION_A 175
 //Keypad door left B open
-#define SERVO_4_POSITION_B 565
+#define SERVO_4_POSITION_B 710
 
 #define SERVO_4_SPEED 20
 
@@ -119,18 +119,18 @@
 //cage riser A
 
 //cage riser A Down
-#define SERVO_9_POSITION_A 780
+#define SERVO_9_POSITION_A 767
 //cage riser A Up
-#define SERVO_9_POSITION_B 10
+#define SERVO_9_POSITION_B 16
 
-#define SERVO_9_SPEED 40
+#define SERVO_9_SPEED 30
 
 //Cage Top
 
 //Cage Top Closed
-#define SERVO_10_POSITION_A 120
+#define SERVO_10_POSITION_A 90
 //Cage Top Open
-#define SERVO_10_POSITION_B 490
+#define SERVO_10_POSITION_B 460
 
 #define SERVO_10_SPEED 30
 
@@ -139,34 +139,34 @@
 //Cage left closed
 #define SERVO_11_POSITION_A 1023
 //Cage left open
-#define SERVO_11_POSITION_B 670
+#define SERVO_11_POSITION_B 660
 
 #define SERVO_11_SPEED 30
 
 //Cage right
 
 //Cage right closed 
-#define SERVO_12_POSITION_A 760
+#define SERVO_12_POSITION_A 680
 //Cage right open
-#define SERVO_12_POSITION_B 410
+#define SERVO_12_POSITION_B 340
 
 #define SERVO_12_SPEED 30
 
 //cage riser B
 
 //cage riser B Down
-#define SERVO_13_POSITION_A 100
+#define SERVO_13_POSITION_A 221
 //cage riser B Up
-#define SERVO_13_POSITION_B 200
+#define SERVO_13_POSITION_B 972
 
-#define SERVO_13_SPEED 40
+#define SERVO_13_SPEED 30
 
 //clock
 
 //clock clockwise
-#define SERVO_14_POSITION_A 1
+#define SERVO_14_POSITION_A 50
 //clock counter clockwise
-#define SERVO_14_POSITION_B 1100
+#define SERVO_14_POSITION_B 950
 
 #define SERVO_14_SPEED 10
 

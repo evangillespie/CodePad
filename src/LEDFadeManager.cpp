@@ -61,7 +61,6 @@ void LEDFadeManager::update(){
 */
 int LEDFadeManager::_get_pin_number(int led_index) {
 	switch(led_index){
-		//@TODO: figure these out
 		case 1:
 			return LED_1_PIN;
 		case 2:
@@ -86,6 +85,7 @@ int LEDFadeManager::_get_pin_number(int led_index) {
 			return LED_11_PIN;
 		case 12:
 			return LED_12_PIN;
+		
 		default:
 			Serial.println("I can't find that pin, Evan");		
 	}

@@ -50,36 +50,10 @@ void PauseState::_turn_system_off(){
 	digitalWrite(LED_10_PIN, LOW);
 	digitalWrite(LED_11_PIN, LOW);
 	digitalWrite(LED_12_PIN, LOW);
-	
-	//Always ON panel 3 LEDs
-	digitalWrite(16, LOW);
-	//Always ON 12V strips in panel 3
-	digitalWrite(17, LOW);
+	digitalWrite(LED_13_PIN, LOW);
+	digitalWrite(LED_14_PIN, LOW);
 
-	//Red Pulley LED - pin 23 (quad shifter)
-	g_shifter_quad.setPin(23, LOW);
-
-	//Always ON panel 1 LEDs – pin 26 (quad shifter)
-	g_shifter_quad.setPin(26, LOW);
-
-	//Pizza oven exterior LEDs - pin 28 (quad shifter)
-	g_shifter_quad.setPin(28, LOW);
-
-	//Clock number LEDs 
-	g_shifter_quad.setPin(13,LOW);  //clock number LED 0
-	g_shifter_quad.setPin(14,LOW);  //clock number LED 1
-	g_shifter_quad.setPin(15,LOW);  //clock number LED 2
-	g_shifter_quad.setPin(16,LOW);  //clock number LED 3
-	g_shifter_quad.setPin(17,LOW);  //clock number LED 4
-	g_shifter_quad.setPin(18,LOW);  //clock number LED 5
-	g_shifter_quad.setPin(19,LOW);  //clock number LED 6
-	g_shifter_quad.setPin(20,LOW);  //clock number LED 7
-	g_shifter_quad.setPin(21,LOW);  //clock number LED 8
-	g_shifter_quad.setPin(22,LOW);  //clock number LED 9
-
-	g_shifter_quad.write();
-
-	//Turn servos off, all servos should be in final position
+	//Turn servos off, all servos should be in final position 
 }
 
 
@@ -94,20 +68,17 @@ void PauseState::_turn_system_on(){
 	//**NOTE** - This is a copy of the "StateMachine::_initialize_system_leds" in Statmachine.cpp if anything is edited here it should be edited there too
 	/************************/
 	
-	// Set ALways ON LED on panel 3 as an output
-	pinMode(16, OUTPUT);
+	// Set LED 14 Pin as an output
+	pinMode(LED_14_PIN, OUTPUT);
+
+	//12V LED strips - pin 17 (MEGA)
+	digitalWrite(LED_14_PIN, HIGH);
 
 	//Always ON panel 3 LEDs - pin 16 (MEGA)
-	digitalWrite(16, HIGH);	
+	digitalWrite(LED_2_PIN, HIGH);
 
-	// Set 12V LED strips panel 3 as an output
-	pinMode(17, OUTPUT);
-
-	//12V LED strips panel 3 - pin 17 (MEGA)
-	digitalWrite(17, HIGH);
-
-	//Red Pulley LED - pin 23 (quad shifter)
-	g_shifter_quad.setPin(23, HIGH);
+	//Red Pulley LED - pin 24 (quad shifter)
+	g_shifter_quad.setPin(24, HIGH);
 
 	//Always ON panel 1 LEDs – pin 26 (quad shifter)
 	g_shifter_quad.setPin(26, HIGH);
@@ -115,32 +86,23 @@ void PauseState::_turn_system_on(){
 	//Pizza oven exterior LEDs - pin 28 (quad shifter)
 	g_shifter_quad.setPin(28, HIGH);
 
-	//Clock number LEDs 
-	g_shifter_quad.setPin(13,HIGH);  //clock number LED 0
-	g_shifter_quad.setPin(14,HIGH);  //clock number LED 1
-	g_shifter_quad.setPin(15,HIGH);  //clock number LED 2
-	g_shifter_quad.setPin(16,HIGH);  //clock number LED 3
-	g_shifter_quad.setPin(17,HIGH);  //clock number LED 4
-	g_shifter_quad.setPin(18,HIGH);  //clock number LED 5
-	g_shifter_quad.setPin(19,HIGH);  //clock number LED 6
-	g_shifter_quad.setPin(20,HIGH);  //clock number LED 7
-	g_shifter_quad.setPin(21,HIGH);  //clock number LED 8
-	g_shifter_quad.setPin(22,HIGH);  //clock number LED 9
-									
-	//Clock illumination LED - LED_7_PIN brightness of 100	
-	g_led_fade_manager.fade(7, 100, 0, 70);
+	//Magpanel LED - pin 29 (quad shifter)
+	g_shifter_quad.setPin(29, HIGH);
 
-	//Radar Screen - LED_5_PIN brightness 50 // This analog control of LED_5_PIN glitches out shiftregister.  ?
-	//g_led_fade_manager.fade(5, 100, 0, 50);
+	//Clock illumination LED - LED_7_PIN brightness of 100	This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(7, 100, 0, 100);
 
-	//Power crystals - LED_12_PIN brightness 10 
+	//Radar Screen - LED_5_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(5, 100, 0, 50);
+
+	//Power crystals - LED_12_PIN brightness 10 This will not fade because it is not conneected to a PWM pin
 	g_led_fade_manager.fade(12, 100, 0, 10);
 
-	//Yellow LED inside Keyapd - LED_2_PIN brightness 50 
-	g_led_fade_manager.fade(1, 100, 0, 50); 
+	//Yellow LED inside Keyapd - LED_2_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(2, 100, 0, 50); 
 
-	//Pizza coals inside pizza oven - LED_6_PIN brightness 100 
-	g_led_fade_manager.fade(6, 100, 0, 80);
+	//Pizza coals inside pizza oven - LED_6_PIN brightness 100 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(6, 100, 0, 100);
 
 	g_shifter_quad.write();
 }

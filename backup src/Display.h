@@ -24,7 +24,9 @@ public:
 	void init();
 	void update(Passcode);
 	bool is_complete();
+
 	static void clear_nixie_tube(int);
+	static void clear_matrix();
 
 private:
 	unsigned long _next_action_time;

@@ -25,6 +25,7 @@ void LEDFlasher::init(int index, int pin) {
 	_pin = pin;
 	_index = index;
 	pinMode(_pin, OUTPUT);
+	digitalWrite(_pin, LOW);
 }
 
 

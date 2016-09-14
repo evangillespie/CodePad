@@ -95,6 +95,7 @@ int LEDFlashManager::_get_pin_number(int led_index) {
 			return LED_11_PIN;
 		case 12:
 			return LED_12_PIN;
+		
 		default:
 			Serial.println("I can't find that pin, Evan");		
 	}

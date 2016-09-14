@@ -25,6 +25,7 @@ void LEDFader::init(int index, int pin) {
 	_pin = pin;
 	_index = index;
 	pinMode(_pin, OUTPUT);
+	analogWrite(_pin, 0); // initialize at 0
 }
 
 

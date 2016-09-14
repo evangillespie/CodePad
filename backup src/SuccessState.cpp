@@ -31,7 +31,6 @@ int SuccessState::_get_max_state() {
 void SuccessState::_dispatcher() {
 	switch(_state_num){
 		case 0:
-			Serial.println("Zero");
 
 			// clear bargraph
 			Keypad::clear_bargraph();
@@ -39,7 +38,6 @@ void SuccessState::_dispatcher() {
 			_increment_state();
 			break;
 		case 1:
-			Serial.println("One");
 			
 			//goodpin sound
 			g_sound_manager.play_sound(10);
@@ -60,11 +58,10 @@ void SuccessState::_dispatcher() {
 			_increment_state();
 			break;
 		case 2:
-			Serial.println("Two");
 			//TODO:
 			//turn off bricklamp led NOTE: Brick lamp on shift registers
 
-			//get pot value
+			//get pot value. store it in _substate because it's free
 			_substate = analogRead(ANALOG_INPUT_1) / 4; 
 
 			//fade keypad green led down over 3s from pot position 0 - <keypadgreenpot>
@@ -90,7 +87,6 @@ void SuccessState::_dispatcher() {
 			_increment_state();
 			break;
 		case 3:
-			Serial.println("Three");
 			if (_substate == 0){
 				//TODO:
 				//turn off timer led
@@ -112,9 +108,9 @@ void SuccessState::_dispatcher() {
 			} else if (_substate == 1){
 				//wait for servos to reach final pos
 				if (
-					g_servo_manager.read_servo(10) == 0 &&
-					g_servo_manager.read_servo(11) == 0 &&
-					g_servo_manager.read_servo(12) == 0
+					g_servo_manager.is_servo_in_position(10)&&
+					g_servo_manager.is_servo_in_position(11)&&
+					g_servo_manager.is_servo_in_position(12)
 				){
 					_substate = 2;
 				}
@@ -128,15 +124,50 @@ void SuccessState::_dispatcher() {
 			}
 			break;
 		case 4:
-			Serial.println("Four");
-
 			if (_substate == 0){
 				//Servo 13 moves
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(13, 500, 100);
+				_stored_time = millis();
+				for (int i=0; i < 4; i++){
+					_times[i] = _stored_time + (unsigned long)random(1000, 15000);
+					_elements_turned_off[i] = false;
+				}
+				_substate = 1;
+			} else if (_substate == 1){
+				// after random times, all digit displays turn off (pause23-26)
+				for (int i=0; i < 4; i++){
+					if (_elements_turned_off[i] == false){
+						if (millis() >= _times[i]){
+							switch (i){
+								case 0:
+									// turn off nixie tube 1
+									Display::clear_nixie_tube(1);
+									break;
+								case 1:
+									// turn off nixie tube 2
+									Display::clear_nixie_tube(2);
+									break;
+								case 2:
+									// turn off led matrix
+									Display::clear_matrix();
+									break;
+								case 3:
+									// turn off clock led
+									break;
+							}
+							_elements_turned_off[i] = true;
+						}
+					}
+				}
 
-				//TODO EVAN: after random times, all digit displays turn off (pause23-26)
-
+				for (int i=0; i < 4; i++){
+					if (_elements_turned_off[i] == false){
+						return;
+					}
+				}
+				_substate++;
+			} else if (_substate == 2){
 				//brick warning finger flashed @ 5hz and brick warning sound triggers when brick warning finger is high
 				g_led_flash_manager.start_flasher_with_sound(3, 5.0, 3);
 				
@@ -153,15 +184,15 @@ void SuccessState::_dispatcher() {
 				//servo index, final pos, speed
 				g_servo_manager.move_servo(4, 0, 71);
 
-				_substate = 1;
-			} else if (_substate == 1){
+				_substate = 3;
+			} else if (_substate == 3){
 				if (
-					g_servo_manager.read_servo(1) == 500 &&
-					g_servo_manager.read_servo(2) == 500 &&
-					g_servo_manager.read_servo(3) == 1000 &&
-					g_servo_manager.read_servo(4) == 0
+					g_servo_manager.is_servo_in_position(1) &&
+					g_servo_manager.is_servo_in_position(2) &&
+					g_servo_manager.is_servo_in_position(3) &&
+					g_servo_manager.is_servo_in_position(4)
 				){
-					_substate = 2;
+					_substate = 4;
 				}
 			} else {
 				//keypad door sound triggers
@@ -170,8 +201,6 @@ void SuccessState::_dispatcher() {
 			}
 			break;
 		case 5:
-			Serial.println("Five");
-
 			if (_substate == 0){
 				//turn off brick warning led and sound
 				g_led_flash_manager.stop_flasher(3);
@@ -200,7 +229,7 @@ void SuccessState::_dispatcher() {
 				_substate = 1;
 			} else if (_substate == 1){
 				//When Servo 13 is at final position continue
-				if (g_servo_manager.read_servo(13) == 0){
+				if (g_servo_manager.is_servo_in_position(13)){
 					_substate = 2;
 				}
 			} else {

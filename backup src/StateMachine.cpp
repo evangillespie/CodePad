@@ -3,7 +3,6 @@
 #include "Config.h"
 #include "LEDFlashManager.h"
 #include "Pins.h"
-//#include "LEDFadeManager.h"  //added sept 11 by CM
 
 
 /* STATES:
@@ -33,10 +32,9 @@ void StateMachine::begin(int init_state) {
 	_keypad.init();
 	_display.init();
 
-	_initialize_system_solenoids();
 	_initialize_system_leds();
 	_initialize_system_servos();
-	//_initialize_system_solenoids();  //moved up to top
+	_initialize_system_solenoids();
 }
 
 
@@ -44,6 +42,8 @@ void StateMachine::begin(int init_state) {
 	Turn off (or on) any system leds at the start of the program
 */
 void StateMachine::_initialize_system_leds(){
+	
+	pinMode(LED_14_PIN, OUTPUT);
 
 	/************************/
 	//**NOTE** - this is copied into the pause "Turn everything on" state if anything is edited here it will need to be edited there too.
@@ -54,79 +54,40 @@ void StateMachine::_initialize_system_leds(){
 	Display::clear_nixie_tube(2);
 	Display::clear_matrix();
 
-	//Red Pulley LED - pin 23 (quad shifter)
-	g_shifter_quad.setPin(23, HIGH);
-	g_shifter_quad.write();
-	delay(50);
+	//12V LED strips - pin 17 (MEGA)
+	digitalWrite(LED_14_PIN, HIGH);
+
+	//Always ON panel 3 LEDs - pin 16 (MEGA)
+	digitalWrite(LED_2_PIN, HIGH);
+
+	//Red Pulley LED - pin 24 (quad shifter)
+	g_shifter_quad.setPin(24, HIGH);
 
 	//Always ON panel 1 LEDs – pin 26 (quad shifter)
 	g_shifter_quad.setPin(26, HIGH);
-	g_shifter_quad.write();
-	delay(50);
 
 	//Pizza oven exterior LEDs - pin 28 (quad shifter)
 	g_shifter_quad.setPin(28, HIGH);
-	g_shifter_quad.write();
-	delay(50);
 
-	//Clock number LEDs 
-	g_shifter_quad.setPin(13,HIGH);  //clock number LED 0
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(14,HIGH);  //clock number LED 1
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(15,HIGH);  //clock number LED 2
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(16,HIGH);  //clock number LED 3
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(17,HIGH);  //clock number LED 4
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(18,HIGH);  //clock number LED 5
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(19,HIGH);  //clock number LED 6
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(20,HIGH);  //clock number LED 7
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(21,HIGH);  //clock number LED 8
-	g_shifter_quad.write();
-	delay(50);
-	g_shifter_quad.setPin(22,HIGH);  //clock number LED 9
-	g_shifter_quad.write();
-	delay(50);
+	//Magpanel LED - pin 29 (quad shifter)
+	g_shifter_quad.setPin(29, HIGH);
 
-	
+	//Clock illumination LED - LED_7_PIN brightness of 100	This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(7, 100, 0, 100);
 
-	//always ON LEDs panel 3 Pin 16 as an output
-	pinMode(16, OUTPUT);
+	//Radar Screen - LED_5_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(5, 100, 0, 50);
 
-	//Always ON panel 3 LEDs - pin 16 (MEGA)
-	digitalWrite(16, HIGH);	
+	//Power crystals - LED_12_PIN brightness 10 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(12, 100, 0, 10);
 
-	// 12V lightstrip LEDs 14 Pin as an output
-	pinMode(17, OUTPUT);
+	//Yellow LED inside Keyapd - LED_2_PIN brightness 50 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(2, 100, 0, 50); 
 
-	//sets landscape tube motor as output -- We'll deal with this in V2
-	pinMode(3, OUTPUT);
+	//Pizza coals inside pizza oven - LED_6_PIN brightness 100 This will not fade because it is not conneected to a PWM pin
+	g_led_fade_manager.fade(6, 100, 0, 100);
 
-	//Landscape tube motor off-- We'll deal with this part in V2
-	digitalWrite(3, LOW);
-
-	//12V LED strips panel 3 - pin 17 (MEGA)
-	digitalWrite(17, HIGH);
-
-	//Clock illumination LED - LED_7_PIN brightness of 80	
-	analogWrite(LED_7_PIN, 80);
-
-	//pinMode(4, OUTPUT);
-	//Radar LED starts at brightness 20 
-	//analogWrite(LED_5_PIN, 20);   //LED_5_PIN causes glitches whe its used for analog fading.   
+	g_shifter_quad.write();
 
 }
 /*
@@ -141,7 +102,7 @@ void StateMachine::_initialize_system_servos(){
 	g_servo_manager.move_servo(12,SERVO_12_POSITION_A, SERVO_12_SPEED);
 
 	//delay to wait for first servos to reach position this can be edited
-	delay(6000);
+	delay(1000);
 
 	// Move 1,2,3,4,5,6,7,9,13,15,16 servo
 	g_servo_manager.move_servo(1,SERVO_1_POSITION_A, SERVO_1_SPEED);
