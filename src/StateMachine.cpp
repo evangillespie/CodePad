@@ -28,15 +28,15 @@ StateMachine::StateMachine(){}
 	:param state: the starting state number
 */
 void StateMachine::begin(int init_state) {
-	_state = init_state;
-
 	_keypad.init();
 	_display.init();
 
 	_initialize_system_solenoids();
 	_initialize_system_leds();
 	_initialize_system_servos();
-	//_initialize_system_solenoids();  //moved up to top
+
+
+	set_state(init_state);
 }
 
 
