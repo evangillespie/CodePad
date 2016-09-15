@@ -27,11 +27,6 @@ void PauseState::update() {
 		if (_is_pir_triggered() == true){
 			if (_next_update_time == 0){
 				_next_update_time = millis() + random(5000, 15000);
-				Serial.print("setting update time to:");
-				Serial.print(_next_update_time);
-				Serial.print(" -- currently: ");
-				Serial.print(millis());
-				Serial.print("\n");
 			} else {
 				if (millis() >= _next_update_time){
 					_turn_system_on();
