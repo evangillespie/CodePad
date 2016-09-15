@@ -29,6 +29,7 @@ public:
 
 private:
 	unsigned long _complete_time;
+	unsigned long _next_update_time;
 	int _clock_sweep_dir;
 	int _system_state;
 

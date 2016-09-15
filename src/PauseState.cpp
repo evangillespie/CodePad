@@ -21,11 +21,24 @@ void PauseState::update() {
 		if (_is_pir_triggered() == false){
 			_system_state = 0;
 			_turn_system_off();
+			_next_update_time = 0;
 		}
 	} else {
 		if (_is_pir_triggered() == true){
-			_system_state = 1;
-			_turn_system_on();
+			if (_next_update_time == 0){
+				_next_update_time = millis() + random(5000, 15000);
+				Serial.print("setting update time to:");
+				Serial.print(_next_update_time);
+				Serial.print(" -- currently: ");
+				Serial.print(millis());
+				Serial.print("\n");
+			} else {
+				if (millis() >= _next_update_time){
+					_turn_system_on();
+					_next_update_time = 0;
+					_system_state = 1;
+				}
+			}
 		}
 	}
 }
@@ -189,6 +202,7 @@ bool PauseState::_is_pir_triggered(){
 */
 void PauseState::begin() {
 	_clock_sweep_dir = 0;
+	_next_update_time = 0;
 	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);
 }
