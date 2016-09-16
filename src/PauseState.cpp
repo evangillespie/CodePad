@@ -158,14 +158,17 @@ void PauseState::_turn_system_on(){
 	sweep the clock back and forth.
 */
 void PauseState::_update_clock_sweep(){
-	if (g_servo_manager.is_servo_in_position(14)){
+	if (millis() >= _next_clock_time){
 		if (_clock_sweep_dir == 0){
+			Serial.println("mocing to b");
 			g_servo_manager.move_servo(14, SERVO_14_POSITION_B, SERVO_14_SPEED);
 			_clock_sweep_dir = 1;
 		} else {
+			Serial.println("mocing to a");
 			g_servo_manager.move_servo(14, SERVO_14_POSITION_A, SERVO_14_SPEED);
 			_clock_sweep_dir = 0;
-		} 
+		}
+		_next_clock_time = millis() + CLOCK_SWEEP_TIME_DELAY;
 	}
 }
 
@@ -197,6 +200,7 @@ bool PauseState::_is_pir_triggered(){
 */
 void PauseState::begin() {
 	_clock_sweep_dir = 0;
+	_next_clock_time = millis();
 	_next_update_time = 0;
 	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);

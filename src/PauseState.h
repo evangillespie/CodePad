@@ -30,6 +30,7 @@ public:
 private:
 	unsigned long _complete_time;
 	unsigned long _next_update_time;
+	unsigned long _next_clock_time; // for the clock sweep
 	int _clock_sweep_dir;
 	int _system_state;
 

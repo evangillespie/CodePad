@@ -38,6 +38,10 @@
 #define LED_FADE_TIME_INCREMENT 100
 
 
+// delay between sweeps for the clock in the pause state
+#define CLOCK_SWEEP_TIME_DELAY 48000
+
+
 // Maximum positional error in servo movements to trigger the next substate
 #define SERVO_MAXIMUM_ERROR 25
 
