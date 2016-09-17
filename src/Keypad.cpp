@@ -130,10 +130,14 @@ void Keypad::_is_key_pressed(Passcode passcode){
 void Keypad::_register_queued_key(Passcode passcode){
 	if (_queued_num >= 0){
 		if (_queued_num < 10){
+			Serial.print(_queued_num);
+			Serial.print(" pressed\n");
 			_add_digit_to_received(_queued_num);
 		} else {
+			Serial.println(_queued_num);
 			//clr button
 			if (_queued_num == 11){
+				Serial.print("CLR pressed\n");
 				//backspace
 				for (int i = CODE_LENGTH-1; i >= 0; i--){
 					if (_entered_values[i] >= 0){
@@ -144,6 +148,7 @@ void Keypad::_register_queued_key(Passcode passcode){
 			}
 			// ok button
 			if (_queued_num == 12){
+				Serial.print("OK pressed\n");	
 				// if less than 4 digits are entered, ignore!
 				if (_entered_values[0] != -1 &&
 					_entered_values[1] != -1 &&
