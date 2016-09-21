@@ -124,9 +124,9 @@ void StateMachine::_initialize_system_leds(){
 	//Clock illumination LED - LED_7_PIN brightness of 80	
 	analogWrite(LED_7_PIN, 80);
 
-	//pinMode(4, OUTPUT);
-	//Radar LED starts at brightness 20 
-	//analogWrite(LED_5_PIN, 20);   //LED_5_PIN causes glitches whe its used for analog fading.   
+	// Radar LED starts at brightness 20 
+	pinMode(4, OUTPUT);
+	analogWrite(LED_5_PIN, 20);   //LED_5_PIN causes glitches whe its used for analog fading.   
 
 }
 /*
@@ -161,14 +161,14 @@ void StateMachine::_initialize_system_servos(){
 
 void StateMachine::_initialize_system_solenoids(){
 	//Set Solenoids as outputs
-	pinMode(SOLENOID_1_PIN, OUTPUT);
+	pinMode(TUBA_PLAYER_SOLENOID_PIN, OUTPUT);
 	pinMode(SOLENOID_2_PIN, OUTPUT);
 	pinMode(SOLENOID_3_PIN, OUTPUT);
 	pinMode(SOLENOID_4_PIN, OUTPUT);
 	pinMode(SOLENOID_5_PIN, OUTPUT);
 
 	//TUBAMAN 7 tuba player that pops out of coo coo clock
-	digitalWrite(SOLENOID_1_PIN, LOW);
+	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
 
 	//WARNING_BRICKS_MINI 8 miniature version of the warning bricks 
 	digitalWrite(SOLENOID_2_PIN, LOW);

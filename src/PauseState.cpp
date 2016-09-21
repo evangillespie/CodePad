@@ -17,6 +17,7 @@ void PauseState::update() {
 	// everything is still working
 	if (_system_state == 1){
 		_update_clock_sweep();
+		_update_tuba_sounds();
 
 		if (_is_pir_triggered() == false){
 			_system_state = 0;
@@ -58,6 +59,8 @@ void PauseState::_turn_system_off(){
 	digitalWrite(LED_10_PIN, LOW);
 	digitalWrite(LED_11_PIN, LOW);
 	digitalWrite(LED_12_PIN, LOW);
+
+	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
 	
 	//Always ON panel 3 LEDs
 	digitalWrite(16, LOW);
@@ -160,17 +163,99 @@ void PauseState::_turn_system_on(){
 void PauseState::_update_clock_sweep(){
 	if (millis() >= _next_clock_time){
 		if (_clock_sweep_dir == 0){
-			Serial.println("mocing to b");
 			g_servo_manager.move_servo(14, SERVO_14_POSITION_B, SERVO_14_SPEED);
 			_clock_sweep_dir = 1;
 		} else {
-			Serial.println("mocing to a");
 			g_servo_manager.move_servo(14, SERVO_14_POSITION_A, SERVO_14_SPEED);
 			_clock_sweep_dir = 0;
 		}
 		_next_clock_time = millis() + CLOCK_SWEEP_TIME_DELAY;
 	}
 }
+
+
+/*
+	play a bunch of tuba sounds at random and move a solenoid
+*/
+void PauseState::_update_tuba_sounds(){
+	if (millis() > _next_tuba_sound_time){
+		if (_tuba_sound_wait_time == 0){
+			//trigger a sound and hit the solenoid
+			digitalWrite(TUBA_PLAYER_SOLENOID_PIN, HIGH);
+			int sound_index = _get_random_tuba_sound_index();
+			g_sound_manager.play_sound(sound_index);
+			
+			//get a wait time
+			_tuba_sound_wait_time = millis() + _get_tuba_sound_length(sound_index);
+			if (++_tuba_sound_count > TUBA_SOUND_SOUNDS_IN_SET){
+				_tuba_sound_count = 0;
+			}
+		} else if (millis() >= _tuba_sound_wait_time){
+			digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
+			_tuba_sound_wait_time = 0;
+			_next_tuba_sound_time = _get_next_tuba_sound_time();
+		}
+	}
+}
+
+
+/*
+	return the time of the next tuba sound
+	it might be a very soon if the sounds are playing in sequence
+	or it might be long if the sounds are done for now
+
+	:return: time of the next tuba sound
+*/
+unsigned long PauseState::_get_next_tuba_sound_time(){
+	unsigned long additional_time;
+	if (_tuba_sound_count < TUBA_SOUND_SOUNDS_IN_SET){
+		additional_time = random(TUBA_SOUND_SOUND_TIME_MINIMUM, TUBA_SOUND_SOUND_TIME_MAXIMUM + 1);
+	} else {
+		additional_time = random(TUBA_SOUND_SET_TIME_MINIMUM, TUBA_SOUND_SET_TIME_MAXIMUM + 1);
+	}
+
+	return millis() + additional_time;
+}
+
+
+/*
+	pick a random sound from the available tuba sounds
+
+	:return: sound index that can be sent to the sound manager
+*/
+int PauseState::_get_random_tuba_sound_index(){
+	// SET THIS ARRAY TO CONTAIN THE SOUND INDECIES OF ALL TUBA SOUNDS
+	int tuba_sounds[] = {1, 2, 3, 4, 5, 6};
+
+	int pick = random(0, sizeof(tuba_sounds)/sizeof(int));
+	return tuba_sounds[pick];
+}
+
+
+/*
+	get a the time it takes for a sound to play
+
+	:param sound_index: index for the sound in question.
+		this index is an index to be used by the sound manager
+
+	:return: time (in ms) it takes for that sound to play.
+*/
+unsigned long PauseState::_get_tuba_sound_length(int sound_index){
+	// PUT THE REAL SOUND LENGTHS IN HERE
+	switch (sound_index){
+		case 1:
+			return 8386;
+		case 2:
+			return 5513;
+		case 3:
+			return 3425;
+		case 4:
+			return 4249;
+		default:
+			return 5000;
+	}
+}
+
 
 /*
 	return true if this state is done and we should move on
@@ -199,8 +284,14 @@ bool PauseState::_is_pir_triggered(){
 	start the pause
 */
 void PauseState::begin() {
+	
+	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
+
 	_clock_sweep_dir = 0;
 	_next_clock_time = millis();
+	_tuba_sound_count = 0;
+	_next_tuba_sound_time = _get_next_tuba_sound_time();
+	_tuba_sound_wait_time = 0;
 	_next_update_time = 0;
 	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);

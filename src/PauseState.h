@@ -19,6 +19,7 @@ extern LEDFlashManager g_led_flash_manager;
 extern Shifter g_shifter_dual;
 extern Shifter g_shifter_quad;
 extern LEDFadeManager g_led_fade_manager;
+extern SoundManager g_sound_manager;
 
 class PauseState {
 public:
@@ -32,12 +33,19 @@ private:
 	unsigned long _next_update_time;
 	unsigned long _next_clock_time; // for the clock sweep
 	int _clock_sweep_dir;
+	unsigned long _next_tuba_sound_time;	// for the tuba player in the pause state
+	unsigned long _tuba_sound_wait_time;
+	int _tuba_sound_count;
 	int _system_state;
 
 	void _turn_system_off();
 	void _turn_system_on();
 	void _update_clock_sweep();
+	void _update_tuba_sounds();
 	bool _is_pir_triggered();
+	unsigned long _get_next_tuba_sound_time();
+	unsigned long _get_tuba_sound_length(int);
+	int _get_random_tuba_sound_index();
 };
 
 #endif

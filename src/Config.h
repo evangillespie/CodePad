@@ -191,3 +191,16 @@
 #define SERVO_16_POSITION_B 590
 	
 #define SERVO_16_SPEED 8
+
+
+// VARIABLES FOR THE TUBA SOUNDS IN THE PAUSE STATE
+// minimum time between sounds in a set
+#define TUBA_SOUND_SOUND_TIME_MINIMUM 1000
+// maximum time between sounds in a set
+#define TUBA_SOUND_SOUND_TIME_MAXIMUM 3000
+// number of sounds in a set
+#define TUBA_SOUND_SOUNDS_IN_SET 4
+// minimum time between sets
+#define TUBA_SOUND_SET_TIME_MINIMUM 180000
+// maximum time between sets
+#define TUBA_SOUND_SET_TIME_MAXIMUM 300000

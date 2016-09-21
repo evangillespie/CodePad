@@ -51,7 +51,7 @@ void SuccessState::_dispatcher() {
 			g_sound_manager.play_sound(random(312,319));
                         
                         //TUBAMAN pops out of coo coo clock
-                        digitalWrite(SOLENOID_1_PIN,HIGH);
+                        digitalWrite(TUBA_PLAYER_SOLENOID_PIN,HIGH);
 
 			// ControlPanel led off
                         g_shifter_dual.setPin(9,LOW);
@@ -72,7 +72,7 @@ void SuccessState::_dispatcher() {
 		case 2:
 			Serial.println("Success- Two");
                         //TUBAMAN retracts into coo coo clock
-                        digitalWrite(SOLENOID_1_PIN,LOW);  
+                        digitalWrite(TUBA_PLAYER_SOLENOID_PIN,LOW);  
                       
 			// Turn off Bricklamp LED
 			g_shifter_dual.setPin(8,LOW);

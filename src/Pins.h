@@ -61,7 +61,7 @@
 #define LED_12_PIN 46 //power crystal
 
 // Solenoid Pins 
-#define SOLENOID_1_PIN 7 //tuba player that pops out of coo coo clock
+#define TUBA_PLAYER_SOLENOID_PIN 7 //tuba player that pops out of coo coo clock
 #define SOLENOID_2_PIN 8 //miniature version of the warning bricks
 #define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
 #define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up

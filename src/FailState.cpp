@@ -36,7 +36,7 @@ void FailState::_dispatcher() {
 			g_sound_manager.play_sound(random(300,311));
 			
 			//Solenoid pops TUBAMAN out of coo coo clock
-			digitalWrite(SOLENOID_1_PIN, HIGH);
+			digitalWrite(TUBA_PLAYER_SOLENOID_PIN, HIGH);
 
 			//clear bargraph
 			Keypad::clear_bargraph();
@@ -62,7 +62,7 @@ void FailState::_dispatcher() {
 			Serial.println("Fail: One");
 
 			//Solenoid retracts TUBAMAN into coo coo clock
-			digitalWrite(SOLENOID_1_PIN, LOW);
+			digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
 
 			//Timer Panel Servo 6 moves to the left- position A
 			g_servo_manager.move_servo(6, SERVO_6_POSITION_A, SERVO_6_SPEED);
