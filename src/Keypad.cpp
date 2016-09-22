@@ -130,14 +130,10 @@ void Keypad::_is_key_pressed(Passcode passcode){
 void Keypad::_register_queued_key(Passcode passcode){
 	if (_queued_num >= 0){
 		if (_queued_num < 10){
-			Serial.print(_queued_num);
-			Serial.print(" pressed\n");
 			_add_digit_to_received(_queued_num);
 		} else {
-			Serial.println(_queued_num);
 			//clr button
 			if (_queued_num == 11){
-				Serial.print("CLR pressed\n");
 				//backspace
 				for (int i = CODE_LENGTH-1; i >= 0; i--){
 					if (_entered_values[i] >= 0){
@@ -148,13 +144,20 @@ void Keypad::_register_queued_key(Passcode passcode){
 			}
 			// ok button
 			if (_queued_num == 12){
-				Serial.print("OK pressed\n");	
 				// if less than 4 digits are entered, ignore!
 				if (_entered_values[0] != -1 &&
 					_entered_values[1] != -1 &&
 					_entered_values[2] != -1 &&
 					_entered_values[3] != -1){
-						_status = 1;
+						int entered_code = get_entered_code();
+
+						if (entered_code == passcode.get_passcode()){
+								_status = 1;
+						} else if (_is_code_special(entered_code)){
+							_execute_special_code_sequence(entered_code);
+						} else {
+							_status = 1;
+						}
 				}
 			}
 		}
@@ -335,7 +338,10 @@ int Keypad::get_status() {
 int Keypad::get_entered_code(){
 	int val;
 	float ret = 0.0;
-	if (_status == 1){
+	if (_entered_values[0] != -1 &&
+			_entered_values[1] != -1 &&
+			_entered_values[2] != -1 &&
+			_entered_values[3] != -1){
 		for (int i = 0; i < CODE_LENGTH; i++){
 			if (_entered_values[i] >= 0){
 				val = _entered_values[i];
@@ -469,6 +475,56 @@ void Keypad::_add_digit_to_received(int inc_digit) {
 		}
 	}
 }
+
+
+/*
+	return true if a given code is one of the special codes
+
+	:param entered_code: the code that's been entered, as a single int
+
+	:return: true if the code is special, false otherwise
+*/
+bool Keypad::_is_code_special(int entered_code){
+	// @CHRIS: CHANGE THIS LIST OF SPECIAL CODES
+	int special_codes[] = {4827, 1234, 99, 6666};
+	// ^^^
+
+	for (int i = 0; i < sizeof(special_codes)/sizeof(int); i++){
+		if (special_codes[i] == entered_code){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+/*
+	execute some particular code for each special code
+
+	:param entered_code: the code that's been entered, as a single int
+*/
+void Keypad::_execute_special_code_sequence(int entered_code){
+	// @CHRIS: PUT CODE HERE FOR EACH SPECIAL CODE. DONT FORGET THE 'break;'
+
+	switch (entered_code){
+		case 4827:
+			g_sound_manager.play_sound(225);
+			break;
+		case 1234:
+			Serial.println("1234");
+			break;
+		case 99:
+			Serial.println("0099");
+			break;
+		case 6666:
+			Serial.println("sixes");
+			break;
+	}
+
+	// reset the keypad state back to the beginning
+	reset();
+}	
 
 
 /*

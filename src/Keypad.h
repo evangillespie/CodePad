@@ -48,6 +48,8 @@ private:
 	void _add_digit_to_received(int);
 	void _update_right_wrong_leds(Passcode);
 	void _play_right_wrong_sound(Passcode, int);
+	bool _is_code_special(int);
+	void _execute_special_code_sequence(int);
 };
 
 #endif

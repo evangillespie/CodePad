@@ -224,7 +224,7 @@ unsigned long PauseState::_get_next_tuba_sound_time(){
 	:return: sound index that can be sent to the sound manager
 */
 int PauseState::_get_random_tuba_sound_index(){
-	// SET THIS ARRAY TO CONTAIN THE SOUND INDECIES OF ALL TUBA SOUNDS
+	// @CHRIS: SET THIS ARRAY TO CONTAIN THE SOUND INDECIES OF ALL TUBA SOUNDS
 	int tuba_sounds[] = {1, 2, 3, 4, 5, 6};
 
 	int pick = random(0, sizeof(tuba_sounds)/sizeof(int));
@@ -241,7 +241,7 @@ int PauseState::_get_random_tuba_sound_index(){
 	:return: time (in ms) it takes for that sound to play.
 */
 unsigned long PauseState::_get_tuba_sound_length(int sound_index){
-	// PUT THE REAL SOUND LENGTHS IN HERE
+	// @CHRIS: PUT THE REAL SOUND LENGTHS IN HERE
 	switch (sound_index){
 		case 1:
 			return 8386;
