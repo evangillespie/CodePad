@@ -11,6 +11,8 @@ Adafruit_NeoPixel neopixels = Adafruit_NeoPixel(
 	LANDSCAPE_NEOPIXELS_PIN,
 	NEO_GRB + NEO_KHZ800
 );
+
+
 /*
 	Constructor. Generic. Boring
 */
@@ -23,6 +25,9 @@ Display::Display(){}
 void Display::init(){
 	matrix.begin(0x71);
 	neopixels.begin();
+
+	_next_pizza_sign_time = millis(); // will start motion right away
+	_pizza_sign_state = 0;
 }
 
 
@@ -303,4 +308,79 @@ void Display::turn_neopixles_on_or_off(bool new_state){
 		}
 		neopixels.show();
 	}
+}
+
+
+/*
+	Update the movement of the pizza sign servos
+	This isn't really the display, but it isn't really something else either.
+*/
+void Display::update_pizza_sign(){
+	/*
+		_pizza_sign_state_values:
+		0 - neutral state (position a)
+		1 - open
+		2 - closed
+		3 - 17 - chewing. odds are open positions, evens are closed
+	*/
+	if (millis() >= _next_pizza_sign_time){
+		//increment the state and set a new time
+		_pizza_sign_state++;
+		if (_pizza_sign_state > 17)
+			_pizza_sign_state = 0;
+
+		_move_pizza_sign_servo(_pizza_sign_state);
+		unsigned long incremental_time;
+		switch(_pizza_sign_state){
+			case 0:
+				incremental_time = random(19000, 40000);
+				break;
+			case 1:
+				incremental_time = 6000;
+				break;
+			case 2:
+				incremental_time = 4000;
+				break;
+			default:
+				incremental_time = random(150, 400);
+				break;
+		}
+		_next_pizza_sign_time = millis() + incremental_time;
+	}
+}
+
+
+/*
+	move the pizza sign servo to a new state
+	the speed and position are calculated within this function from the state
+
+	:param new_state: State to move to. States are listed in update_pizza_sign()
+*/
+void Display::_move_pizza_sign_servo(int new_state){
+	int pos;
+	int speed;
+
+	switch(new_state){
+		case 0:
+			pos = SERVO_15_POSITION_A;
+			speed = SERVO_15_SPEED;
+			break;
+		case 1:
+			pos = 550;
+			speed = 20;
+			break;
+		case 2:
+			pos = 340;
+			speed = 25;
+			break;
+		default:
+			if (new_state % 2 == 0){
+				pos = random(335, 360);
+			} else {
+				pos = random(310, 335);
+			}
+			speed = random(40, 90);
+			break;
+	}
+	g_servo_manager.move_servo(15, pos, speed);
 }

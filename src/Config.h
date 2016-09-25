@@ -178,9 +178,6 @@
 
 //Streetza Pizza sign chef's mounth neutral
 #define SERVO_15_POSITION_A 340
-//Streetza Pizza sign chef's mouth open
-#define SERVO_15_POSITION_B 550
-
 #define SERVO_15_SPEED 15
 
 //Miniature Keypad door

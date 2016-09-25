@@ -243,6 +243,7 @@ void StateMachine::update() {
 			_update_pause_state_and_advance();
 			break;
 	}
+	_display.update_pizza_sign();
 }
 
 
