@@ -82,5 +82,5 @@
 
 // ANALOG INPUT pins
 #define PIR_INPUT A0 //PIR sensor
-#define ANALOG_INPUT_1 A1 //Potentiometer 1 for now is keypadGreen pot, NOTE: might change
-#define ANALOG_INPUT_2 A2 //Potentiometer 2
+#define POT_VOLUME_INPUT A1 //Potentiometer 1 for volume input
+#define POT_KEYPAD_GREEN_INPUT A2 //Potentiometer 2 for keypad green pot

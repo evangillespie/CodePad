@@ -31,6 +31,7 @@ void KeypadPreenableState::_dispatcher() {
 	switch(_state_num){
 		case 0:
 			Serial.println("Preenable Zero");
+
 			//keypadyellow LEDs fade from 0 - 100 over 3 seconds
 			g_led_fade_manager.fade(1, 3000, 0, 50);
 			
@@ -154,7 +155,7 @@ void KeypadPreenableState::_dispatcher() {
 				if (g_servo_manager.is_servo_in_position(5)){
   
 				//get pot value. use _susbstate temporarily so we don't need another variable
-				_substate = analogRead(ANALOG_INPUT_1) / 4; 
+				_substate = analogRead(POT_KEYPAD_GREEN_INPUT) / 4; 
 
 				//Keypad Green LEDs fade from 0 - 100
 				g_led_fade_manager.fade(11, 6000, 0, 100);

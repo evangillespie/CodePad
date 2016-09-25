@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include "Arduino.h"
+#include "Pins.h"
 
 
 /*
@@ -38,6 +39,9 @@ SoundManager::SoundManager() {
 	:param sound_index: the sound to play, as named on the Wav Trigger sd card.
 */
 void SoundManager::play_sound(int sound_index){
+	//Set volume of sounds by pot
+	_wTrig.masterGain((80*(float)analogRead(POT_VOLUME_INPUT))/1023-70);
+
 	_wTrig.trackPlayPoly(sound_index);
 }
 

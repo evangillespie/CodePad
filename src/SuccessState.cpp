@@ -79,7 +79,7 @@ void SuccessState::_dispatcher() {
                         g_shifter_dual.write();
 
 			//get pot value
-			_substate = analogRead(ANALOG_INPUT_1) / 4; 
+			_substate = analogRead(POT_KEYPAD_GREEN_INPUT) / 4; 
 
 			//fade keypad green led down over 3s from pot position 0 - <keypadgreenpot>
 			g_led_fade_manager.fade(11, 3000, _substate, 0); 
