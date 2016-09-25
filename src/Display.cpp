@@ -6,7 +6,11 @@
 #include "Pins.h"
 
 Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
-
+Adafruit_NeoPixel neopixels = Adafruit_NeoPixel(
+	LANDSCAPE_TUBE_NUM_NEOPIXELS,
+	LANDSCAPE_NEOPIXELS_PIN,
+	NEO_GRB + NEO_KHZ800
+);
 /*
 	Constructor. Generic. Boring
 */
@@ -18,6 +22,7 @@ Display::Display(){}
 */
 void Display::init(){
 	matrix.begin(0x71);
+	neopixels.begin();
 }
 
 
@@ -213,7 +218,7 @@ void Display::clear_nixie_tube(int tube_index){
 /*
 	Clear the matrix display
 */
-	void Display::clear_matrix(){
+void Display::clear_matrix(){
 	matrix.clear();
 	matrix.writeDisplay();
 }
@@ -274,5 +279,28 @@ void Display::_display_servo(int display_digit){
 		case 9:
 			g_servo_manager.move_servo(14, 350, 50);
 			break;
+	}
+}
+
+
+/*
+	turn the neopixel set on or off.
+	Not really a part of the display, but where else do I put it?
+
+	:param new_state: true if turning on, false if turning off
+*/
+void Display::turn_neopixles_on_or_off(bool new_state){
+	if (new_state){
+		for (int i=0; i < LANDSCAPE_TUBE_NUM_NEOPIXELS; i++){
+			neopixels.setPixelColor(i, neopixels.Color(100, 100, 60)); // Moderately bright green color.
+		}
+		neopixels.setPixelColor(9, neopixels.Color(150, 0, 0));
+		neopixels.setPixelColor(6, neopixels.Color(0, 0, 220));
+		neopixels.show();
+	} else {
+		for (int i=0; i < LANDSCAPE_TUBE_NUM_NEOPIXELS; i++){
+			neopixels.setPixelColor(i, neopixels.Color(0, 0, 0));
+		}
+		neopixels.show();
 	}
 }

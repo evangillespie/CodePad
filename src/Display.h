@@ -9,6 +9,7 @@
 
 #include <Shifter.h>
 #include <Adafruit_LEDBackpack.h>
+#include <Adafruit_NeoPixel.h>
 
 #include "Arduino.h"
 #include "Passcode.h"
@@ -33,6 +34,7 @@ public:
 
 	static void clear_nixie_tube(int);
 	static void clear_matrix();
+	static void turn_neopixles_on_or_off(bool);
 
 private:
 	unsigned long _next_action_time;

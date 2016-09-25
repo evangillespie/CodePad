@@ -10,6 +10,7 @@
 #include <Shifter.h>
 #include <wavTrigger.h>
 #include <DynamixelSerial1.h>
+#include <Adafruit_NeoPixel.h>
 
 #include "StateMachine.h"
 #include "Passcode.h"

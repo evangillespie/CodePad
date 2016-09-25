@@ -204,3 +204,24 @@
 #define TUBA_SOUND_SET_TIME_MINIMUM 180000
 // maximum time between sets
 #define TUBA_SOUND_SET_TIME_MAXIMUM 300000
+
+
+// VARIABLES FOR THE LANDSCAPE TUBE MOVEMENT
+// Mimimum time between activations (ms)
+// #define LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION 180000
+// // Maximum time between activations (ms)
+// #define LANDSCAPE_TUBE_MAX_TIME_BEFORE_ACTIVATION 360000
+// // Minimum active time (ms)
+// #define LANDSCAPE_TUBE_MIN_ACTIVE_TIME 30000
+// // Maximum active time (ms)
+// #define LANDSCAPE_TUBE_MAX_ACTIVE_TIME 180000
+#define LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION 18000
+// Maximum time between activations (ms)
+#define LANDSCAPE_TUBE_MAX_TIME_BEFORE_ACTIVATION 36000
+// Minimum active time (ms)
+#define LANDSCAPE_TUBE_MIN_ACTIVE_TIME 3000
+// Maximum active time (ms)
+#define LANDSCAPE_TUBE_MAX_ACTIVE_TIME 18000
+
+// Number of Neopixels that light up the landscape tube
+#define LANDSCAPE_TUBE_NUM_NEOPIXELS 12

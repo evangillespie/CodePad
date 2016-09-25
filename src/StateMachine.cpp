@@ -53,6 +53,7 @@ void StateMachine::_initialize_system_leds(){
 	Display::clear_nixie_tube(1);
 	Display::clear_nixie_tube(2);
 	Display::clear_matrix();
+	Display::turn_neopixles_on_or_off(true);
 
 	//Red Pulley LED - pin 23 (quad shifter)
 	g_shifter_quad.setPin(23, HIGH);
@@ -190,6 +191,8 @@ void StateMachine::_initialize_system_solenoids(){
 */
 void StateMachine::set_state(int new_state) {
 	switch(new_state) {
+		case 1:
+			_pause_state.end();
 		case 2:
 			_keypad_preenable_state.reset();
 			break;

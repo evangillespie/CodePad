@@ -60,6 +60,10 @@
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
 
+// landscape tube motor pin
+#define LANDSCAPE_TUBE_MOTOR_PIN 3
+#define LANDSCAPE_NEOPIXELS_PIN 52
+
 // Solenoid Pins 
 #define TUBA_PLAYER_SOLENOID_PIN 7 //tuba player that pops out of coo coo clock
 #define SOLENOID_2_PIN 8 //miniature version of the warning bricks

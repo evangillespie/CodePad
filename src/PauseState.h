@@ -12,7 +12,8 @@
 #include "LEDFlashManager.h"
 #include "LEDFadeManager.h"
 #include <Shifter.h>
-#include "ServoManager.h"	
+#include "ServoManager.h"
+#include "Display.h"
 
 extern ServoManager g_servo_manager;
 extern LEDFlashManager g_led_flash_manager;
@@ -27,6 +28,7 @@ public:
 	bool is_complete();
 	void update();
 	void begin();
+	void end();
 
 private:
 	unsigned long _complete_time;
@@ -36,12 +38,15 @@ private:
 	unsigned long _next_tuba_sound_time;	// for the tuba player in the pause state
 	unsigned long _tuba_sound_wait_time;
 	int _tuba_sound_count;
+	unsigned long _next_landscape_tube_time;
+	bool _landscape_tube_active;
 	int _system_state;
 
 	void _turn_system_off();
 	void _turn_system_on();
 	void _update_clock_sweep();
 	void _update_tuba_sounds();
+	void _update_landscape_tube();
 	bool _is_pir_triggered();
 	unsigned long _get_next_tuba_sound_time();
 	unsigned long _get_tuba_sound_length(int);

@@ -18,6 +18,7 @@ void PauseState::update() {
 	if (_system_state == 1){
 		_update_clock_sweep();
 		_update_tuba_sounds();
+		_update_landscape_tube();
 
 		if (_is_pir_triggered() == false){
 			_system_state = 0;
@@ -61,6 +62,7 @@ void PauseState::_turn_system_off(){
 	digitalWrite(LED_12_PIN, LOW);
 
 	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
+	digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
 	
 	//Always ON panel 3 LEDs
 	digitalWrite(16, LOW);
@@ -90,7 +92,7 @@ void PauseState::_turn_system_off(){
 
 	g_shifter_quad.write();
 
-	//Turn servos off, all servos should be in final position
+	Display::turn_neopixles_on_or_off(false);
 }
 
 
@@ -154,6 +156,8 @@ void PauseState::_turn_system_on(){
 	g_led_fade_manager.fade(6, 100, 0, 80);
 
 	g_shifter_quad.write();
+
+	Display::turn_neopixles_on_or_off(true);
 }
 
 
@@ -258,6 +262,41 @@ unsigned long PauseState::_get_tuba_sound_length(int sound_index){
 
 
 /*
+	active or deactivate the landscape tube motor at the appropriate time
+*/
+void PauseState::_update_landscape_tube(){
+	if (_next_landscape_tube_time == 0){
+		_next_landscape_tube_time = millis() + random(
+			LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION,
+			LANDSCAPE_TUBE_MAX_TIME_BEFORE_ACTIVATION + 1
+		);
+		Serial.println(millis());
+		Serial.println(_next_landscape_tube_time);
+	} else if (millis() >= _next_landscape_tube_time){
+		if (_landscape_tube_active == false){
+			// turn it on and set a time for it to turn off
+			_next_landscape_tube_time = millis() + random(
+				LANDSCAPE_TUBE_MIN_ACTIVE_TIME,
+				LANDSCAPE_TUBE_MAX_ACTIVE_TIME + 1
+			);
+			digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, HIGH);
+			_landscape_tube_active = true;
+			Serial.println("tube on");
+		} else {
+			_next_landscape_tube_time = millis() + random(
+				LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION,
+				LANDSCAPE_TUBE_MAX_TIME_BEFORE_ACTIVATION + 1
+			);
+			digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
+			_landscape_tube_active = false;
+			Serial.println("tube off");
+		}
+		Serial.println(_next_landscape_tube_time);
+	}
+}	
+
+
+/*
 	return true if this state is done and we should move on
 */
 bool PauseState::is_complete() {
@@ -286,13 +325,25 @@ bool PauseState::_is_pir_triggered(){
 void PauseState::begin() {
 	
 	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
+	digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
 
 	_clock_sweep_dir = 0;
 	_next_clock_time = millis();
 	_tuba_sound_count = 0;
 	_next_tuba_sound_time = _get_next_tuba_sound_time();
 	_tuba_sound_wait_time = 0;
+	_landscape_tube_active = false;
+	_next_landscape_tube_time = 0;
 	_next_update_time = 0;
 	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);
+}
+
+
+/*
+	turn everything necessary off at the end of the pause state
+*/
+void PauseState::end(){
+	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
+	digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
 }
