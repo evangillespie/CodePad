@@ -28,6 +28,8 @@ void Display::init(){
 
 	_next_pizza_sign_time = millis(); // will start motion right away
 	_pizza_sign_state = 0;
+	g_pizza_oven_trigger = false;
+	_pizza_oven_state = -1;
 }
 
 
@@ -384,3 +386,140 @@ void Display::_move_pizza_sign_servo(int new_state){
 	}
 	g_servo_manager.move_servo(15, pos, speed);
 }
+
+
+/*
+	Trigger the pizza oven sequence. Will run once time after this is called
+*/
+void Display::activate_pizza_oven_sequence(){
+	g_pizza_oven_trigger = true;
+}
+
+
+/*
+	update the pizza oven to perform it's sequence
+	this usually happens in the PauseState, but could trigger during Keypad as well
+	read for a trigger and run the sequence if the trigger is found
+*/
+void Display::update_pizza_oven(){
+	if (g_pizza_oven_trigger){
+		_pizza_oven_state = 0;
+		_next_pizza_oven_time = millis();
+		g_pizza_oven_trigger = false;
+	}
+
+	if (_pizza_oven_state >= 0){
+		if (millis() >= _next_pizza_oven_time){
+			_pizza_oven_state++;
+			if (_pizza_oven_state > 7)
+				_pizza_oven_state = -1;
+			
+			unsigned long incremental_time;
+			_trigger_pizza_lights(_pizza_oven_state);
+			switch(_pizza_oven_state){
+				case 0:
+					// shoudn't happen
+					incremental_time = 0;
+				case 1:
+					// fallthrough
+				case 2:
+					// fallthrough
+				case 3:
+					// fallthrough
+				case 4:
+					incremental_time = random(7000, 15000);
+					break;
+				case 5:
+					incremental_time = random(2000, 5000);
+					break;
+				case 6:
+					incremental_time = random(20000, 40000);
+					break;
+				case 7:
+					//doesn't matter.
+					incremental_time = 0;
+					break;
+			}
+			_next_pizza_oven_time = millis() + incremental_time;
+		}
+	}
+}
+
+
+/*
+	trigger the appropriate pizza oven lights and such
+
+	:param new_state: the new state to trigger. Matched with the numebr sin Chris' PDF
+*/
+void Display::_trigger_pizza_lights(int new_state){
+	// REFERENCE ---
+	// Pizza_Timer_yellow_LED 12
+	// Pizza_Timer_white_LED 11
+	// Pizza_Timer_blue_LED 9
+	// Pizza_Timer_red_LED 10
+	// Pizza_Timer_green_LED 8
+
+	switch (new_state){
+		case 0:
+			//do nothing
+			break;
+		case 1:
+			digitalWrite(PIZZA_OVEN_COALS_LED_PIN, HIGH);
+			g_shifter_quad.setPin(12, HIGH);
+			g_shifter_quad.setPin(11, HIGH);
+			g_shifter_quad.setPin(9, LOW);
+			g_shifter_quad.setPin(10, HIGH);
+			g_shifter_quad.setPin(8, HIGH);
+			g_shifter_quad.write();
+			break;
+		case 2:
+			g_shifter_quad.setPin(12, HIGH);
+			g_shifter_quad.setPin(11, LOW);
+			g_shifter_quad.setPin(9, LOW);
+			g_shifter_quad.setPin(10, HIGH);
+			g_shifter_quad.setPin(8, HIGH);
+			g_shifter_quad.write();
+			break;
+		case 3:
+			g_shifter_quad.setPin(12, HIGH);
+			g_shifter_quad.setPin(11, LOW);
+			g_shifter_quad.setPin(9, HIGH);
+			g_shifter_quad.setPin(10, LOW);
+			g_shifter_quad.setPin(8, HIGH);
+			g_shifter_quad.write();
+			break;
+		case 4:
+			g_shifter_quad.setPin(12, HIGH);
+			g_shifter_quad.setPin(11, HIGH);
+			g_shifter_quad.setPin(9, HIGH);
+			g_shifter_quad.setPin(10, LOW);
+			g_shifter_quad.setPin(8, HIGH);
+			g_shifter_quad.write();
+			break;
+		case 5:
+			g_sound_manager.play_sound(2); // @CHRIS: put the real sound in here
+			g_shifter_quad.setPin(12, HIGH);
+			g_shifter_quad.setPin(11, HIGH);
+			g_shifter_quad.setPin(9, LOW);
+			g_shifter_quad.setPin(10, HIGH);
+			g_shifter_quad.setPin(8, HIGH);
+			g_shifter_quad.write();
+			break;
+		case 6:
+			digitalWrite(PIZZA_OVEN_DOOR_SOLENOID_PIN, HIGH);
+			break;
+		case 7:
+			digitalWrite(PIZZA_OVEN_DOOR_SOLENOID_PIN, LOW);
+			digitalWrite(PIZZA_OVEN_COALS_LED_PIN, LOW);
+			g_shifter_quad.setPin(12, LOW);
+			g_shifter_quad.setPin(11, LOW);
+			g_shifter_quad.setPin(9, LOW);
+			g_shifter_quad.setPin(10, LOW);
+			g_shifter_quad.setPin(8, LOW);
+			g_shifter_quad.write();
+			break;
+
+	}
+}	
+
+

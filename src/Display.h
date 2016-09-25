@@ -24,6 +24,8 @@ extern ServoManager g_servo_manager;
 extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
 extern SoundManager g_sound_manager;
+extern bool g_pizza_oven_trigger;
+
 
 class Display {
 public:
@@ -32,16 +34,20 @@ public:
 	void update(Passcode);
 	bool is_complete();
 	void update_pizza_sign();
+	void update_pizza_oven();
 
 	static void clear_nixie_tube(int);
 	static void clear_matrix();
 	static void turn_neopixles_on_or_off(bool);
+	static void activate_pizza_oven_sequence();
 
 private:
 	unsigned long _next_action_time;
 	int _next_action;
 	unsigned long _next_pizza_sign_time;
 	int _pizza_sign_state;
+	unsigned long _next_pizza_oven_time;
+	int _pizza_oven_state;
 
 	void _reset_next_action_time(unsigned long);
 	void _generate_passcode_and_advance();
@@ -50,6 +56,7 @@ private:
 	void _display_led_matrix(int);
 	void _display_servo(int);
 	void _move_pizza_sign_servo(int);
+	void _trigger_pizza_lights(int);
 };
 
 

@@ -40,6 +40,7 @@ private:
 	int _tuba_sound_count;
 	unsigned long _next_landscape_tube_time;
 	bool _landscape_tube_active;
+	unsigned long _next_pizza_oven_time;
 	int _system_state;
 
 	void _turn_system_off();
@@ -47,6 +48,7 @@ private:
 	void _update_clock_sweep();
 	void _update_tuba_sounds();
 	void _update_landscape_tube();
+	void _update_pizza_oven();
 	bool _is_pir_triggered();
 	unsigned long _get_next_tuba_sound_time();
 	unsigned long _get_tuba_sound_length(int);

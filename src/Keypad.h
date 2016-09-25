@@ -12,6 +12,7 @@
 #include "Arduino.h"
 #include "Passcode.h"
 #include "SoundManager.h"
+#include "Display.h"
 #include <Adafruit_LEDBackpack.h>
 
 extern Shifter g_shifter_dual;

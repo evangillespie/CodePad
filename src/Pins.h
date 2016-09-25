@@ -59,6 +59,7 @@
 #define LED_10_PIN 43 //Keypad LED aka Keypad MOSFET aka Keypad various LED control
 #define LED_11_PIN 45 //Keypad Green LED aka Green light bars
 #define LED_12_PIN 46 //power crystal
+#define PIZZA_OVEN_COALS_LED_PIN 13
 
 // landscape tube motor pin
 #define LANDSCAPE_TUBE_MOTOR_PIN 3
@@ -69,7 +70,7 @@
 #define SOLENOID_2_PIN 8 //miniature version of the warning bricks
 #define SOLENOID_3_PIN 9 //Brass stairs that pop up when cage lifts up
 #define SOLENOID_4_PIN 10 //Brass handrail door that opens when cage lifts up
-#define SOLENOID_5_PIN 11 //pizza oven door
+#define PIZZA_OVEN_DOOR_SOLENOID_PIN 11 //pizza oven door
 
 // Shift register pins
 #define QUAD_SHIFT_REGISTER_LCLOCK_PIN A4

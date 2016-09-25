@@ -486,7 +486,7 @@ void Keypad::_add_digit_to_received(int inc_digit) {
 */
 bool Keypad::_is_code_special(int entered_code){
 	// @CHRIS: CHANGE THIS LIST OF SPECIAL CODES
-	int special_codes[] = {4827, 1234, 99, 6666};
+	int special_codes[] = {4827, 932, 4339, 8475, 5967};
 	// ^^^
 
 	for (int i = 0; i < sizeof(special_codes)/sizeof(int); i++){
@@ -511,14 +511,17 @@ void Keypad::_execute_special_code_sequence(int entered_code){
 		case 4827:
 			g_sound_manager.play_sound(225);
 			break;
-		case 1234:
-			Serial.println("1234");
+		case 932:
+			Display::activate_pizza_oven_sequence();
 			break;
-		case 99:
-			Serial.println("0099");
+		case 4339:
+			Display::activate_pizza_oven_sequence();
 			break;
-		case 6666:
-			Serial.println("sixes");
+		case 8475:
+			Display::activate_pizza_oven_sequence();
+			break;
+		case 5967:
+			Display::activate_pizza_oven_sequence();
 			break;
 	}
 

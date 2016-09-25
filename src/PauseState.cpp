@@ -19,6 +19,7 @@ void PauseState::update() {
 		_update_clock_sweep();
 		_update_tuba_sounds();
 		_update_landscape_tube();
+		_update_pizza_oven();
 
 		if (_is_pir_triggered() == false){
 			_system_state = 0;
@@ -270,8 +271,6 @@ void PauseState::_update_landscape_tube(){
 			LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION,
 			LANDSCAPE_TUBE_MAX_TIME_BEFORE_ACTIVATION + 1
 		);
-		Serial.println(millis());
-		Serial.println(_next_landscape_tube_time);
 	} else if (millis() >= _next_landscape_tube_time){
 		if (_landscape_tube_active == false){
 			// turn it on and set a time for it to turn off
@@ -281,7 +280,6 @@ void PauseState::_update_landscape_tube(){
 			);
 			digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, HIGH);
 			_landscape_tube_active = true;
-			Serial.println("tube on");
 		} else {
 			_next_landscape_tube_time = millis() + random(
 				LANDSCAPE_TUBE_MIN_TIME_BEFORE_ACTIVATION,
@@ -289,11 +287,20 @@ void PauseState::_update_landscape_tube(){
 			);
 			digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
 			_landscape_tube_active = false;
-			Serial.println("tube off");
 		}
-		Serial.println(_next_landscape_tube_time);
 	}
-}	
+}
+
+
+/*
+	trigger the pizza oven sequence at random times
+*/
+void PauseState::_update_pizza_oven(){
+	if (millis() >= _next_pizza_oven_time){
+		Display::activate_pizza_oven_sequence();
+		_next_pizza_oven_time = millis() + random(PIZZA_OVEN_PAUSE_TIME_MIN, PIZZA_OVEN_PAUSE_TIME_MAX);
+	}
+}
 
 
 /*
@@ -334,6 +341,7 @@ void PauseState::begin() {
 	_tuba_sound_wait_time = 0;
 	_landscape_tube_active = false;
 	_next_landscape_tube_time = 0;
+	_next_pizza_oven_time = millis() + random(PIZZA_OVEN_PAUSE_TIME_MIN, PIZZA_OVEN_PAUSE_TIME_MAX);
 	_next_update_time = 0;
 	_system_state = 1;
 	_complete_time = millis() + random(MIN_PAUSE_TIME_BETWEEN_RUNS, MAX_PAUSE_TIME_BETWEEN_RUNS + 1);

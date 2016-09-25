@@ -5,7 +5,6 @@
 #include "Pins.h"
 //#include "LEDFadeManager.h"  //added sept 11 by CM
 
-
 /* STATES:
 	0 - Generate code
 	1 - Display code on displays
@@ -166,7 +165,7 @@ void StateMachine::_initialize_system_solenoids(){
 	pinMode(SOLENOID_2_PIN, OUTPUT);
 	pinMode(SOLENOID_3_PIN, OUTPUT);
 	pinMode(SOLENOID_4_PIN, OUTPUT);
-	pinMode(SOLENOID_5_PIN, OUTPUT);
+	pinMode(PIZZA_OVEN_DOOR_SOLENOID_PIN, OUTPUT);
 
 	//TUBAMAN 7 tuba player that pops out of coo coo clock
 	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
@@ -181,7 +180,7 @@ void StateMachine::_initialize_system_solenoids(){
 	digitalWrite(SOLENOID_4_PIN, LOW);
 
 	//PIZZA_OVEN_DOOR 11 pizza oven door
-	digitalWrite(SOLENOID_5_PIN, LOW);
+	digitalWrite(PIZZA_OVEN_DOOR_SOLENOID_PIN, LOW);
 
 }
 /*
@@ -244,6 +243,7 @@ void StateMachine::update() {
 			break;
 	}
 	_display.update_pizza_sign();
+	_display.update_pizza_oven();
 }
 
 
