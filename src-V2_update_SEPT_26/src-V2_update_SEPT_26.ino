@@ -29,6 +29,7 @@ LEDFadeManager g_led_fade_manager;
 SoundManager g_sound_manager;
 ServoManager g_servo_manager;
 bool g_pizza_oven_trigger;
+bool g_pizza_sign_on;
 
 Shifter g_shifter_quad(QUAD_SHIFT_REGISTER_SER_IN_PIN,
 				QUAD_SHIFT_REGISTER_LCLOCK_PIN,
