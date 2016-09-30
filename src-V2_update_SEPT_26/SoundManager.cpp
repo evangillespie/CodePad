@@ -207,7 +207,7 @@ SoundManager::SoundManager() {
 */
 void SoundManager::play_sound(int sound_index){
 	//Set volume of sounds by pot
-	_wTrig.masterGain((80*(float)analogRead(POT_VOLUME_INPUT))/1023-70);
+	_wTrig.masterGain((-54*(float)analogRead(POT_VOLUME_INPUT))/1023+4);
 
 	_wTrig.trackPlayPoly(sound_index);
 }
