@@ -131,6 +131,9 @@ void Keypad::_register_queued_key(Passcode passcode){
 	if (_queued_num >= 0){
 		if (_queued_num < 10){
 			_add_digit_to_received(_queued_num);
+			Serial.print("Key pressed: ");
+			Serial.print(_queued_num);
+			Serial.print("\n");
 		} else {
 			//clr button
 			if (_queued_num == 11){
@@ -141,6 +144,7 @@ void Keypad::_register_queued_key(Passcode passcode){
 						break;
 					}
 				}
+				Serial.println("Key pressed: CLR");
 			}
 			// ok button
 			if (_queued_num == 12){
@@ -159,6 +163,7 @@ void Keypad::_register_queued_key(Passcode passcode){
 							_status = 1;
 						}
 				}
+				Serial.println("Key pressed: OK");
 			}
 		}
 		_update_display();
@@ -364,7 +369,10 @@ int Keypad::get_entered_code(){
 	:param passcode: Passcode object to compare against
 */
 void Keypad::_update_right_wrong_leds(Passcode passcode){
+	Serial.println("_update_right_wrong_leds()");
+	Serial.print("_entered_values[");
 	for (int i=0; i<CODE_LENGTH; i++){
+		Serial.print(_entered_values[i]);
 		if (_entered_values[i] >= 0){
 			if (_entered_values[i] == passcode.get_digit(i)){
 				g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, HIGH);
@@ -379,6 +387,7 @@ void Keypad::_update_right_wrong_leds(Passcode passcode){
 		}
 		g_shifter_dual.write();
 	}
+	Serial.print("]\n");
 }
 
 
@@ -419,7 +428,8 @@ void Keypad::_play_right_wrong_sound(Passcode passcode, int entered_digit){
 	Turn off all right/wrong leds
 */
 void Keypad::turn_off_right_wrong_leds(){
-	for (int i=0; i<4; i++){
+	Serial.println("Turning off the right/wrong leds");
+	for (int i=0; i<CODE_LENGTH; i++){
 		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_CORRECT_OFFSET, LOW);
 		g_shifter_dual.setPin(i+KEYPAD_RIGHT_WRONG_LED_1_INCORRECT_OFFSET, LOW);
 	}
@@ -441,6 +451,8 @@ void Keypad::turn_off_displays(){
 	reset all internal variables
 */
 void Keypad::reset() {
+	Serial.println("Resetting the keypad!");
+
 	for (int i = 0; i < CODE_LENGTH; i++){
 		_entered_values[i] = -1;
 	}
