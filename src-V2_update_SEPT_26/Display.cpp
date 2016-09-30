@@ -30,6 +30,7 @@ void Display::init(){
 	_pizza_sign_state = 0;
 	g_pizza_oven_trigger = false;
 	_pizza_oven_state = -1;
+	g_pizza_sign_on = true;
 }
 
 
@@ -600,6 +601,21 @@ void Display::turn_neopixles_on_or_off(bool new_state){
 
 
 /*
+	enable or disable the pizza sign movement
+
+	:param enable: if true, enable the movement sequence. if false, disable it.
+*/
+void Display::activate_pizza_sign(bool enable){
+	g_pizza_sign_on = enable;
+
+	//when the pizza sign turns off, make sure you move back into a neautral position.
+	if (enable == false){
+		g_servo_manager.move_servo(15, SERVO_15_POSITION_A, SERVO_15_SPEED);
+	}
+}
+
+
+/*
 	Update the movement of the pizza sign servos
 	This isn't really the display, but it isn't really something else either.
 */
@@ -611,29 +627,36 @@ void Display::update_pizza_sign(){
 		2 - closed
 		3 - 17 - chewing. odds are open positions, evens are closed
 	*/
-	if (millis() >= _next_pizza_sign_time){
-		//increment the state and set a new time
-		_pizza_sign_state++;
-		if (_pizza_sign_state > 17)
-			_pizza_sign_state = 0;
+	if (g_pizza_sign_on == true){
+		if (millis() >= _next_pizza_sign_time){
+			//increment the state and set a new time
+			_pizza_sign_state++;
+			if (_pizza_sign_state > 17)
+				_pizza_sign_state = 0;
 
-		_move_pizza_sign_servo(_pizza_sign_state);
-		unsigned long incremental_time;
-		switch(_pizza_sign_state){
-			case 0:
-				incremental_time = random(19000, 40000);
-				break;
-			case 1:
-				incremental_time = 6000;
-				break;
-			case 2:
-				incremental_time = 4000;
-				break;
-			default:
-				incremental_time = random(150, 400);
-				break;
+			_move_pizza_sign_servo(_pizza_sign_state);
+			unsigned long incremental_time;
+			switch(_pizza_sign_state){
+				case 0:
+					incremental_time = random(19000, 40000);
+					break;
+				case 1:
+					incremental_time = 6000;
+					break;
+				case 2:
+					incremental_time = 4000;
+					break;
+				default:
+					incremental_time = random(150, 400);
+					break;
+			}
+			_next_pizza_sign_time = millis() + incremental_time;
 		}
-		_next_pizza_sign_time = millis() + incremental_time;
+	} else {
+		if (_pizza_sign_state != 0){
+			_move_pizza_sign_servo(0);
+			_pizza_sign_state = 0;
+		}
 	}
 }
 

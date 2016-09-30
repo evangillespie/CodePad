@@ -25,6 +25,7 @@ extern LEDFlashManager g_led_flash_manager;
 extern LEDFadeManager g_led_fade_manager;
 extern SoundManager g_sound_manager;
 extern bool g_pizza_oven_trigger;
+extern bool g_pizza_sign_on;
 
 
 class Display {
@@ -39,6 +40,7 @@ public:
 	static void clear_nixie_tube(int);
 	static void clear_matrix();
 	static void turn_neopixles_on_or_off(bool);
+	static void activate_pizza_sign(bool);
 	static void activate_pizza_oven_sequence();
 
 private:

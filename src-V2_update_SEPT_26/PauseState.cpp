@@ -95,6 +95,8 @@ void PauseState::_turn_system_off(){
 
 	Display::turn_neopixles_on_or_off(false);
 
+	Display::activate_pizza_sign(false);
+
 }
 
 
@@ -160,6 +162,7 @@ void PauseState::_turn_system_on(){
 	g_shifter_quad.write();
 
 	Display::turn_neopixles_on_or_off(true);
+	Display::activate_pizza_sign(true);
 }
 
 
