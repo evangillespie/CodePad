@@ -48,6 +48,31 @@ void StateMachine::_initialize_system_leds(){
 	//**NOTE** - this is copied into the pause "Turn everything on" state if anything is edited here it will need to be edited there too.
 	/************************/
 
+	//always ON LEDs panel 3 Pin 16 as an output
+	pinMode(16, OUTPUT);
+
+	//Always ON panel 3 LEDs - pin 16 (MEGA)
+	digitalWrite(16, HIGH);	
+
+	// 12V lightstrip LEDs 14 Pin as an output
+	pinMode(17, OUTPUT);
+
+	//sets landscape tube motor as output -- We'll deal with this in V2
+	pinMode(3, OUTPUT);
+
+	//Landscape tube motor off-- We'll deal with this part in V2
+	digitalWrite(3, LOW);
+
+	//12V LED strips panel 3 - pin 17 (MEGA)
+	digitalWrite(17, HIGH);
+
+	//Clock illumination LED - LED_7_PIN brightness of 80	
+	analogWrite(LED_7_PIN, 80);
+
+	// Radar LED starts at brightness 20 
+	pinMode(4, OUTPUT);
+	analogWrite(LED_5_PIN, 20);   //LED_5_PIN causes glitches whe its used for analog fading.   
+
 	//Clear the nixie tubes and matrix
 	Display::clear_nixie_tube(1);
 	Display::clear_nixie_tube(2);
@@ -102,31 +127,6 @@ void StateMachine::_initialize_system_leds(){
 	delay(50);
 
 	
-
-	//always ON LEDs panel 3 Pin 16 as an output
-	pinMode(16, OUTPUT);
-
-	//Always ON panel 3 LEDs - pin 16 (MEGA)
-	digitalWrite(16, HIGH);	
-
-	// 12V lightstrip LEDs 14 Pin as an output
-	pinMode(17, OUTPUT);
-
-	//sets landscape tube motor as output -- We'll deal with this in V2
-	pinMode(3, OUTPUT);
-
-	//Landscape tube motor off-- We'll deal with this part in V2
-	digitalWrite(3, LOW);
-
-	//12V LED strips panel 3 - pin 17 (MEGA)
-	digitalWrite(17, HIGH);
-
-	//Clock illumination LED - LED_7_PIN brightness of 80	
-	analogWrite(LED_7_PIN, 80);
-
-	// Radar LED starts at brightness 20 
-	pinMode(4, OUTPUT);
-	analogWrite(LED_5_PIN, 20);   //LED_5_PIN causes glitches whe its used for analog fading.   
 
 }
 /*
