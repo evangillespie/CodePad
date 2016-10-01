@@ -298,15 +298,18 @@ void StateMachine::_update_keypad_and_advance(){
 			break;
 		case 1:
 			if (_keypad.get_entered_code() == _passcode.get_passcode()){
+				Serial.println(F("Code correct."));
 				_keypad.turn_off_displays();
 				set_state(4);
 			} else {
+				Serial.println(F("Code incorrect."));
 				_keypad.turn_off_displays();
 				set_state(5);
 			}
 
 			break;
 		case 2:
+			Serial.println(F("Timeout."));
 			_keypad.turn_off_displays();
 			set_state(5);
 			break;
