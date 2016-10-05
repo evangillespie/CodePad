@@ -44,7 +44,6 @@ Shifter g_shifter_dual(DUAL_SHIFT_REGISTER_SER_IN_PIN,
 //	intialization	//
 //////////////////////
 
-int counter = 0;
 
 void setup() {
 	Serial.begin(9600);
@@ -67,17 +66,5 @@ void loop() {
 	g_led_flash_manager.update();
 	g_led_fade_manager.update();
 	delay(50);
-	if (++counter > 1000){
-		Serial.println("---");
-		Serial.println(freeRam());
-		Serial.println("---");
-		counter = 0;
-	}
-}
-
-int freeRam () 
-{
-  extern int __heap_start, *__brkval; 
-  int v; 
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+	
 }
