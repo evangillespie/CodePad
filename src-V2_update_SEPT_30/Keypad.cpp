@@ -17,7 +17,7 @@ int _prev_bargraph_num_lights;
 
 unsigned long keypad_timeout = (unsigned long)KEYPAD_TIMEOUT_SECS * (unsigned long)1000;
 
-Adafruit_24bargraph bar = Adafruit_24bargraph();
+// Adafruit_24bargraph bar = Adafruit_24bargraph();
 
 /*
 	Constructor. Generic. Boring
@@ -62,8 +62,8 @@ Keypad::Keypad() {
 
 
 void Keypad::init() {
-	bar.begin(0x70);
-	clear_bargraph();
+	// bar.begin(0x70);
+	// clear_bargraph();
 	_update_display();
 	clear_4_digit();
 }
@@ -259,7 +259,7 @@ void Keypad::_update_status(Passcode passcode) {
 	}
 	
 	//update bar graph
-	_bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
+	// _bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
 	int led_color = 0;
 	
 	if (_bargraph_num_lights < 8){
@@ -280,15 +280,15 @@ void Keypad::_update_status(Passcode passcode) {
 		}
 	}
 
-	for(int b = 0; b < 24; b++){
-		if (b < _bargraph_num_lights) {
-			bar.setBar(b, led_color);
-		} else {
-			bar.setBar(b, LED_OFF);
-		}
-	}
-	bar.writeDisplay();
-	_prev_bargraph_num_lights = _bargraph_num_lights;
+	// for(int b = 0; b < 24; b++){
+	// 	if (b < _bargraph_num_lights) {
+	// 		bar.setBar(b, led_color);
+	// 	} else {
+	// 		bar.setBar(b, LED_OFF);
+	// 	}
+	// }
+	// bar.writeDisplay();
+	// _prev_bargraph_num_lights = _bargraph_num_lights;
 
 
 	//check for timeout
@@ -627,10 +627,10 @@ void Keypad::_execute_special_code_sequence(int entered_code){
 	turn off all leds in the bargraph
 */
 void Keypad::clear_bargraph(){
-	for(int b = 0; b < 24; b++){
-		bar.setBar(b, LED_OFF);
-	}
-	bar.writeDisplay();
+	// for(int b = 0; b < 24; b++){
+	// 	bar.setBar(b, LED_OFF);
+	// }
+	// bar.writeDisplay();
 }
 
 
