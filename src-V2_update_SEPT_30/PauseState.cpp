@@ -59,9 +59,11 @@ void PauseState::_turn_system_off(){
 	digitalWrite(LED_10_PIN, LOW);
 	digitalWrite(LED_11_PIN, LOW);
 	digitalWrite(LED_12_PIN, LOW);
+	digitalWrite(PIZZA_OVEN_COALS_LED_PIN, LOW);
 
 	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
 	digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
+	digitalWrite(PIZZA_OVEN_DOOR_SOLENOID_PIN, LOW);
 	
 	//Always ON panel 3 LEDs
 	digitalWrite(16, LOW);
@@ -76,6 +78,13 @@ void PauseState::_turn_system_off(){
 
 	//Pizza oven exterior LEDs - pin 28 (quad shifter)
 	g_shifter_quad.setPin(28, LOW);
+
+	//Pizza oven LEDs
+	g_shifter_quad.setPin(8, LOW);
+	g_shifter_quad.setPin(9, LOW);
+	g_shifter_quad.setPin(10, LOW);
+	g_shifter_quad.setPin(11, LOW);
+	g_shifter_quad.setPin(12, LOW);
 
 	//Clock number LEDs 
 	g_shifter_quad.setPin(13,LOW);  //clock number LED 0
