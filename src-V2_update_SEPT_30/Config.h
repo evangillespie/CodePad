@@ -19,7 +19,7 @@
 
 
 //Time in seconds before the keypad times out
-#define KEYPAD_TIMEOUT_SECS 40
+#define KEYPAD_TIMEOUT_SECS 48
 #define KEYPAD_CLR_FLASH_PERIOD 250
 #define KEYPAD_OK_FLASH_PERIOD 250
 
