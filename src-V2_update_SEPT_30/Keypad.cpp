@@ -17,7 +17,7 @@ int _prev_bargraph_num_lights;
 
 unsigned long keypad_timeout = (unsigned long)KEYPAD_TIMEOUT_SECS * (unsigned long)1000;
 
-// Adafruit_24bargraph bar = Adafruit_24bargraph();
+Adafruit_24bargraph bar = Adafruit_24bargraph();
 
 /*
 	Constructor. Generic. Boring
@@ -54,16 +54,14 @@ Keypad::Keypad() {
 	digitalWrite(KEYPAD_NUMBER_OK_LED, LOW);
 
 	_bargraph_time_step = keypad_timeout / 24;
-	_bargraph_num_lights = 0;
-	_prev_bargraph_num_lights = 0;
 
 	reset();
 }
 
 
 void Keypad::init() {
-	// bar.begin(0x70);
-	// clear_bargraph();
+	bar.begin(0x70);
+	clear_bargraph();
 	_update_display();
 	clear_4_digit();
 }
@@ -259,37 +257,11 @@ void Keypad::_update_status(Passcode passcode) {
 	}
 	
 	//update bar graph
-	// _bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
-	int led_color = 0;
-	
-	if (_bargraph_num_lights < 8){
-		led_color = LED_RED;
-	} else if (_bargraph_num_lights < 16){
-		led_color = LED_YELLOW;
-	} else {
-		led_color = LED_GREEN;
+	_bargraph_num_lights = 24 - (millis() - _init_time) / _bargraph_time_step;
+	if (_bargraph_num_lights != _prev_bargraph_num_lights){
+		_update_bar_graph(_bargraph_num_lights);
+		_prev_bargraph_num_lights = _bargraph_num_lights;
 	}
-
-	//play sound for bargraph click down
-	if (_prev_bargraph_num_lights != _bargraph_num_lights
-			&& _prev_bargraph_num_lights != 0){
-		if (led_color == LED_RED){
-			g_sound_manager.play_sound(208);
-		} else {
-			g_sound_manager.play_sound(209);
-		}
-	}
-
-	// for(int b = 0; b < 24; b++){
-	// 	if (b < _bargraph_num_lights) {
-	// 		bar.setBar(b, led_color);
-	// 	} else {
-	// 		bar.setBar(b, LED_OFF);
-	// 	}
-	// }
-	// bar.writeDisplay();
-	// _prev_bargraph_num_lights = _bargraph_num_lights;
-
 
 	//check for timeout
 	if (millis() >= _init_time + keypad_timeout){
@@ -297,6 +269,41 @@ void Keypad::_update_status(Passcode passcode) {
 	}
 }
 
+
+/*
+	change the display on the bargraph
+
+	:param num_lights: the number of lights to show
+*/
+void Keypad::_update_bar_graph(int num_lights){
+	int led_color = 0;
+	
+	if (num_lights < 8){
+		led_color = LED_RED;
+	} else if (num_lights < 16){
+		led_color = LED_YELLOW;
+	} else {
+		led_color = LED_GREEN;
+	}
+
+	for(int b = 0; b < 24; b++){
+		if (b < num_lights) {
+			bar.setBar(b, led_color);
+		} else {
+			bar.setBar(b, LED_OFF);
+		}
+	}
+	bar.writeDisplay();
+
+	// play a sound
+	if (num_lights != 0){
+		if (led_color == LED_RED){
+			g_sound_manager.play_sound(208);
+		} else {
+			g_sound_manager.play_sound(209);
+		}
+	}
+}
 
 /*
 	flash the clr button if applicable
@@ -456,6 +463,7 @@ void Keypad::reset() {
 	_last_ok_change = millis();
 
 	_bargraph_num_lights = 0;
+	_prev_bargraph_num_lights = 0;
 
 	turn_off_right_wrong_leds();
 }
@@ -627,10 +635,10 @@ void Keypad::_execute_special_code_sequence(int entered_code){
 	turn off all leds in the bargraph
 */
 void Keypad::clear_bargraph(){
-	// for(int b = 0; b < 24; b++){
-	// 	bar.setBar(b, LED_OFF);
-	// }
-	// bar.writeDisplay();
+	for(int b = 0; b < 24; b++){
+		bar.setBar(b, LED_OFF);
+	}
+	bar.writeDisplay();
 }
 
 

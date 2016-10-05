@@ -51,6 +51,7 @@ private:
 	void _play_right_wrong_sound(Passcode, int);
 	bool _is_code_special(int);
 	void _execute_special_code_sequence(int);
+	void _update_bar_graph(int);
 };
 
 #endif
