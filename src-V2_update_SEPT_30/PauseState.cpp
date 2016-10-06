@@ -621,6 +621,8 @@ void PauseState::begin() {
 	digitalWrite(TUBA_PLAYER_SOLENOID_PIN, LOW);
 	digitalWrite(LANDSCAPE_TUBE_MOTOR_PIN, LOW);
 
+	Display::clear_matrix();
+
 	_clock_sweep_dir = 0;
 	_next_clock_time = millis();
 	_tuba_sound_count = 0;
